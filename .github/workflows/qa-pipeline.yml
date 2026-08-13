@@ -1,0 +1,75 @@
+name: Context-Driven AI QA Agent Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      story:
+        description: 'Story name to run pipeline against'
+        required: false
+        default: 'all'
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - prod
+
+jobs:
+  qa-automation:
+    name: Run QA Agent Automation Suite
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck TypeScript
+        run: npm run typecheck
+
+      - name: Run Playwright Tests (Storefront Guest)
+        env:
+          BASE_URL: ${{ secrets.BASE_URL || 'https://kbd.nop-station.site' }}
+          ADMIN_URL: ${{ secrets.ADMIN_URL || 'https://kbd.nop-station.site/Admin' }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL || 'ashadul.kibria@brainstation-23.com' }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD || 'ashadul.kibria@brainstation-23.com' }}
+          CUSTOMER_EMAIL: ${{ secrets.CUSTOMER_EMAIL || 'userKBD@gmail.com' }}
+          CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD || '0123456789' }}
+          HEADLESS: 'true'
+          ENV: ${{ inputs.environment || 'staging' }}
+        run: npm test -- --project=storefront-guest || true
+
+      - name: Generate Custom HTML & Allure Reports
+        if: always()
+        run: |
+          npm run report:custom -- --story=ci-run || true
+          npm run report:allure:generate || true
+
+      - name: Upload Test Artifacts & Screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-artifacts
+          path: |
+            test-results/
+            screenshots/
+            reports/generated/
+            allure-report/
+          retention-days: 14

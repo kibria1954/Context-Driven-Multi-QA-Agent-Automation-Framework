@@ -1,0 +1,72 @@
+{
+  "storyName": "wholesale-checkout",
+  "coveragePercentage": 100,
+  "totalReqs": 3,
+  "covered": 3,
+  "entries": [
+    {
+      "reqId": "REQ-01",
+      "requirement": "Direct Order Confirmation Flow (Skip Payment & Address)",
+      "testCases": [
+        {
+          "tcId": "TC-CHK-001",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-CHK-004",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-CHK-005",
+          "type": "negative"
+        },
+        {
+          "tcId": "TC-CHK-007",
+          "type": "security"
+        },
+        {
+          "tcId": "TC-CHK-009",
+          "type": "edge"
+        },
+        {
+          "tcId": "TC-CHK-010",
+          "type": "ui"
+        }
+      ],
+      "specFile": "tests\\e2e\\catalog\\wishlist-management.spec.ts",
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-02",
+      "requirement": "Default Registration Address Used as Shipping Address",
+      "testCases": [
+        {
+          "tcId": "TC-CHK-002",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-CHK-006",
+          "type": "security"
+        }
+      ],
+      "specFile": "tests\\e2e\\catalog\\wishlist-management.spec.ts",
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-03",
+      "requirement": "Order Placed Successfully Despite Exceeded Credit Limit",
+      "testCases": [
+        {
+          "tcId": "TC-CHK-003",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-CHK-008",
+          "type": "edge"
+        }
+      ],
+      "specFile": "tests\\e2e\\catalog\\wishlist-management.spec.ts",
+      "coverageStatus": "covered"
+    }
+  ]
+}

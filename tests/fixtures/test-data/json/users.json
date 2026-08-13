@@ -1,0 +1,15 @@
+{
+  "admin": {
+    "email": "ashadul.kibria@brainstation-23.com",
+    "password": "ashadul.kibria@brainstation-23.com"
+  },
+  "customer": {
+    "email": "userKBD@gmail.com",
+    "password": "0123456789"
+  },
+  "securityPayloads": {
+    "sqlInjection": "' OR '1'='1",
+    "xssScript": "<script>alert('xss')</script>",
+    "xssImg": "<img src=x onerror=alert('xss')>"
+  }
+}

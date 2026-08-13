@@ -1,0 +1,29 @@
+{
+  "runId": "run-1786352838808",
+  "storyName": "b2b-registration",
+  "startedAt": "2026-08-10T09:07:18.808Z",
+  "completedAt": "2026-08-10T09:07:18.825Z",
+  "status": "passed",
+  "stages": [
+    {
+      "stageId": 6,
+      "stageName": "Coverage Validation",
+      "status": "passed",
+      "startedAt": "2026-08-10T09:07:18.810Z",
+      "completedAt": "2026-08-10T09:07:18.825Z",
+      "outputFile": "memory/traceability/b2b-registration.json"
+    }
+  ],
+  "summary": {
+    "totalTests": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 7,
+    "quarantined": 0,
+    "selfHealAttempts": 0,
+    "realBugsFound": 0,
+    "coveragePercentage": 100,
+    "duration": 17,
+    "passRate": 100
+  }
+}

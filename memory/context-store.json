@@ -1,0 +1,467 @@
+{
+  "entries": [
+    {
+      "featureName": "b2b-registration",
+      "learnedAt": "2026-08-10T13:48:15.444Z",
+      "version": 5,
+      "requirements": [
+        {
+          "id": "REQ-01",
+          "clause": "As a new wholesale buyer, I want to register for a B2B wholesale account on the Korean Demands BD website so that I can access wholesale pricing, place bulk orders, and manage my business account.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-02",
+          "clause": "**Given** the user is on the public store and navigates to the registration page (`/register`)",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-03",
+          "clause": "**When** the user fills in all required fields including:",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-04",
+          "clause": "**Company Info**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-05",
+          "clause": "Company Name (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-06",
+          "clause": "Type of Business (required dropdown with values: `Retailer (Online page only)`, `Retailer (Online page + physical shop)`, `Retailer (Physical shop only)`, `Wholesaler (Online page)`, `Wholesaler (Physical shop)`, `Clinic / Pharmacy`, `Salon / Parlour`, `Reseller`)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-07",
+          "clause": "Email (required valid email)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-08",
+          "clause": "Phone Number (required 11-digit BD mobile number starting with 01)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-09",
+          "clause": "Website / Facebook Page URL (optional text)",
+          "status": "clear",
+          "priority": "medium",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-10",
+          "clause": "Address Line 1 (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-11",
+          "clause": "Address Line 2 (optional text)",
+          "status": "clear",
+          "priority": "medium",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-12",
+          "clause": "City (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-13",
+          "clause": "State / Division (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-14",
+          "clause": "ZIP Code (optional text)",
+          "status": "clear",
+          "priority": "medium",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-15",
+          "clause": "**Contact Details**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-16",
+          "clause": "Contact Name (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-17",
+          "clause": "Position (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-18",
+          "clause": "Preferred Contact Channel (required dropdown: `Whatsapp`, `Messenger`)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-19",
+          "clause": "If `Whatsapp` is selected: WhatsApp number (required 11-digit BD mobile number)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-20",
+          "clause": "If `Messenger` is selected: Messenger account name (required text) & Messenger profile link (required URL)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-21",
+          "clause": "**Account Setup**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-22",
+          "clause": "Username (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-23",
+          "clause": "Password (required text)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "security"
+        },
+        {
+          "id": "REQ-24",
+          "clause": "Confirm Password (required text, must match Password)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "security"
+        },
+        {
+          "id": "REQ-25",
+          "clause": "How did you hear about us? (dropdown with values: `Google Search`, `Facebook`, `Instagram`, `TikTok`, `Referred by another customer`, `Visited the office`, `Sales team`, `Influencer / Blogger`, `Other`)",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-26",
+          "clause": "Tell us about your business (optional textarea)",
+          "status": "clear",
+          "priority": "medium",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-27",
+          "clause": "Date of birth (optional text: mm/dd/yyyy)",
+          "status": "clear",
+          "priority": "medium",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-28",
+          "clause": "**Agreements**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-29",
+          "clause": "Terms of Service Agreement checkbox (required)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-30",
+          "clause": "Privacy Policy Agreement checkbox (required)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-31",
+          "clause": "18+ Age & Legal Authority Confirmation checkbox (required)",
+          "status": "clear",
+          "priority": "critical",
+          "category": "security"
+        },
+        {
+          "id": "REQ-32",
+          "clause": "Marketing communications checkbox (optional)",
+          "status": "clear",
+          "priority": "medium",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-33",
+          "clause": "**And** clicks \"Create Account\"",
+          "status": "clear",
+          "priority": "low",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-34",
+          "clause": "**Then**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-35",
+          "clause": "The system creates a new ERP Account using the Company Name.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-36",
+          "clause": "The system creates a Ship-To Address (Branch) using the physical address provided.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-37",
+          "clause": "The system creates a new B2B customer account in an \"inactive\" state.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-38",
+          "clause": "The system maps the new inactive customer account to the newly created ERP account.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-39",
+          "clause": "The user is redirected to a success page notifying them that their application is under review (`/register/result`).",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-40",
+          "clause": "**Given** the user is filling out the B2B registration form",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-41",
+          "clause": "**When** the user enters an Email address or Username that is already registered in the system",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-42",
+          "clause": "**And** clicks \"Create Account\"",
+          "status": "clear",
+          "priority": "low",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-43",
+          "clause": "**Then**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-44",
+          "clause": "The system blocks the submission.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-45",
+          "clause": "The system displays a validation error message indicating that the Email or Username is already in use.",
+          "status": "clear",
+          "priority": "low",
+          "category": "ui"
+        },
+        {
+          "id": "REQ-46",
+          "clause": "**Given** a wholesale buyer has submitted a registration application",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-47",
+          "clause": "**When** an administrator views that customer's profile in the admin portal (`/Admin`)",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-48",
+          "clause": "**Then**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-49",
+          "clause": "The administrator sees a dedicated \"KD Registration Details\" section.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-50",
+          "clause": "The administrator is able to review all custom wholesale application data (Type of Business, Contact Media, Position, Age Confirmation) submitted by the user.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-51",
+          "clause": "**Given** a new wholesale user has a pending, inactive account (which is already mapped to their ERP account)",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-52",
+          "clause": "**When** the administrator reviews the application, checks the \"Active\" flag to approve the account, and saves changes",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-53",
+          "clause": "**Then**:",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-54",
+          "clause": "The customer account becomes fully active, allowing the user to log in and use their pre-mapped B2B features.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        },
+        {
+          "id": "REQ-55",
+          "clause": "The system sends a welcome/activation email to the customer.",
+          "status": "clear",
+          "priority": "low",
+          "category": "functional"
+        }
+      ],
+      "testCases": [],
+      "journeys": [],
+      "sitePatterns": [
+        {
+          "pattern": "welcome_modal",
+          "description": "Welcome/Newsletter modal appears on first visit",
+          "handlingStrategy": "dismissAllModals() in utils/helpers.ts",
+          "selectors": [
+            "#kdn-welcome-modal",
+            ".kdn-welcome-modal-overlay"
+          ],
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        },
+        {
+          "pattern": "multi_step_registration",
+          "description": "Registration is a 3-step wizard (Company→Account→Agreements)",
+          "handlingStrategy": "RegisterPage handles step-by-step with fillStep1/2/3()",
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        },
+        {
+          "pattern": "ajax_loading",
+          "description": "AJAX loading spinner during async operations",
+          "handlingStrategy": "waitForAjaxComplete() watches .ajax-loading-block-window",
+          "selectors": [
+            ".ajax-loading-block-window",
+            ".ajax-loader"
+          ],
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        },
+        {
+          "pattern": "bar_notification",
+          "description": "Success/error toast notifications at #bar-notification",
+          "handlingStrategy": "assertBarNotification() in utils/helpers.ts",
+          "selectors": [
+            "#bar-notification",
+            "#bar-notification .content.success",
+            "#bar-notification .content.error"
+          ],
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        },
+        {
+          "pattern": "admin_shared_login",
+          "description": "Admin panel shares login form with storefront (uses returnUrl parameter)",
+          "handlingStrategy": "Navigate to /login?returnUrl=%2FAdmin",
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        },
+        {
+          "pattern": "no_data_testid",
+          "description": "Site does NOT use data-testid attributes",
+          "handlingStrategy": "Selector priority: #id > role/label > .class > CSS path",
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        },
+        {
+          "pattern": "cookie_consent",
+          "description": "Cookie consent bar may appear",
+          "handlingStrategy": "Auto-dismissed in dismissAllModals()",
+          "selectors": [
+            ".cookie-consent",
+            ".eu-cookie-bar"
+          ],
+          "verified": true,
+          "lastVerified": "2026-08-10T13:48:15.232Z"
+        }
+      ],
+      "failureHistory": []
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "storyName": "b2b-registration",
+  "coveragePercentage": 100,
+  "totalReqs": 1,
+  "covered": 1,
+  "entries": [
+    {
+      "requirement": "Positive: Successful B2B Registration Form Submission & Entity Creation",
+      "testCases": [
+        {
+          "type": "positive"
+        },
+        {
+          "type": "positive"
+        },
+        {
+          "type": "positive"
+        },
+        {
+          "type": "positive"
+        },
+        {
+          "type": "negative"
+        },
+        {
+          "type": "negative"
+        },
+        {
+          "type": "negative"
+        },
+        {
+          "type": "negative"
+        },
+        {
+          "type": "negative"
+        },
+        {
+          "type": "edge"
+        }
+      ],
+      "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "coverageStatus": "covered"
+    }
+  ]
+}

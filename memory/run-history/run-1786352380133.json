@@ -1,0 +1,29 @@
+{
+  "runId": "run-1786352380133",
+  "storyName": "b2b-registration",
+  "startedAt": "2026-08-10T08:59:40.133Z",
+  "completedAt": "2026-08-10T08:59:40.140Z",
+  "status": "passed",
+  "stages": [
+    {
+      "stageId": 3,
+      "stageName": "Workflow Design",
+      "status": "passed",
+      "startedAt": "2026-08-10T08:59:40.134Z",
+      "completedAt": "2026-08-10T08:59:40.140Z",
+      "outputFile": "context/journeys/b2b-registration.journey.md"
+    }
+  ],
+  "summary": {
+    "totalTests": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 7,
+    "quarantined": 0,
+    "selfHealAttempts": 0,
+    "realBugsFound": 0,
+    "coveragePercentage": 100,
+    "duration": 7,
+    "passRate": 100
+  }
+}

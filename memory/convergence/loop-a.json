@@ -1,0 +1,31 @@
+{
+  "scores": [
+    {
+      "timestamp": "2026-08-10T08:31:16.230Z",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "score": 100,
+      "totalClauses": 36,
+      "coveredClauses": 36,
+      "converged": true
+    },
+    {
+      "timestamp": "2026-08-10T08:59:33.409Z",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "score": 100,
+      "totalClauses": 55,
+      "coveredClauses": 55,
+      "converged": true
+    },
+    {
+      "timestamp": "2026-08-10T13:48:15.450Z",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "score": 100,
+      "totalClauses": 55,
+      "coveredClauses": 55,
+      "converged": true
+    }
+  ]
+}

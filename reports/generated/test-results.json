@@ -1,0 +1,522 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "tests/e2e/checkout/wholesale-checkout.spec.ts",
+      "--headed",
+      "--workers=1"
+    ],
+    "configFile": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\playwright.config.ts",
+    "rootDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\global-setup.ts",
+    "globalTeardown": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "storefront-chromium",
+        "name": "storefront-chromium",
+        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/(?:catalog|cart|account|checkout)\\/.+\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "storefront-guest",
+        "name": "storefront-guest",
+        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/(?:auth|registration)\\/.+\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "admin-chromium",
+        "name": "admin-chromium",
+        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/admin\\/.+\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "storefront-firefox",
+        "name": "storefront-firefox",
+        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/(?:auth|registration)\\/.+\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "storefront-mobile",
+        "name": "storefront-mobile",
+        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "/mobile\\/.+\\.spec\\.ts/"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "html",
+        {
+          "open": "never"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/generated/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.62.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "checkout\\wholesale-checkout.spec.ts",
+      "file": "checkout/wholesale-checkout.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Wholesale Checkout Suite",
+          "file": "checkout/wholesale-checkout.spec.ts",
+          "line": 23,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-CHK-001-004-008: Nested E2E Flow: Cart Addition -> Subtotal Threshold -> Direct Checkout -> Credit Limit Bypass -> Address Locking & Order History Validation @smoke @regression @REQ-01 @REQ-02 @REQ-03",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-01",
+                "REQ-02",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-chromium",
+                  "projectName": "storefront-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 83303,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n\n    at CheckoutPage.assertMinOrderMetAndCheckoutEnabled (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts:418:31)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:42:7\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:39:5",
+                        "location": {
+                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
+                          "column": 31,
+                          "line": 418
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\checkout.page.ts:418\n\n\u001b[0m \u001b[90m 416 |\u001b[39m\n \u001b[90m 417 |\u001b[39m     \u001b[36mconst\u001b[39m checkoutBtn \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mproceedToCheckoutButton\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 418 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 419 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 420 |\u001b[39m   }\n \u001b[90m 421 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
+                            "column": 31,
+                            "line": 418
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\checkout.page.ts:418\n\n\u001b[0m \u001b[90m 416 |\u001b[39m\n \u001b[90m 417 |\u001b[39m     \u001b[36mconst\u001b[39m checkoutBtn \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mproceedToCheckoutButton\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 418 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 419 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 420 |\u001b[39m   }\n \u001b[90m 421 |\u001b[39m\u001b[0m\n\u001b[2m    at CheckoutPage.assertMinOrderMetAndCheckoutEnabled (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts:418:31)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:42:7\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:39:5\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "steps": [
+                        {
+                          "title": "TC-CHK-004: Clear cart one by one, add eligible product (qty 10-15), and verify cart subtotal >= ৳10,000",
+                          "duration": 68906,
+                          "error": {
+                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n",
+                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n\n    at CheckoutPage.assertMinOrderMetAndCheckoutEnabled (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts:418:31)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:42:7\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:39:5",
+                            "location": {
+                              "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
+                              "column": 31,
+                              "line": 418
+                            },
+                            "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\checkout.page.ts:418\n\n\u001b[0m \u001b[90m 416 |\u001b[39m\n \u001b[90m 417 |\u001b[39m     \u001b[36mconst\u001b[39m checkoutBtn \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mproceedToCheckoutButton\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 418 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 419 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 420 |\u001b[39m   }\n \u001b[90m 421 |\u001b[39m\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-08-12T13:54:34.156Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
+                        "column": 31,
+                        "line": 418
+                      }
+                    },
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 98097,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 1,
+                      "steps": [
+                        {
+                          "title": "TC-CHK-004: Clear cart one by one, add eligible product (qty 10-15), and verify cart subtotal >= ৳10,000",
+                          "duration": 58771
+                        },
+                        {
+                          "title": "TC-CHK-001: Proceed to Checkout and verify payment method & shipping address entry are bypassed",
+                          "duration": 11745
+                        },
+                        {
+                          "title": "TC-CHK-003: Confirm order placement despite exceeded credit limit and extract generated Order Number",
+                          "duration": 8392
+                        },
+                        {
+                          "title": "TC-CHK-002: Verify default registration address was used as shipping address",
+                          "duration": 15
+                        },
+                        {
+                          "title": "TC-CHK-008: Navigate to Order History (https://kbd.nop-station.site/order/history) and validate generated Order ID",
+                          "duration": 3606
+                        }
+                      ],
+                      "startTime": "2026-08-12T13:55:58.502Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium-retry1\\video.webm"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium-retry1\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "flaky"
+                }
+              ],
+              "id": "87779583204e2ba30b9b-6fd57afb2a969f0ade08",
+              "file": "checkout/wholesale-checkout.spec.ts",
+              "line": 36,
+              "column": 7
+            },
+            {
+              "title": "TC-CHK-005: Negative: Subtotal Below ৳10,000 Threshold Blocks Checkout (No Order Placed) @validation @regression @REQ-01",
+              "ok": true,
+              "tags": [
+                "validation",
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-chromium",
+                  "projectName": "storefront-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 38426,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-12T13:57:38.345Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "87779583204e2ba30b9b-f68b8f9eea24b1087e5a",
+              "file": "checkout/wholesale-checkout.spec.ts",
+              "line": 67,
+              "column": 7
+            },
+            {
+              "title": "TC-CHK-006: Security: Address Locking Verification During Checkout @security @regression @REQ-02",
+              "ok": true,
+              "tags": [
+                "security",
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-chromium",
+                  "projectName": "storefront-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 78882,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-12T13:58:16.796Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "87779583204e2ba30b9b-66e3558e07198f0f8382",
+              "file": "checkout/wholesale-checkout.spec.ts",
+              "line": 74,
+              "column": 7
+            },
+            {
+              "title": "TC-CHK-007: Security: Unauthenticated Guest Checkout Click Redirect @security @regression @REQ-01",
+              "ok": true,
+              "tags": [
+                "security",
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-chromium",
+                  "projectName": "storefront-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 17905,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-12T13:59:35.700Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "87779583204e2ba30b9b-0a29ebd833a8b5022725",
+              "file": "checkout/wholesale-checkout.spec.ts",
+              "line": 82,
+              "column": 7
+            },
+            {
+              "title": "TC-CHK-009: Edge: Rapid Double-Click Checkout Handling (Without Order Placement) @edge @regression @REQ-01",
+              "ok": true,
+              "tags": [
+                "edge",
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-chromium",
+                  "projectName": "storefront-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 96220,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-12T13:59:53.628Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "87779583204e2ba30b9b-f8cac82642a672cc2131",
+              "file": "checkout/wholesale-checkout.spec.ts",
+              "line": 95,
+              "column": 7
+            },
+            {
+              "title": "TC-CHK-010: UI: Terms of Service Agreement Unchecked Warning @ui @regression @REQ-01",
+              "ok": true,
+              "tags": [
+                "ui",
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 120000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-chromium",
+                  "projectName": "storefront-chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 75954,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-12T14:01:29.871Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "87779583204e2ba30b9b-9983e506724f7cd7bfa7",
+              "file": "checkout/wholesale-checkout.spec.ts",
+              "line": 122,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-08-12T13:54:33.643Z",
+    "duration": 501331.793,
+    "expected": 5,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 1
+  }
+}

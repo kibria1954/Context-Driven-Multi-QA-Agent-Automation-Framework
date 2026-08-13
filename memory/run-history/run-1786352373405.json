@@ -1,0 +1,29 @@
+{
+  "runId": "run-1786352373405",
+  "storyName": "b2b-registration",
+  "startedAt": "2026-08-10T08:59:33.405Z",
+  "completedAt": "2026-08-10T08:59:33.412Z",
+  "status": "passed",
+  "stages": [
+    {
+      "stageId": 2,
+      "stageName": "Test Case Design (Loop A)",
+      "status": "passed",
+      "startedAt": "2026-08-10T08:59:33.407Z",
+      "completedAt": "2026-08-10T08:59:33.412Z",
+      "outputFile": "context/test-cases/b2b-registration.tc.md"
+    }
+  ],
+  "summary": {
+    "totalTests": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 7,
+    "quarantined": 0,
+    "selfHealAttempts": 0,
+    "realBugsFound": 0,
+    "coveragePercentage": 100,
+    "duration": 7,
+    "passRate": 100
+  }
+}

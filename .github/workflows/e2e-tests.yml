@@ -1,0 +1,60 @@
+name: E2E Test Suite & Self-Healing Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 2 * * *' # Daily at 02:00 UTC
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Playwright E2E Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers with Dependencies
+        run: npx playwright install --with-deps
+
+      - name: Execute Playwright Test Suite
+        env:
+          CI: true
+          HEADLESS: true
+          BASE_URL: https://kbd.nop-station.site
+        run: npx playwright test --grep-invert "@quarantine"
+
+      - name: Execute Quarantine Tests (Non-Blocking)
+        if: always()
+        continue-on-error: true
+        env:
+          CI: true
+          HEADLESS: true
+          BASE_URL: https://kbd.nop-station.site
+        run: npx playwright test --grep "@quarantine"
+
+      - name: Upload Test Results & Reports Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-execution-report
+          path: |
+            reports/generated/
+            playwright-report/
+            screenshots/
+            memory/self-heal-log.json
+          retention-days: 7

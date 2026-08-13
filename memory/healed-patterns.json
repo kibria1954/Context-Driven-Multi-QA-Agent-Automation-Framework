@@ -1,0 +1,64 @@
+{
+  "version": "1.1.0",
+  "lastUpdated": "2026-08-11T19:00:00Z",
+  "patterns": [
+    {
+      "patternId": "PAT-SEL2-001",
+      "component": "Select2 Custom Dropdown",
+      "selectorPattern": "span.select2-container",
+      "interactionStrategy": "click container -> fill search input -> await options -> click active result item",
+      "successCount": 7,
+      "failureCount": 0,
+      "confidence": 0.99,
+      "status": "TRUSTED",
+      "lastValidated": "2026-08-11T12:44:00Z",
+      "applicablePages": [
+        "/register",
+        "/Admin/Customer/Create",
+        "/Admin/Customer/Edit/*"
+      ]
+    },
+    {
+      "patternId": "PAT-MODAL-002",
+      "component": "KDN Welcome Overlay Modal",
+      "selectorPattern": "#kdn-welcome-modal",
+      "interactionStrategy": "evaluate DOM removal (#kdn-welcome-modal, .modal-backdrop) -> reset body overflow",
+      "successCount": 12,
+      "failureCount": 0,
+      "confidence": 1.0,
+      "status": "TRUSTED",
+      "lastValidated": "2026-08-11T12:44:00Z",
+      "applicablePages": [
+        "/*"
+      ]
+    },
+    {
+      "patternId": "PAT-POPUP-003",
+      "component": "Async Multi-Popup Overlay & Don't Show Again Checkbox",
+      "selectorPattern": "#multi-popup-overlay, input[type='checkbox'][name*='dont-show']",
+      "interactionStrategy": "check 'Don't show again' input if present -> count and click visible close buttons -> strip #multi-popup-overlay from DOM -> reset body overflow",
+      "successCount": 15,
+      "failureCount": 0,
+      "confidence": 0.99,
+      "status": "TRUSTED",
+      "lastValidated": "2026-08-11T19:00:00Z",
+      "applicablePages": [
+        "/*"
+      ]
+    },
+    {
+      "patternId": "PAT-STRICT-004",
+      "component": "Header & Footer Navigation Strict Mode Disambiguation",
+      "selectorPattern": "a.ico-wishlist.header-link-wishlist, a[href*='wishlist']",
+      "interactionStrategy": "append .first() to locator getters in POM classes to resolve strict mode collisions across header/footer links",
+      "successCount": 9,
+      "failureCount": 0,
+      "confidence": 1.0,
+      "status": "TRUSTED",
+      "lastValidated": "2026-08-11T19:00:00Z",
+      "applicablePages": [
+        "/*"
+      ]
+    }
+  ]
+}

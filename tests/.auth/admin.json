@@ -1,0 +1,65 @@
+{
+  "cookies": [
+    {
+      "name": ".Nop.Antiforgery",
+      "value": "CfDJ8HKyYRXx9IBLnJ5ah6-OsJ_XEpRdvL2fp7SnpSyqbq8Hg7BEhcTCIOH9fl6hqhFGurjgFdyjHtDA_CIATDn6l2fTPE7hOtbdeFpW2Wn6kHhXixWs2NWNyDFqMXJNQxCKhQz9Bz41YgVKWG5W0U0gcGc",
+      "domain": "kbd.nop-station.site",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Strict"
+    },
+    {
+      "name": "_ga",
+      "value": "GA1.1.1757451710.1786538381",
+      "domain": ".nop-station.site",
+      "path": "/",
+      "expires": 1821098382.854857,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "kdn_welcome_modal_seen",
+      "value": "1",
+      "domain": "kbd.nop-station.site",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".Nop.Culture",
+      "value": "c%3Den-US%7Cuic%3Den-US",
+      "domain": "kbd.nop-station.site",
+      "path": "/",
+      "expires": 1818074382.742967,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".Nop.Customer",
+      "value": "9bd75616-dab0-480e-8e38-5301c6e0a1d9",
+      "domain": "kbd.nop-station.site",
+      "path": "/",
+      "expires": 1818074382.74309,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_XXXXXXXXXX",
+      "value": "GS2.1.s1786538380$o1$g1$t1786538382$j58$l0$h0",
+      "domain": ".nop-station.site",
+      "path": "/",
+      "expires": 1821098382.854479,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": []
+}

@@ -1,0 +1,17 @@
+{
+  "validB2BSample": {
+    "companyName": "QA Test Company Ltd",
+    "typeOfBusiness": "Wholesaler",
+    "phone": "01712345678",
+    "websiteUrl": "https://www.qa-test-company.com",
+    "addressLine1": "123 Test Street, Block A",
+    "addressLine2": "Suite 456",
+    "city": "Dhaka",
+    "stateDivision": "Dhaka",
+    "zipCode": "1205",
+    "contactName": "QA Test User",
+    "position": "QA Manager",
+    "preferredContactChannel": "WhatsApp",
+    "aboutBusiness": "QA automation testing company"
+  }
+}

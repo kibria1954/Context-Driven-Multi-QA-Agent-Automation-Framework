@@ -1,0 +1,48 @@
+{
+  "name": "qa-ai-agent-kbd",
+  "version": "1.0.0",
+  "description": "Context-Driven AI QA Automation Agent for KBD NopCommerce — 8-Agent Pipeline | Playwright + TypeScript + POM | Self-Improving Loop Engineering | Custom Reporting",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:smoke": "npx playwright test --grep @smoke",
+    "test:regression": "npx playwright test --grep @regression",
+    "test:critical": "npx playwright test --grep @critical",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:ui": "npx playwright test --ui",
+    "test:auth": "npx playwright test tests/e2e/auth/",
+    "test:registration": "npx playwright test tests/e2e/registration/",
+    "test:b2b": "npx playwright test tests/e2e/registration/b2b-registration.spec.ts --headed --workers=1 --project=storefront-guest",
+    "test:wishlist": "npx playwright test tests/e2e/catalog/wishlist-management.spec.ts --headed --workers=1",
+    "test:checkout": "npx playwright test tests/e2e/checkout/wholesale-checkout.spec.ts --headed --workers=1",
+    "test:all:headed": "npx playwright test tests/e2e/registration/b2b-registration.spec.ts tests/e2e/catalog/wishlist-management.spec.ts --headed --workers=1",
+    "test:admin": "npx playwright test --project=admin-chromium",
+    "test:storefront": "npx playwright test --project=storefront-chromium",
+    "test:guest": "npx playwright test --project=storefront-guest",
+    "test:mobile": "npx playwright test --project=storefront-mobile",
+    "test:cross-browser": "npx playwright test --project=storefront-firefox",
+    "report": "npx ts-node scripts/generate-report.ts",
+    "report:b2b": "npx ts-node scripts/generate-report.ts --story=b2b-registration",
+    "report:wishlist": "npx ts-node scripts/generate-report.ts --story=wishlist-management",
+    "report:checkout": "npx ts-node scripts/generate-report.ts --story=wholesale-checkout",
+    "report:playwright": "npx playwright show-report",
+    "qa:coverage": "npx ts-node scripts/validate-coverage.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.ts\"",
+    "typecheck": "npx tsc --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.0.0",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

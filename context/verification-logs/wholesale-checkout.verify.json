@@ -1,0 +1,23 @@
+{
+  "storyName": "wholesale-checkout",
+  "verifiedAt": "2026-08-11T19:48:45.000Z",
+  "results": [
+    {
+      "journeyId": "JRN-CHK-001",
+      "name": "Direct Order Confirmation Flow Verification",
+      "status": "pass",
+      "stepsVerified": 6,
+      "stepsTotal": 6,
+      "mismatches": [],
+      "selectors": {
+        "cartUrl": "/cart",
+        "checkoutButton": "button#checkout, button.checkout-button",
+        "termsOfService": "input#termsofservice",
+        "minOrderWarning": ".min-order-warning, .warning, .message-error",
+        "orderCompletedMessage": ".section.order-completed, .title:has-text(\"Your order has been successfully processed!\")",
+        "orderDetailsLink": "a:has-text(\"Click here for order details.\"), a[href*=\"orderdetails\"]",
+        "orderNumber": ".order-number, .order-details-page .order-number"
+      }
+    }
+  ]
+}

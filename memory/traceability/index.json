@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-08-10T13:01:18.400Z",
+  "features": [
+    {
+      "feature": "b2b-registration",
+      "coverage": 100,
+      "totalReqs": 55,
+      "totalTCs": 187,
+      "lastUpdated": "2026-08-10T13:01:18.392Z"
+    }
+  ]
+}

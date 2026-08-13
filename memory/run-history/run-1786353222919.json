@@ -1,0 +1,29 @@
+{
+  "runId": "run-1786353222919",
+  "storyName": "b2b-registration",
+  "startedAt": "2026-08-10T09:13:42.919Z",
+  "completedAt": "2026-08-10T09:13:42.970Z",
+  "status": "passed",
+  "stages": [
+    {
+      "stageId": 8,
+      "stageName": "Custom Report + Status Update",
+      "status": "passed",
+      "startedAt": "2026-08-10T09:13:42.920Z",
+      "completedAt": "2026-08-10T09:13:42.970Z",
+      "outputFile": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\reports\\generated\\b2b-registration-report.html"
+    }
+  ],
+  "summary": {
+    "totalTests": 0,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 7,
+    "quarantined": 0,
+    "selfHealAttempts": 0,
+    "realBugsFound": 0,
+    "coveragePercentage": 100,
+    "duration": 51,
+    "passRate": 100
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "storyId": "STORY-B2B_REGISTRATION",
+  "feature": "B2B Wholesale Customer Registration & Admin Approval Workflow",
+  "version": 6,
+  "parsedAt": "2026-08-11T13:05:00.000Z",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "title": "Successful B2B Registration Form Submission & Entity Creation",
+      "clause": "As a new wholesale buyer, I want to register for a B2B wholesale account on /register by providing Company Info, Contact Details, Account Setup credentials, Trade License attachment, and mandatory Agreements, creating an inactive B2B customer mapped to an ERP Account.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "functional"
+    },
+    {
+      "id": "REQ-02",
+      "title": "Uniqueness Validation During Registration",
+      "clause": "When entering an Email address or Username already registered in the system, submission is blocked with an explicit error message.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "validation"
+    },
+    {
+      "id": "REQ-03",
+      "title": "Admin Reviews Wholesale Application Details",
+      "clause": "When an administrator views the customer's profile in /Admin, they can inspect custom wholesale application data (Type of Business, Contact Media, Position, Age Confirmation, Trade License).",
+      "status": "clear",
+      "priority": "high",
+      "category": "admin"
+    },
+    {
+      "id": "REQ-04",
+      "title": "Admin Approves and Activates B2B Account",
+      "clause": "When an administrator checks the Active flag to approve the account and saves changes, the customer account becomes active and sends a welcome/activation email.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "admin"
+    },
+    {
+      "id": "REQ-05",
+      "title": "Password Mismatch & Field Format Validation",
+      "clause": "When entering a Confirm Password that does not match Password or an invalid 10-digit/non-numeric BD mobile number, form submission is blocked with field-level error messages.",
+      "status": "clear",
+      "priority": "high",
+      "category": "validation"
+    },
+    {
+      "id": "REQ-06",
+      "title": "Dynamic Contact Channel Toggle & Field Clear Validation",
+      "clause": "When toggling Preferred Contact Channel between Whatsapp and Messenger, relevant input fields are dynamically rendered and hidden channel values are cleared.",
+      "status": "clear",
+      "priority": "medium",
+      "category": "ui"
+    }
+  ]
+}

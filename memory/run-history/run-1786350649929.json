@@ -1,0 +1,37 @@
+{
+  "runId": "run-1786350649929",
+  "storyName": "b2b-registration",
+  "startedAt": "2026-08-10T08:30:49.929Z",
+  "completedAt": "2026-08-10T08:30:49.960Z",
+  "status": "failed",
+  "stages": [
+    {
+      "stageId": 1,
+      "stageName": "Context Ingestion",
+      "status": "passed",
+      "startedAt": "2026-08-10T08:30:49.930Z",
+      "completedAt": "2026-08-10T08:30:49.957Z",
+      "outputFile": "context/requirements/b2b-registration/parsed.json"
+    },
+    {
+      "stageId": 2,
+      "stageName": "Test Case Design (Loop A)",
+      "status": "failed",
+      "startedAt": "2026-08-10T08:30:49.957Z",
+      "completedAt": "2026-08-10T08:30:49.960Z",
+      "error": "BLOCKED: 1 unresolved clarifications."
+    }
+  ],
+  "summary": {
+    "totalTests": 0,
+    "passed": 1,
+    "failed": 1,
+    "skipped": 6,
+    "quarantined": 0,
+    "selfHealAttempts": 0,
+    "realBugsFound": 0,
+    "coveragePercentage": 100,
+    "duration": 31,
+    "passRate": 50
+  }
+}

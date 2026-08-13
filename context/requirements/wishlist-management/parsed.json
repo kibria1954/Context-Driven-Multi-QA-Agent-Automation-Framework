@@ -1,0 +1,32 @@
+{
+  "storyId": "STORY-WISHLIST_MANAGEMENT",
+  "feature": "Wishlist Management",
+  "version": 1,
+  "parsedAt": "2026-08-11T14:06:00.000Z",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "title": "View Saved Wishlist Items",
+      "clause": "When navigating to Wish List in dashboard sidebar or header navbar icon, saved product cards should be displayed with item details and remove actions.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "functional"
+    },
+    {
+      "id": "REQ-02",
+      "title": "Empty Wishlist State Handling",
+      "clause": "When customer has no products in wishlist, page displays 'Your wishlist is empty.' and a 'Browse products ->' button linking to home page (/)",
+      "status": "clear",
+      "priority": "high",
+      "category": "ui"
+    },
+    {
+      "id": "REQ-03",
+      "title": "Add Product to Wishlist",
+      "clause": "When clicking ♡ Wishlist button on product card or PDP, product is added with bar notification success message and header wishlist count updates.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "functional"
+    }
+  ]
+}

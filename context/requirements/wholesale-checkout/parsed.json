@@ -1,0 +1,50 @@
+{
+  "storyId": "STORY-WHOLESALE_CHECKOUT",
+  "feature": "Wholesale Direct Checkout & Credit Limit Bypass",
+  "version": 2,
+  "parsedAt": "2026-08-12T18:46:00.000Z",
+  "eligibleProducts": [
+    "Apple MacBook Pro",
+    "Asus Laptop",
+    "Samsung Premium Ultrabook",
+    "HP Spectre XT Pro UltraBook — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "HP Envy 15.6-Inch Sleekbook — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "Leica T Mirrorless Digital Camera",
+    "Apple iCam — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "HTC smartphone — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "HTC One Mini Blue — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "Nokia Lumia 1020 — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "Apple iPhone 16 128GB — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+    "Samsung Galaxy S24 256GB — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance"
+  ],
+  "quantityConstraint": {
+    "min": 10,
+    "max": 15
+  },
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "title": "Direct Order Confirmation Flow (Skip Payment & Address)",
+      "clause": "Given the customer has dynamically selected eligible products in the cart with dynamic quantities (10-15) meeting the ৳10,000 minimum, clicking 'Proceed to Checkout →' skips payment method selection and shipping address entry, navigating directly to Order Confirmation page.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "functional"
+    },
+    {
+      "id": "REQ-02",
+      "title": "Default Registration Address Used as Shipping Address",
+      "clause": "When completing checkout for dynamically selected eligible products, the order uses the customer's default registration address as shipping address without presenting any option to change address during checkout.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "functional"
+    },
+    {
+      "id": "REQ-03",
+      "title": "Order Placed Regardless of Credit Limit (ERP Sync)",
+      "clause": "When customer attempts to place an order having exceeded credit limit, the system allows the order to go through and creates the order in the ERP system.",
+      "status": "clear",
+      "priority": "critical",
+      "category": "functional"
+    }
+  ]
+}

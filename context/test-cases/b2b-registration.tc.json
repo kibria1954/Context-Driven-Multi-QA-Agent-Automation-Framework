@@ -1,0 +1,97 @@
+{
+  "storyId": "STORY-B2B_REGISTRATION",
+  "generatedAt": "2026-08-11T14:32:00.000Z",
+  "loopAGate": {
+    "status": "PASS",
+    "reqCoverage": 1.0,
+    "riskCoverage": 1.0,
+    "businessRuleCoverage": 1.0,
+    "boundaryAccuracy": 1.0,
+    "dataValidity": 1.0,
+    "feasibility": 1.0,
+    "traceability": 1.0,
+    "iterations": 1
+  },
+  "testCases": [
+    {
+      "id": "TC-REG-001",
+      "name": "Positive: Successful B2B Registration Form Submission & Entity Creation",
+      "requirementId": "REQ-01",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "critical"
+    },
+    {
+      "id": "TC-REG-002",
+      "name": "Positive: Admin Reviews Wholesale Application Details",
+      "requirementId": "REQ-03",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "critical"
+    },
+    {
+      "id": "TC-REG-003",
+      "name": "Positive: Admin Approves and Activates B2B Account",
+      "requirementId": "REQ-04",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "critical"
+    },
+    {
+      "id": "TC-REG-004",
+      "name": "Positive/UI: Dynamic Contact Channel Toggle & Field Clear",
+      "requirementId": "REQ-06",
+      "type": "positive",
+      "layer": "ui",
+      "priority": "medium"
+    },
+    {
+      "id": "TC-REG-005",
+      "name": "Negative: Uniqueness Validation for Duplicate Email/Username",
+      "requirementId": "REQ-02",
+      "type": "negative",
+      "layer": "functional",
+      "priority": "critical"
+    },
+    {
+      "id": "TC-REG-006",
+      "name": "Negative: Password Mismatch Validation",
+      "requirementId": "REQ-05",
+      "type": "negative",
+      "layer": "validation",
+      "priority": "high"
+    },
+    {
+      "id": "TC-REG-007",
+      "name": "Boundary: Invalid BD Mobile Format",
+      "requirementId": "REQ-05",
+      "type": "negative",
+      "layer": "boundary",
+      "priority": "high"
+    },
+    {
+      "id": "TC-REG-008",
+      "name": "Negative: Missing Required Agreement Checkboxes Validation",
+      "requirementId": "REQ-01",
+      "type": "negative",
+      "layer": "validation",
+      "priority": "high"
+    },
+    {
+      "id": "TC-REG-009",
+      "name": "Negative: Invalid Email Format Validation",
+      "requirementId": "REQ-02",
+      "type": "negative",
+      "layer": "validation",
+      "priority": "high"
+    },
+    {
+      "id": "TC-REG-010",
+      "name": "Edge: Special Characters in Company Name & Dynamic Sanitization",
+      "requirementId": "REQ-01",
+      "type": "edge",
+      "layer": "edge",
+      "priority": "medium"
+    }
+  ]
+}
