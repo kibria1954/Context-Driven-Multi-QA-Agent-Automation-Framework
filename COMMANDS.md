@@ -1,4 +1,4 @@
-# 📜 QA AI Agent — Central Command Registry (`COMMANDS.md`)
+# 📜 QA AI Agent v2 — Central Command Registry (`COMMANDS.md`)
 
 This file is the **Single Source of Truth** for running, debugging, and generating reports for all automated Playwright test suites in this project. All commands are pre-configured to launch visually in a **Single Browser Window** (`--headed --workers=1`) so you can watch clean sequential execution.
 
@@ -6,7 +6,7 @@ This file is the **Single Source of Truth** for running, debugging, and generati
 
 ## 🌐 1. Single Browser Headed Commands (Sequential Live Watch)
 
-### 👥 B2B Registration Suite (10 Test Scenarios)
+### 👥 B2B Registration Suite
 - **NPM Shortcut**:
   ```bash
   npm run test:b2b
@@ -16,7 +16,7 @@ This file is the **Single Source of Truth** for running, debugging, and generati
   npx playwright test tests/e2e/registration/b2b-registration.spec.ts --headed --workers=1 --project=storefront-guest
   ```
 
-### 💖 Wishlist Management Suite (9 Test Scenarios)
+### 💖 Wishlist Management Suite
 - **NPM Shortcut**:
   ```bash
   npm run test:wishlist
@@ -26,7 +26,7 @@ This file is the **Single Source of Truth** for running, debugging, and generati
   npx playwright test tests/e2e/catalog/wishlist-management.spec.ts --headed --workers=1
   ```
 
-### 🛒 Wholesale Direct Checkout Suite (10 Test Scenarios)
+### 🛒 Wholesale Direct Checkout Suite
 - **NPM Shortcut**:
   ```bash
   npm run test:checkout
@@ -43,38 +43,64 @@ This file is the **Single Source of Truth** for running, debugging, and generati
   ```
 - **Direct Playwright Command**:
   ```bash
-  npx playwright test tests/e2e/registration/b2b-registration.spec.ts tests/e2e/catalog/wishlist-management.spec.ts tests/e2e/checkout/wholesale-checkout.spec.ts --headed --workers=1
+  npx playwright test tests/e2e/ --headed --workers=1
   ```
 
 ---
 
-## 🎛️ 2. Interactive UI & Debugging Modes
+## 🧪 2. API-Layer Tests (No Browser)
 
-### 📊 Playwright Interactive UI Dashboard (Step-by-Step Visual Debug)
-- **NPM Shortcut**:
-  ```bash
-  npm run test:ui
-  ```
+### Run All API Tests
+```bash
+npm run test:api
+```
 
-### 🐞 Step-by-Step Inspector Debugger Mode
-- **NPM Shortcut**:
-  ```bash
-  npm run test:debug
-  ```
+### Direct Playwright Command
+```bash
+npx playwright test tests/api/ --workers=4
+```
 
 ---
 
-## 📊 3. Executive HTML & Markdown Report Generation
+## 🎯 3. Priority-Based Execution
 
-- **Generate B2B Registration Custom Report**:
+### P0 Only (Critical Smoke)
+```bash
+npm run test:p0
+```
+
+### P1 + P0 (Regression)
+```bash
+npx playwright test --grep "@P0|@P1" --headed --workers=1
+```
+
+---
+
+## 🎛️ 4. Interactive UI & Debugging Modes
+
+### 📊 Playwright Interactive UI Dashboard
+```bash
+npm run test:ui
+```
+
+### 🐞 Step-by-Step Inspector Debugger
+```bash
+npm run test:debug
+```
+
+---
+
+## 📊 5. Executive HTML & Markdown Report Generation
+
+- **Generate B2B Registration Report**:
   ```bash
   npm run report:b2b
   ```
-- **Generate Wishlist Management Custom Report**:
+- **Generate Wishlist Management Report**:
   ```bash
   npm run report:wishlist
   ```
-- **Generate Wholesale Direct Checkout Custom Report**:
+- **Generate Wholesale Checkout Report**:
   ```bash
   npm run report:checkout
   ```
@@ -85,17 +111,57 @@ This file is the **Single Source of Truth** for running, debugging, and generati
 
 ---
 
-## 🏷️ 4. Tag-Based Test Filtering (Single Browser)
+## 📏 6. Coverage & Traceability Validation
 
-- **Run Only `@smoke` Tests (Single Browser)**:
+### Validate Requirements Coverage
+```bash
+npm run qa:coverage
+```
+
+---
+
+## 🏷️ 7. Tag-Based Test Filtering (Single Browser)
+
+- **Run Only `@smoke` Tests**:
   ```bash
   npx playwright test --grep @smoke --headed --workers=1
   ```
-- **Run Only `@regression` Tests (Single Browser)**:
+- **Run Only `@regression` Tests**:
   ```bash
   npx playwright test --grep @regression --headed --workers=1
   ```
-- **Run Only `@security` / `@boundary` Tests (Single Browser)**:
+- **Run Only `@security` / `@boundary` Tests**:
   ```bash
   npx playwright test --grep "@security|@boundary" --headed --workers=1
   ```
+
+---
+
+## 🔧 8. Development & Quality
+
+### TypeScript Compilation Check
+```bash
+npm run typecheck
+```
+
+### Lint & Format
+```bash
+npm run lint
+npm run format
+```
+
+---
+
+## 🏗️ 9. Pipeline Agent Reference
+
+| Agent | Description | Key Command |
+|-------|-------------|-------------|
+| Agent 0 | Test Data & Environment | `npm run typecheck` (validates env.ts) |
+| Agent 1 | Requirement Ingestion | Manual (paste requirement, run pipeline) |
+| Agent 2 | Test Case Design (Loop A) | Manual (generates testcases/*.tc.md) |
+| Agent 3 | Live Exploration | Manual (browser subagent + verify.json) |
+| Agent 4 | Automation Codegen | Manual (generates pages/*.ts + tests/**/*.spec.ts) |
+| Agent 5 | Execution & Self-Heal | `npm run test:b2b` / `npm run test:wishlist` / etc. |
+| Agent 6 | Coverage Validation | `npm run qa:coverage` |
+| Agent 7 | Report Generation | `npm run report:b2b` / `npm run report:wishlist` / etc. |
+| Loop ∞ | Learning & Prevention | Automatic (after Agent 7 completes) |

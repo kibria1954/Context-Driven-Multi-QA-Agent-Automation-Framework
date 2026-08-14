@@ -1,0 +1,76 @@
+{
+  "storyId": "STORY-WHOLESALE_CHECKOUT",
+  "generatedAt": "2026-08-11T19:48:32.000Z",
+  "journeys": [
+    {
+      "journeyId": "JRN-CHK-001",
+      "reqId": "REQ-01",
+      "title": "Direct Order Confirmation Flow (Skip Payment & Address)",
+      "mappedTcIds": ["TC-CHK-001"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-002",
+      "reqId": "REQ-02",
+      "title": "Default Registration Address Used as Shipping Address",
+      "mappedTcIds": ["TC-CHK-002"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-003",
+      "reqId": "REQ-03",
+      "title": "Order Placed Successfully Despite Exceeded Credit Limit",
+      "mappedTcIds": ["TC-CHK-003"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-004",
+      "reqId": "REQ-01",
+      "title": "Exact Boundary Cart Subtotal (৳10,000) Checkout Allowed",
+      "mappedTcIds": ["TC-CHK-004"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-005",
+      "reqId": "REQ-01",
+      "title": "Subtotal Below ৳10,000 Threshold Blocks Checkout",
+      "mappedTcIds": ["TC-CHK-005"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-006",
+      "reqId": "REQ-02",
+      "title": "Address Locking Verification During Checkout",
+      "mappedTcIds": ["TC-CHK-006"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-007",
+      "reqId": "REQ-01",
+      "title": "Unauthenticated Guest Checkout Redirect",
+      "mappedTcIds": ["TC-CHK-007"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-008",
+      "reqId": "REQ-03",
+      "title": "ERP Order Number Generation & Data Integrity",
+      "mappedTcIds": ["TC-CHK-008"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-009",
+      "reqId": "REQ-01",
+      "title": "Rapid Double-Click Checkout Handling",
+      "mappedTcIds": ["TC-CHK-009"],
+      "status": "pending"
+    },
+    {
+      "journeyId": "JRN-CHK-010",
+      "reqId": "REQ-01",
+      "title": "Terms of Service Agreement Unchecked Warning",
+      "mappedTcIds": ["TC-CHK-010"],
+      "status": "pending"
+    }
+  ]
+}

@@ -1,40 +1,163 @@
 ---
 name: 03-workflow-design
-description: Map individual test cases into end-to-end user journeys and state transitions.
+description: Map individual test cases into end-to-end user journeys with state transitions, data dependency graphs, negative/error flows, parallel-safe tagging, and cross-feature journey awareness.
 ---
 
-# Stage 3 — Workflow Design Skill
+# Agent 3 (Design Phase) — Workflow Design Skill
 
 ## Overview
-Stage 3 maps atomic test cases from Stage 2 into cohesive end-to-end user journeys, establishing state transitions and workflow sequencing across primary system roles.
+
+The Workflow Design phase maps atomic test cases from Agent 2 into cohesive end-to-end user journeys. It establishes state transitions, identifies data dependencies (what Agent 0 must provision), determines which journeys can run in parallel, and builds cross-feature meta-journeys where features chain together (e.g., Register → Login → Wishlist → Checkout).
+
+> **Golden Rule:** A journey is not just a list of steps — it's a state machine with explicit entry conditions, transition guards, and exit states for both success and failure paths.
 
 ---
 
-## 🛠️ State Machine & Journey Protocol
+## 🛠️ Workflow Design Protocol
 
-### 1. State Transitions Mapping
-Map the lifecycle of entities across user roles:
-- `STATE 0`: Initial / Unauthenticated / Empty State
-- `STATE 1`: Action Submitted / Entity Created (Pending Status)
-- `STATE 2`: Admin / Secondary Role Processing or Verification
-- `STATE 3`: Entity Approved / Status Updated (`Active = true` / `Completed`)
-- `STATE 4`: Post-Transition Operational State
+### 1. Enhanced State Machine Model
 
-### 2. User Journey Structuring
+Map the lifecycle of every entity across user roles using a 5-state model:
+
+| State | Description | Example |
+|-------|------------|---------|
+| `S0: Initial` | Unauthenticated / empty / no entity exists | Guest on homepage |
+| `S1: Created` | Entity submitted / pending / awaiting processing | Registration submitted, account inactive |
+| `S2: Processing` | Admin or system reviewing / validating | Admin reviewing customer application |
+| `S3: Active` | Entity approved / operational / fully functional | Account activated, can log in and order |
+| `S4: Terminal` | Entity completed / archived / deleted | Order delivered, account deactivated |
+
+**Transition Guards:**
+- `S0 → S1`: Requires valid input data (from Agent 0), passing all form validations
+- `S1 → S2`: System auto-triggers or admin manually initiates review
+- `S2 → S3`: Admin approval action OR system auto-approval rule
+- `S3 → S4`: Completion action, time-based expiry, or manual deactivation
+- **Error transitions**: `S1 → S0` (validation failure, back to form), `S2 → S0` (rejection, account denied)
+
+### 2. Journey Structuring
+
 Group individual `TC-XXX` items into ordered journeys:
-- `J-01: <Feature Name> End-to-End Workflow & Verification Pipeline`
-  - Step 1: Initiator performs trigger action (`TC-XXX-001`)
-  - Step 2: System validates input constraints & business rules (`TC-XXX-002`)
-  - Step 3: Admin / Processing role verifies state transition (`TC-XXX-003`)
-  - Step 4: System completes transaction / confirms state change (`TC-XXX-004`)
 
-### 3. Async State Transition Handlers
-Define explicit async waiting strategies for asynchronous state transitions:
-- **Async Approval / Webhook / Processing Latency**: Poll entity status endpoint or UI table with exponential backoff (`maxWaitMs: 30000`).
-- **Token / Email Notifications**: Intercept dynamic token or payload before navigating to confirmation URLs.
+```markdown
+## J-01: {Feature Name} — Happy Path End-to-End Pipeline
+
+**Entry State:** S0 (Guest user, not authenticated)
+**Exit State (Success):** S3 (Active account, logged in)
+**Exit State (Failure):** S0 (Redirected to form with error messages)
+
+### Steps:
+1. **[TC-001]** Guest navigates to registration → `S0 → S1` (Form visible)
+2. **[TC-002]** Guest fills Step 1 (Company Info) → `S1` (Step 1 complete)
+3. **[TC-003]** Guest fills Step 2 (Account Setup) → `S1` (Step 2 complete)
+4. **[TC-004]** Guest fills Step 3 (Agreements) + Submit → `S1 → S2` (Application submitted)
+5. **[TC-005]** Admin reviews application in admin panel → `S2` (Under review)
+6. **[TC-006]** Admin approves (sets Active flag) → `S2 → S3` (Account active)
+7. **[TC-007]** Customer logs in with new credentials → `S3` (Dashboard visible)
+
+### Data Dependencies (from Agent 0):
+- Synthetic email: `test.{ts}@qa-test.example.com`
+- BD phone number: `017XXXXXXXX`
+- Company name: `QA-Auto-{runId} Corp`
+
+### Parallel Safety: ❌ SERIAL ONLY
+- Reason: Account creation + admin approval involves shared state
+```
+
+### 3. Negative & Error Flow Journeys
+
+Do NOT only map happy paths. Every journey set MUST include:
+
+```markdown
+## J-02: {Feature Name} — Duplicate Email Rejection Flow
+
+**Entry State:** S0 (Guest, valid data exists from J-01)
+**Exit State:** S0 (Still on form, error message displayed)
+
+### Steps:
+1. **[TC-008]** Guest navigates to registration → `S0`
+2. **[TC-008]** Guest fills form with ALREADY-USED email → `S0`
+3. **[TC-008]** Guest submits → `S0 → S0` (REJECTION)
+   - **Error Message:** "The specified email already exists"
+   - **DOM State:** `.validation-summary-errors` visible
+   - **URL State:** Still on `/register`
+```
+
+### 4. Data Dependency Graph
+
+For each journey, explicitly document what test data is required:
+
+```json
+{
+  "journeyId": "J-01",
+  "dataDependencies": [
+    {
+      "entity": "customer",
+      "source": "Agent 0 - data-provisioner",
+      "fields": ["email", "phone", "companyName"],
+      "uniquePerRun": true,
+      "cleanupRequired": true
+    },
+    {
+      "entity": "admin-session",
+      "source": "global-setup.ts",
+      "fields": ["storageState"],
+      "uniquePerRun": false
+    }
+  ]
+}
+```
+
+### 5. Parallel-Safe vs Serial-Only Tagging
+
+| Tag | When to Use | Example |
+|-----|------------|---------|
+| `PARALLEL_SAFE` | Journey uses only its own namespaced data, no shared state mutations | Read-only catalog browsing, isolated wishlist ops |
+| `SERIAL_ONLY` | Journey creates/mutates shared state that other journeys depend on | Registration → Admin approval chain |
+| `SERIAL_WITHIN_FEATURE` | Parallel across features but serial within one feature | Multiple wishlist tests can run parallel to checkout tests |
+
+### 6. Async State Transition Handlers
+
+Define explicit wait strategies for async transitions:
+
+| Pattern | Strategy | Max Wait |
+|---------|----------|----------|
+| Admin approval (UI) | Poll admin table, check entity status | 30s |
+| Email notification | Intercept or skip (not testable in E2E without mail server) | Flag as limitation |
+| AJAX form submission | Wait for `networkidle` + bar notification | 15s |
+| Page redirect | `waitForURL()` with exact path match | 10s |
+
+### 7. Cross-Feature Journey Awareness
+
+When features chain together, define meta-journeys:
+
+```markdown
+## META-J-01: Full Customer Lifecycle (Register → Login → Wishlist → Checkout)
+
+### Sub-Journeys:
+1. J-01 (Registration) → produces: active customer account
+2. J-LOGIN (Login) → produces: authenticated session
+3. J-WISHLIST (Wishlist Management) → produces: items in wishlist
+4. J-CHECKOUT (Wholesale Checkout) → produces: completed order
+
+### Data Flow:
+- Registration J-01 creates customer → Login uses same credentials → Wishlist uses same session → Checkout uses same cart
+
+### Execution Mode: STRICTLY SERIAL (upstream output = downstream input)
+```
 
 ---
 
 ## 📄 Output Files
-- `context/journeys/<story>.journey.md`
-- `context/journeys/<story>.journey.json`
+- `workflows/{feature}.journey.md` (Human-readable journey document)
+- `workflows/{feature}.journey.json` (Machine-readable journey data with state transitions)
+
+## ✅ Gate Condition
+- All TCs from Agent 2 mapped to at least one journey.
+- Every journey has explicit entry/exit states.
+- Data dependencies documented for Agent 0.
+- Negative/error flow journeys included.
+- Parallel safety tagged.
+
+## ❌ Blocked Conditions
+- Test cases not yet generated (Agent 2 incomplete) → Cannot map journeys.
+- Data dependencies that Agent 0 cannot provision → Escalate to owner.

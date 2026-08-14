@@ -24,8 +24,12 @@ export interface MemoryStore {
   patterns: HealedPattern[];
 }
 
-const JSON_PATH = path.join(process.cwd(), 'memory', 'healed-patterns.json');
-const MD_PATH = path.join(process.cwd(), 'memory', 'healed-patterns.md');
+const MEMORY_DIR = path.join(process.cwd(), 'memory');
+const JSON_PATH = path.join(MEMORY_DIR, 'healed-patterns.json');
+const MD_PATH = path.join(MEMORY_DIR, 'healed-patterns.md');
+const HEAL_LOG_PATH = path.join(MEMORY_DIR, 'heal-log.md');
+const PATTERN_LIBRARY_PATH = path.join(MEMORY_DIR, 'pattern-library.md');
+const A11Y_FINDINGS_PATH = path.join(MEMORY_DIR, 'a11y-findings.md');
 
 /**
  * Read current pattern memory store from JSON.
@@ -85,4 +89,99 @@ export function syncMemoryToMarkdown(store: MemoryStore): void {
   }
 
   fs.writeFileSync(MD_PATH, mdContent, 'utf-8');
+}
+
+// ─── Heal Log (Append-Only Audit Trail) ──────────────────────────────────────
+
+/**
+ * Append a heal record to memory/heal-log.md.
+ * This is the raw material the Pattern Library learns from.
+ */
+export function appendHealLog(entry: {
+  runId: string;
+  testId: string;
+  feature: string;
+  failureClass: string;
+  error: string;
+  rootCause: string;
+  action: string;
+  semanticVerification?: string;
+  confidence: number;
+  regressionPassed: boolean;
+  autoCommitted: boolean;
+}): void {
+  const header = '# 🔧 Heal Log — Append-Only Audit Trail\n\n> Every self-heal action recorded with full evidence.\n> Source material for Pattern Library distillation.\n\n---\n\n';
+  ensureMemoryFile(HEAL_LOG_PATH, header);
+
+  let record = `\n## Heal Record — ${new Date().toISOString()}\n\n`;
+  record += `- **Run ID:** \`${entry.runId}\`\n`;
+  record += `- **Test:** ${entry.testId} (${entry.feature})\n`;
+  record += `- **Failure Class:** \`${entry.failureClass}\`\n`;
+  record += `- **Error:** ${entry.error}\n`;
+  record += `- **Root Cause:** ${entry.rootCause}\n`;
+  record += `- **Action:** ${entry.action}\n`;
+  if (entry.semanticVerification) {
+    record += `- **Semantic Verification:** ${entry.semanticVerification}\n`;
+  }
+  record += `- **Confidence:** ${Math.round(entry.confidence * 100)}%\n`;
+  record += `- **Anti-Regression:** ${entry.regressionPassed ? '✅ Passed' : '❌ Failed'}\n`;
+  record += `- **Auto-Committed:** ${entry.autoCommitted ? '✅ Yes' : '❌ No (flagged for review)'}\n`;
+  record += `\n---\n`;
+
+  fs.appendFileSync(HEAL_LOG_PATH, record, 'utf-8');
+}
+
+// ─── Pattern Library ─────────────────────────────────────────────────────────
+
+/**
+ * Read the distilled pattern library.
+ */
+export function readPatternLibrary(): string {
+  if (!fs.existsSync(PATTERN_LIBRARY_PATH)) return '';
+  return fs.readFileSync(PATTERN_LIBRARY_PATH, 'utf-8');
+}
+
+/**
+ * Write/update the pattern library content.
+ */
+export function writePatternLibrary(content: string): void {
+  fs.mkdirSync(path.dirname(PATTERN_LIBRARY_PATH), { recursive: true });
+  fs.writeFileSync(PATTERN_LIBRARY_PATH, content, 'utf-8');
+}
+
+// ─── Accessibility Findings ──────────────────────────────────────────────────
+
+/**
+ * Append an accessibility finding to memory/a11y-findings.md.
+ */
+export function appendA11yFinding(entry: {
+  feature: string;
+  pageUrl: string;
+  impact: 'critical' | 'serious' | 'moderate' | 'minor';
+  rule: string;
+  element: string;
+  description: string;
+}): void {
+  const header = '# ♿ Accessibility Findings\n\n> Non-blocking a11y scan results from Agent 3 (Live Explorer).\n> Building a backlog for accessibility improvements.\n\n---\n\n';
+  ensureMemoryFile(A11Y_FINDINGS_PATH, header);
+
+  const line = `| ${entry.impact} | ${entry.rule} | \`${entry.element}\` | ${entry.description} | ${entry.feature} | ${entry.pageUrl} | ${new Date().toISOString().split('T')[0]} |\n`;
+
+  // Check if table header exists, if not add it
+  const content = fs.readFileSync(A11Y_FINDINGS_PATH, 'utf-8');
+  if (!content.includes('| Impact |')) {
+    const tableHeader = '| Impact | Rule | Element | Description | Feature | Page | Date |\n|--------|------|---------|-------------|---------|------|------|\n';
+    fs.appendFileSync(A11Y_FINDINGS_PATH, tableHeader, 'utf-8');
+  }
+
+  fs.appendFileSync(A11Y_FINDINGS_PATH, line, 'utf-8');
+}
+
+// ─── Internal Helpers ────────────────────────────────────────────────────────
+
+function ensureMemoryFile(filePath: string, header: string): void {
+  if (!fs.existsSync(filePath)) {
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, header, 'utf-8');
+  }
 }

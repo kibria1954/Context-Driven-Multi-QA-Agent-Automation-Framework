@@ -54,6 +54,23 @@ export const ENV = {
   // Loop Engineering
   MAX_LOOP_A_ITERATIONS: parseInt(optionalEnv('MAX_LOOP_A_ITERATIONS', '5'), 10),
   MAX_LOOP_B_ITERATIONS: parseInt(optionalEnv('MAX_LOOP_B_ITERATIONS', '5'), 10),
+  MAX_LOOP_C_ITERATIONS: parseInt(optionalEnv('MAX_LOOP_C_ITERATIONS', '3'), 10),
+  MAX_HEALS_PER_RUN: parseInt(optionalEnv('MAX_HEALS_PER_RUN', '10'), 10),
+
+  // Agent 0 — Environment Safety
+  WRITE_SAFE_ENVS: optionalEnv('WRITE_SAFE_ENVS', 'staging,test').split(',').map(s => s.trim()),
+
+  // Learning Loop — Pattern Library
+  PATTERN_LIBRARY_REFRESH_RUNS: parseInt(optionalEnv('PATTERN_LIBRARY_REFRESH_RUNS', '5'), 10),
+  PATTERN_TRUST_THRESHOLD: parseFloat(optionalEnv('PATTERN_TRUST_THRESHOLD', '0.95')),
+  PATTERN_PROMOTE_MIN_SUCCESS: parseInt(optionalEnv('PATTERN_PROMOTE_MIN_SUCCESS', '3'), 10),
+
+  // Model Routing (cost control)
+  MODEL_TIER_DEFAULT: optionalEnv('MODEL_TIER_DEFAULT', 'fast') as 'fast' | 'strong',
+
+  // Data Provisioner
+  TEST_EMAIL_DOMAIN: optionalEnv('TEST_EMAIL_DOMAIN', 'qa-test.example.com'),
+  CLEANUP_ON_TEARDOWN: optionalEnv('CLEANUP_ON_TEARDOWN', 'true') === 'true',
 
   // Meta
   ENV_NAME: optionalEnv('ENV', 'staging'),

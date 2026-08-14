@@ -1,0 +1,12 @@
+{
+  "storyId": "STORY-WISHLIST_MANAGEMENT",
+  "generatedAt": "2026-08-11T14:06:00.000Z",
+  "journeys": [
+    {
+      "journeyId": "J-WISH-01",
+      "name": "End-to-End Wishlist Lifecycle",
+      "testCases": ["TC-WISH-001", "TC-WISH-002", "TC-WISH-003"],
+      "states": ["STATE_0_GUEST", "STATE_1_AUTHENTICATED", "STATE_2_ADDED", "STATE_3_VIEWED", "STATE_4_EMPTY"]
+    }
+  ]
+}

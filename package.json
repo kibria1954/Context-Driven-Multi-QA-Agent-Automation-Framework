@@ -1,7 +1,7 @@
 {
   "name": "qa-ai-agent-kbd",
-  "version": "1.0.0",
-  "description": "Context-Driven AI QA Automation Agent for KBD NopCommerce — 8-Agent Pipeline | Playwright + TypeScript + POM | Self-Improving Loop Engineering | Custom Reporting",
+  "version": "2.0.0",
+  "description": "Context-Driven AI QA Automation Agent v2 for KBD NopCommerce — 8-Agent Pipeline (Agent 0–7 + Learning Loop) | Playwright + TypeScript + POM | 3-Loop Engineering System | Self-Healing + Self-Learning | Custom Executive Reporting",
   "scripts": {
     "test": "npx playwright test",
     "test:smoke": "npx playwright test --grep @smoke",
@@ -15,7 +15,9 @@
     "test:b2b": "npx playwright test tests/e2e/registration/b2b-registration.spec.ts --headed --workers=1 --project=storefront-guest",
     "test:wishlist": "npx playwright test tests/e2e/catalog/wishlist-management.spec.ts --headed --workers=1",
     "test:checkout": "npx playwright test tests/e2e/checkout/wholesale-checkout.spec.ts --headed --workers=1",
-    "test:all:headed": "npx playwright test tests/e2e/registration/b2b-registration.spec.ts tests/e2e/catalog/wishlist-management.spec.ts --headed --workers=1",
+    "test:all:headed": "npx playwright test tests/e2e/ --headed --workers=1",
+    "test:api": "npx playwright test tests/api/ --workers=4",
+    "test:p0": "npx playwright test --grep @P0 --headed --workers=1",
     "test:admin": "npx playwright test --project=admin-chromium",
     "test:storefront": "npx playwright test --project=storefront-chromium",
     "test:guest": "npx playwright test --project=storefront-guest",

@@ -1,0 +1,89 @@
+{
+  "storyId": "STORY-WISHLIST_MANAGEMENT",
+  "generatedAt": "2026-08-11T14:26:00.000Z",
+  "loopAGate": {
+    "status": "PASS",
+    "reqCoverage": 1.0,
+    "riskCoverage": 1.0,
+    "businessRuleCoverage": 1.0,
+    "boundaryAccuracy": 1.0,
+    "dataValidity": 1.0,
+    "feasibility": 1.0,
+    "traceability": 1.0,
+    "iterations": 1
+  },
+  "testCases": [
+    {
+      "id": "TC-WISH-001",
+      "name": "Positive: Add Product to Wishlist from PDP & Verify Notification",
+      "requirementId": "REQ-03",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "critical"
+    },
+    {
+      "id": "TC-WISH-002",
+      "name": "Positive: Add Product to Wishlist from Catalog Product Grid Card",
+      "requirementId": "REQ-03",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "high"
+    },
+    {
+      "id": "TC-WISH-003",
+      "name": "Positive: View Wishlist via Header Navbar Icon",
+      "requirementId": "REQ-01",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "critical"
+    },
+    {
+      "id": "TC-WISH-004",
+      "name": "Positive: View Wishlist via My Account Dashboard Sidebar Link",
+      "requirementId": "REQ-01",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "high"
+    },
+    {
+      "id": "TC-WISH-005",
+      "name": "Positive: Remove Item from Wishlist Table",
+      "requirementId": "REQ-01",
+      "type": "positive",
+      "layer": "functional",
+      "priority": "high"
+    },
+    {
+      "id": "TC-WISH-006",
+      "name": "Negative: Unauthenticated Guest Wishlist Click Redirect",
+      "requirementId": "REQ-03",
+      "type": "negative",
+      "layer": "security",
+      "priority": "high"
+    },
+    {
+      "id": "TC-WISH-007",
+      "name": "Negative: Rapid Double-Click Wishlist Addition Handling",
+      "requirementId": "REQ-03",
+      "type": "negative",
+      "layer": "edge",
+      "priority": "medium"
+    },
+    {
+      "id": "TC-WISH-008",
+      "name": "Edge: Empty Wishlist State Verification",
+      "requirementId": "REQ-02",
+      "type": "edge",
+      "layer": "ui",
+      "priority": "high"
+    },
+    {
+      "id": "TC-WISH-009",
+      "name": "Edge: Empty Wishlist 'Browse Products ->' Button Navigation",
+      "requirementId": "REQ-02",
+      "type": "edge",
+      "layer": "ui",
+      "priority": "medium"
+    }
+  ]
+}
