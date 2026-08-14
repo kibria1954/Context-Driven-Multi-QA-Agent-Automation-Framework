@@ -10,7 +10,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const ROOT = path.resolve(__dirname, '..');
-const CONTEXT_DIR = path.join(ROOT, 'context');
 const MEMORY_DIR = path.join(ROOT, 'memory');
 const TRACE_DIR = path.join(MEMORY_DIR, 'traceability');
 
@@ -19,7 +18,7 @@ const storyName = args.find((a) => a.startsWith('--story='))?.split('=')[1] || '
 
 console.log(`\n📊 Stage 6: Coverage Validation — "${storyName}"`);
 
-const tcFile = path.join(CONTEXT_DIR, 'test-cases', `${storyName}.tc.json`);
+const tcFile = path.join(ROOT, 'testcases', `${storyName}.tc.json`);
 const testCases: any[] = fs.existsSync(tcFile) ? JSON.parse(fs.readFileSync(tcFile, 'utf8')).testCases || [] : [];
 
 // Walk spec files
@@ -35,23 +34,69 @@ const walk = (d: string) => {
 };
 walk(specDir);
 
-const reqIds = [...new Set(testCases.map((tc: any) => tc.reqId))];
-const entries = reqIds.map((reqId) => {
-  const tcs = testCases.filter((tc: any) => tc.reqId === reqId);
-  let specFile: string | undefined;
-  for (const sf of specFiles) {
-    const content = fs.readFileSync(sf, 'utf8');
-    if (sf.toLowerCase().includes(storyName.toLowerCase()) || content.includes(reqId)) {
-      specFile = path.relative(ROOT, sf);
-      break;
+// Scope to this feature's own spec file(s) only — REQ-IDs are locally numbered per
+// feature, so matching against every spec repo-wide would cross-contaminate features
+// that happen to share REQ-01, REQ-02, etc. Convention (see agents/orchestrator.ts
+// stage 5): tests/e2e/**/{story}.spec.ts.
+const ownSpecFiles = specFiles.filter((f) => path.basename(f) === `${storyName}.spec.ts`);
+
+// ─── Parse each spec file's traceability header + per-test @REQ-N tags ───────
+// Specs declare a "Requirements Covered:" header comment block (e.g. "- REQ-01: ...")
+// and tag individual test titles with @REQ-NN. Both are used for accurate, per-test-case
+// attribution instead of a loose "file contains this substring" match.
+interface SpecCoverage {
+  file: string;
+  reqIds: Set<string>;
+  testTitlesByReq: Map<string, string[]>;
+}
+
+function parseSpecCoverage(absPath: string): SpecCoverage {
+  const content = fs.readFileSync(absPath, 'utf8');
+  const reqIds = new Set<string>();
+  const testTitlesByReq = new Map<string, string[]>();
+
+  // Header block: lines like "*   - REQ-01: Some description"
+  const headerMatches = content.matchAll(/REQ-\d+/g);
+  for (const m of headerMatches) reqIds.add(m[0].toUpperCase());
+
+  // Per-test title tags: test('TC-XXX: ... @REQ-01', ...)
+  const testMatches = content.matchAll(/test\(\s*['"`]([^'"`]+)['"`]/g);
+  for (const m of testMatches) {
+    const title = m[1];
+    const tagMatches = title.matchAll(/@REQ-(\d+)/gi);
+    for (const tag of tagMatches) {
+      const reqId = `REQ-${tag[1]}`;
+      if (!testTitlesByReq.has(reqId)) testTitlesByReq.set(reqId, []);
+      testTitlesByReq.get(reqId)!.push(title);
     }
   }
+
+  return { file: path.relative(ROOT, absPath), reqIds, testTitlesByReq };
+}
+
+const specCoverages = ownSpecFiles.map(parseSpecCoverage);
+
+const reqIds = [...new Set(testCases.map((tc: any) => tc.requirementId))];
+const entries = reqIds.map((reqId) => {
+  const tcs = testCases.filter((tc: any) => tc.requirementId === reqId);
+
+  // A requirement is only "covered" if at least one test title explicitly tags it —
+  // list every matching spec file/test title, not just the first hit.
+  const matches = specCoverages
+    .filter((sc) => sc.testTitlesByReq.has(reqId))
+    .map((sc) => ({ file: sc.file, titles: sc.testTitlesByReq.get(reqId)! }));
+
+  const specFiles2 = matches.map((m) => m.file);
+  const testTitles = matches.flatMap((m) => m.titles);
+
   return {
     reqId,
     requirement: tcs[0]?.name || reqId,
-    testCases: tcs.map((tc: any) => ({ tcId: tc.tcId, type: tc.type, status: tc.status })),
-    specFile,
-    coverageStatus: specFile ? 'covered' : 'uncovered',
+    testCases: tcs.map((tc: any) => ({ tcId: tc.id, type: tc.type, status: tc.status })),
+    specFile: specFiles2[0],
+    specFiles: specFiles2,
+    testTitles,
+    coverageStatus: specFiles2.length > 0 ? 'covered' : 'uncovered',
   };
 });
 
@@ -78,12 +123,12 @@ md += `| **Uncovered Requirements** | ${uncovered} |\n`;
 md += `| **Total Test Cases Mapped** | ${testCases.length} |\n\n`;
 
 md += `## Requirements to Test Cases Traceability Table\n\n`;
-md += `| Requirement ID | Requirement Description | Mapped Test Cases | Spec File | Status |\n`;
+md += `| Requirement ID | Requirement Description | Mapped Test Cases | Spec File(s) | Status |\n`;
 md += `|---|---|---|---|---|\n`;
 
 for (const entry of entries) {
   const tcList = entry.testCases.map((tc: any) => `\`${tc.tcId}\` (${tc.type})`).join(', ');
-  const spec = entry.specFile ? `\`${entry.specFile}\`` : '_None_';
+  const spec = entry.specFiles.length > 0 ? entry.specFiles.map((f) => `\`${f}\``).join('<br>') : '_None_';
   const statusBadge = entry.coverageStatus === 'covered' ? '✅ Covered' : '❌ Uncovered';
   md += `| **${entry.reqId}** | ${entry.requirement.replace(/\|/g, '\\|')} | ${tcList} | ${spec} | ${statusBadge} |\n`;
 }

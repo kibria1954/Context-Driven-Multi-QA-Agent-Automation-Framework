@@ -127,9 +127,9 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
           <tr>
             <td><strong style="color:var(--accent)">${tm.reqId}</strong></td>
             <td>${tm.requirement}</td>
-            <td>${tm.testCases.map(tc => `<span class="badge badge-positive" style="margin-right:4px;">${tc}</span>`).join('')}</td>
+            <td>${tm.testCases.map(tc => `<span class="badge badge-positive" style="margin-right:4px;">${tc}</span>`).join('') || '<em>None</em>'}</td>
             <td><code>${tm.specFile}</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
+            <td><span class="badge ${tm.status === 'covered' ? 'badge-pass' : 'badge-fail'}">${tm.status === 'covered' ? '✅ COVERED' : '❌ UNCOVERED'}</span></td>
           </tr>
         `).join('')}
         </tbody>

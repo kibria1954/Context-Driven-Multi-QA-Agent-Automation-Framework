@@ -2,8 +2,8 @@
 
 - **Story**: `b2b-registration`
 - **Pass Rate**: **100%**
-- **Total Tests**: 10 | ✅ Passed: 10 | ❌ Failed: 0 | ⏭️ Skipped: 0
-- **Report Generated**: `8/11/2026, 2:35:45 PM`
+- **Total Tests**: 6 | ✅ Passed: 6 | ❌ Failed: 0 | ⏭️ Skipped: 0
+- **Report Generated**: `8/14/2026, 11:06:17 PM`
 
 ---
 
@@ -11,13 +11,9 @@
 
 | TC-ID | Scenario Name | Type | Status | Duration | REQ-ID |
 |---|---|---|---|---|---|
-| `TC-REG-001` | TC-REG-001: Positive: Successful B2B Registration Form Submission & Entity Creation @smoke @regression @REQ-01 | `positive` | **PASSED** | 36.9s | `REQ-01` |
-| `TC-REG-002` | TC-REG-002: Negative: Uniqueness Validation for Duplicate Email/Username @regression @REQ-02 | `negative` | **PASSED** | 7.5s | `REQ-02` |
-| `TC-REG-003` | TC-REG-003: Positive: Admin Reviews Wholesale Application Details @admin @regression @REQ-03 | `positive` | **PASSED** | 29.7s | `REQ-03` |
-| `TC-REG-004` | TC-REG-004: Positive: Admin Approves and Activates B2B Account @admin @regression @REQ-04 | `positive` | **PASSED** | 30.0s | `REQ-04` |
-| `TC-REG-005` | TC-REG-005: Negative: Password Mismatch Validation @regression @REQ-05 | `negative` | **PASSED** | 10.0s | `REQ-05` |
-| `TC-REG-006` | TC-REG-006: Boundary: Invalid BD Mobile Format @boundary @regression @REQ-05 | `negative` | **PASSED** | 6.8s | `REQ-05` |
-| `TC-REG-007` | TC-REG-007: Positive/UI: Dynamic Contact Channel Toggle & Field Clear Validation @ui @regression @REQ-06 | `positive` | **PASSED** | 3.6s | `REQ-06` |
-| `TC-REG-008` | TC-REG-008: Negative: Missing Required Agreement Checkboxes Validation @validation @regression @REQ-01 | `negative` | **PASSED** | 16.4s | `REQ-01` |
-| `TC-REG-009` | TC-REG-009: Negative: Invalid Email Format Validation @validation @regression @REQ-02 | `negative` | **PASSED** | 6.8s | `REQ-02` |
-| `TC-REG-010` | TC-REG-010: Edge: Special Characters in Company Name & Dynamic Sanitization @edge @regression @REQ-01 | `edge` | **PASSED** | 3.6s | `REQ-01` |
+| `TC-CHK-001-004-008` | TC-CHK-001-004-008: Nested E2E Flow: Cart Addition -> Subtotal Threshold -> Direct Checkout -> Credit Limit Bypass -> Address Locking & Order History Validation @smoke @regression @REQ-01 @REQ-02 @REQ-03 | `positive` | **PASSED** | 98.1s | `REQ-01` |
+| `TC-CHK-005` | TC-CHK-005: Negative: Subtotal Below ৳10,000 Threshold Blocks Checkout (No Order Placed) @validation @regression @REQ-01 | `negative` | **PASSED** | 38.4s | `REQ-01` |
+| `TC-CHK-006` | TC-CHK-006: Security: Address Locking Verification During Checkout @security @regression @REQ-02 | `positive` | **PASSED** | 78.9s | `REQ-02` |
+| `TC-CHK-007` | TC-CHK-007: Security: Unauthenticated Guest Checkout Click Redirect @security @regression @REQ-01 | `positive` | **PASSED** | 17.9s | `REQ-01` |
+| `TC-CHK-009` | TC-CHK-009: Edge: Rapid Double-Click Checkout Handling (Without Order Placement) @edge @regression @REQ-01 | `edge` | **PASSED** | 96.2s | `REQ-01` |
+| `TC-CHK-010` | TC-CHK-010: UI: Terms of Service Agreement Unchecked Warning @ui @regression @REQ-01 | `positive` | **PASSED** | 76.0s | `REQ-01` |

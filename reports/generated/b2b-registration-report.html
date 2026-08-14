@@ -45,14 +45,14 @@
   <div class="header">
     <h1>🤖 Context-Driven AI QA Agent — Executive Dashboard</h1>
     <div class="meta">
-      Feature: b2b-registration | Env: staging | Date: 8/11/2026, 2:35:45 PM | Run: run-1786437345833
+      Feature: b2b-registration | Env: staging | Date: 8/14/2026, 11:06:17 PM | Run: run-1786727177676
     </div>
   </div>
   <div class="container">
     <div class="grid">
       <div class="stat-card"><div class="value" style="color:#10b981">100%</div><div class="label">Pass Rate</div></div>
-      <div class="stat-card"><div class="value">10</div><div class="label">Total Tests</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--success)">10</div><div class="label">Passed</div></div>
+      <div class="stat-card"><div class="value">6</div><div class="label">Total Tests</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--success)">6</div><div class="label">Passed</div></div>
       <div class="stat-card"><div class="value" style="color:var(--danger)">0</div><div class="label">Failed</div></div>
       <div class="stat-card"><div class="value" style="color:var(--warning)">0</div><div class="label">Skipped</div></div>
       <div class="stat-card"><div class="value" style="color:var(--info)">0</div><div class="label">Quarantined</div></div>
@@ -74,92 +74,56 @@
         <tbody>
         
           <tr>
-            <td><strong>TC-REG-001</strong></td>
-            <td>TC-REG-001: Positive: Successful B2B Registration Form Submission & Entity Creation @smoke @regression @REQ-01</td>
+            <td><strong>TC-CHK-001-004-008</strong></td>
+            <td>TC-CHK-001-004-008: Nested E2E Flow: Cart Addition -> Subtotal Threshold -> Direct Checkout -> Credit Limit Bypass -> Address Locking & Order History Validation @smoke @regression @REQ-01 @REQ-02 @REQ-03</td>
             <td><span class="badge badge-positive">positive</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>36.9s</td>
+            <td>98.1s</td>
             <td>REQ-01</td>
           </tr>
         
           <tr>
-            <td><strong>TC-REG-002</strong></td>
-            <td>TC-REG-002: Negative: Uniqueness Validation for Duplicate Email/Username @regression @REQ-02</td>
+            <td><strong>TC-CHK-005</strong></td>
+            <td>TC-CHK-005: Negative: Subtotal Below ৳10,000 Threshold Blocks Checkout (No Order Placed) @validation @regression @REQ-01</td>
             <td><span class="badge badge-negative">negative</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>7.5s</td>
-            <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-REG-003</strong></td>
-            <td>TC-REG-003: Positive: Admin Reviews Wholesale Application Details @admin @regression @REQ-03</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>29.7s</td>
-            <td>REQ-03</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-REG-004</strong></td>
-            <td>TC-REG-004: Positive: Admin Approves and Activates B2B Account @admin @regression @REQ-04</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>30.0s</td>
-            <td>REQ-04</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-REG-005</strong></td>
-            <td>TC-REG-005: Negative: Password Mismatch Validation @regression @REQ-05</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>10.0s</td>
-            <td>REQ-05</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-REG-006</strong></td>
-            <td>TC-REG-006: Boundary: Invalid BD Mobile Format @boundary @regression @REQ-05</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>6.8s</td>
-            <td>REQ-05</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-REG-007</strong></td>
-            <td>TC-REG-007: Positive/UI: Dynamic Contact Channel Toggle & Field Clear Validation @ui @regression @REQ-06</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>3.6s</td>
-            <td>REQ-06</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-REG-008</strong></td>
-            <td>TC-REG-008: Negative: Missing Required Agreement Checkboxes Validation @validation @regression @REQ-01</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>16.4s</td>
+            <td>38.4s</td>
             <td>REQ-01</td>
           </tr>
         
           <tr>
-            <td><strong>TC-REG-009</strong></td>
-            <td>TC-REG-009: Negative: Invalid Email Format Validation @validation @regression @REQ-02</td>
-            <td><span class="badge badge-negative">negative</span></td>
+            <td><strong>TC-CHK-006</strong></td>
+            <td>TC-CHK-006: Security: Address Locking Verification During Checkout @security @regression @REQ-02</td>
+            <td><span class="badge badge-positive">positive</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>6.8s</td>
+            <td>78.9s</td>
             <td>REQ-02</td>
           </tr>
         
           <tr>
-            <td><strong>TC-REG-010</strong></td>
-            <td>TC-REG-010: Edge: Special Characters in Company Name & Dynamic Sanitization @edge @regression @REQ-01</td>
+            <td><strong>TC-CHK-007</strong></td>
+            <td>TC-CHK-007: Security: Unauthenticated Guest Checkout Click Redirect @security @regression @REQ-01</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>17.9s</td>
+            <td>REQ-01</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-CHK-009</strong></td>
+            <td>TC-CHK-009: Edge: Rapid Double-Click Checkout Handling (Without Order Placement) @edge @regression @REQ-01</td>
             <td><span class="badge badge-edge">edge</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>3.6s</td>
+            <td>96.2s</td>
+            <td>REQ-01</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-CHK-010</strong></td>
+            <td>TC-CHK-010: UI: Terms of Service Agreement Unchecked Warning @ui @regression @REQ-01</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>76.0s</td>
             <td>REQ-01</td>
           </tr>
         
@@ -171,7 +135,7 @@
       <h2>🎯 Scenario Coverage Breakdown</h2>
       <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="stat-card"><div class="value" style="color:var(--accent)">4</div><div class="label">Positive Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#f97316">5</div><div class="label">Negative Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#f97316">1</div><div class="label">Negative Scenarios</div></div>
         <div class="stat-card"><div class="value" style="color:#a855f7">1</div><div class="label">Edge Scenarios</div></div>
       </div>
     </div>
@@ -187,50 +151,50 @@
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-01</strong></td>
-            <td>Successful B2B Registration Form Submission & Entity Creation</td>
+            <td>Positive: Successful B2B Registration Form Submission & Entity Creation</td>
             <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-001</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-008</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-010</span></td>
-            <td><code>tests/e2e/registration/b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-02</strong></td>
-            <td>Uniqueness Validation During Registration</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-002</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-009</span></td>
-            <td><code>tests/e2e/registration/b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-03</strong></td>
-            <td>Admin Reviews Wholesale Application Details</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-003</span></td>
-            <td><code>tests/e2e/registration/b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
+            <td>Positive: Admin Reviews Wholesale Application Details</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-002</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-04</strong></td>
-            <td>Admin Approves and Activates B2B Account</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-004</span></td>
-            <td><code>tests/e2e/registration/b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-05</strong></td>
-            <td>Password Mismatch & Field Format Validation</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-005</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-006</span></td>
-            <td><code>tests/e2e/registration/b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
+            <td>Positive: Admin Approves and Activates B2B Account</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-003</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-06</strong></td>
-            <td>Dynamic Contact Channel Toggle & Field Clear Validation</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-007</span></td>
-            <td><code>tests/e2e/registration/b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">100% COVERED</span></td>
+            <td>Positive/UI: Dynamic Contact Channel Toggle & Field Clear</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-004</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-02</strong></td>
+            <td>Negative: Uniqueness Validation for Duplicate Email/Username</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-005</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-009</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-05</strong></td>
+            <td>Negative: Password Mismatch Validation</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-006</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-007</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
         
         </tbody>
@@ -238,7 +202,7 @@
     </div>
   </div>
   <div class="footer">
-    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-11T08:35:45.862Z
+    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-14T17:06:17.776Z
   </div>
 </body>
 </html>

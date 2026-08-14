@@ -1,44 +1,135 @@
 {
   "storyName": "b2b-registration",
   "coveragePercentage": 100,
-  "totalReqs": 1,
-  "covered": 1,
+  "totalReqs": 6,
+  "covered": 6,
   "entries": [
     {
+      "reqId": "REQ-01",
       "requirement": "Positive: Successful B2B Registration Form Submission & Entity Creation",
       "testCases": [
         {
+          "tcId": "TC-REG-001",
           "type": "positive"
         },
         {
-          "type": "positive"
-        },
-        {
-          "type": "positive"
-        },
-        {
-          "type": "positive"
-        },
-        {
+          "tcId": "TC-REG-008",
           "type": "negative"
         },
         {
-          "type": "negative"
-        },
-        {
-          "type": "negative"
-        },
-        {
-          "type": "negative"
-        },
-        {
-          "type": "negative"
-        },
-        {
+          "tcId": "TC-REG-010",
           "type": "edge"
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\registration\\b2b-registration.spec.ts"
+      ],
+      "testTitles": [
+        "TC-REG-001: Positive: Successful B2B Registration Form Submission & Entity Creation @smoke @regression @REQ-01",
+        "TC-REG-008: Negative: Missing Required Agreement Checkboxes Validation @validation @regression @REQ-01",
+        "TC-REG-010: Edge: Special Characters in Company Name & Dynamic Sanitization @edge @regression @REQ-01"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-03",
+      "requirement": "Positive: Admin Reviews Wholesale Application Details",
+      "testCases": [
+        {
+          "tcId": "TC-REG-002",
+          "type": "positive"
+        }
+      ],
+      "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\registration\\b2b-registration.spec.ts"
+      ],
+      "testTitles": [
+        "TC-REG-003: Positive: Admin Reviews Wholesale Application Details @admin @regression @REQ-03"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-04",
+      "requirement": "Positive: Admin Approves and Activates B2B Account",
+      "testCases": [
+        {
+          "tcId": "TC-REG-003",
+          "type": "positive"
+        }
+      ],
+      "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\registration\\b2b-registration.spec.ts"
+      ],
+      "testTitles": [
+        "TC-REG-004: Positive: Admin Approves and Activates B2B Account @admin @regression @REQ-04"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-06",
+      "requirement": "Positive/UI: Dynamic Contact Channel Toggle & Field Clear",
+      "testCases": [
+        {
+          "tcId": "TC-REG-004",
+          "type": "positive"
+        }
+      ],
+      "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\registration\\b2b-registration.spec.ts"
+      ],
+      "testTitles": [
+        "TC-REG-007: Positive/UI: Dynamic Contact Channel Toggle & Field Clear Validation @ui @regression @REQ-06"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-02",
+      "requirement": "Negative: Uniqueness Validation for Duplicate Email/Username",
+      "testCases": [
+        {
+          "tcId": "TC-REG-005",
+          "type": "negative"
+        },
+        {
+          "tcId": "TC-REG-009",
+          "type": "negative"
+        }
+      ],
+      "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\registration\\b2b-registration.spec.ts"
+      ],
+      "testTitles": [
+        "TC-REG-002: Negative: Uniqueness Validation for Duplicate Email/Username @regression @REQ-02",
+        "TC-REG-009: Negative: Invalid Email Format Validation @validation @regression @REQ-02"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-05",
+      "requirement": "Negative: Password Mismatch Validation",
+      "testCases": [
+        {
+          "tcId": "TC-REG-006",
+          "type": "negative"
+        },
+        {
+          "tcId": "TC-REG-007",
+          "type": "negative"
+        }
+      ],
+      "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\registration\\b2b-registration.spec.ts"
+      ],
+      "testTitles": [
+        "TC-REG-005: Negative: Password Mismatch Validation @regression @REQ-05",
+        "TC-REG-006: Boundary: Invalid BD Mobile Format @boundary @regression @REQ-05"
+      ],
       "coverageStatus": "covered"
     }
   ]

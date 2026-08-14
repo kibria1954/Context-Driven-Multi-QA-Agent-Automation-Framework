@@ -34,12 +34,16 @@ Built on top of **Playwright (TypeScript)**, **Node.js**, and an **Autonomous 9-
 QA-AI-AGENT-KBD/
 ├── .agents/                      # AI Agent Pipeline Guidelines & Operating Rules
 │   ├── AGENTS.md                 # Workspace Operating Guidelines & Master Rules
-│   └── skills/                   # 9 Autonomous Stage Skills (01-context-ingestion to 09-learning-prevention)
-├── context/                      # Stage 1-4 Pipeline Requirements & Verification Logs
-│   ├── requirements/             # Source requirements (source.md, parsed.json, source.meta.json)
-│   ├── test-cases/               # Stage 2 Test Case Specifications (<story>.tc.md, .tc.json)
-│   ├── journeys/                 # Stage 3 End-to-End User Journeys (<story>.journey.md, .json)
-│   └── verification-logs/        # Stage 4 Live Explorer DOM Audit Logs (<story>.verify.json)
+│   └── skills/                   # 10 Autonomous Stage Skills (00-testdata-environment to 09-learning-prevention)
+├── agents/                       # Orchestrator (gate tracker) — enforces stage order, write-safety, staleness
+│   ├── types.ts                  # StageId, StageDefinition, gate-check types
+│   └── orchestrator.ts           # Orchestrator class — status/readiness per stage, not agent reasoning itself
+├── requirements/                 # Stage 1 Source requirements (<story>/source.md, parsed.json, source.meta.json)
+│   └── history/                  # Archived requirement versions (<story>-v{n}.md)
+├── testcases/                    # Stage 2 Test Case Specifications (<story>.tc.md, .tc.json)
+├── workflows/                    # Stage 3/4 Journeys & Live-Verification Logs (<story>.journey.*, .verify.*)
+├── testdata/                     # Stage 0 Provisioned synthetic test data (<feature>/seed.json)
+├── envs/                         # Environment manifests (staging.md, production.md) — write-safe flag
 ├── pages/                        # Page Object Models (POM)
 │   ├── base.page.ts              # Abstract Base Page (dismissAllModals, waitForAjaxComplete)
 │   ├── register.page.ts          # B2B & Customer Registration Page Object
@@ -75,11 +79,14 @@ QA-AI-AGENT-KBD/
 
 ---
 
-## 🔄 The 9-Stage Pipeline Specification
+## 🔄 The 10-Stage Pipeline Specification (Stage 0-9)
+
+Run `npx ts-node scripts/run-pipeline.ts --story=<story>` to see live READY/BLOCKED/COMPLETE status for every stage below (see `agents/orchestrator.ts`).
 
 | Stage | Stage Name | Inputs | Primary Outputs | Gate Condition |
 | :--- | :--- | :--- | :--- | :--- |
-| **Stage 1** | **Context Ingestion** | `context/requirements/<story>/source.md` | `parsed.json`, `source.meta.json` | SHA-256 verified; Zero unresolved `NEEDS_CLARIFICATION` blocks. |
+| **Stage 0** | **Test Data & Environment** | Feature scope | `testdata/<story>/seed.json` | Synthetic data provisioned; no PII; env write-safety confirmed. |
+| **Stage 1** | **Context Ingestion** | `requirements/<story>/source.md` | `parsed.json`, `source.meta.json` | SHA-256 verified; Zero unresolved `NEEDS_CLARIFICATION` blocks. |
 | **Stage 2** | **Test Case Design** | `parsed.json` | `<story>.tc.md`, `<story>.tc.json` | Loop A Self-Critique Gate Pass (Max 5 iterations). |
 | **Stage 3** | **Workflow Design** | `<story>.tc.json` | `<story>.journey.md`, `.json` | 100% Test cases mapped to sequential user journeys. |
 | **Stage 4** | **Live Site Verification** | `<story>.journey.json` | `<story>.verify.json` | **Feasibility Gate:** Live DOM inspected; dynamic widgets verified. |

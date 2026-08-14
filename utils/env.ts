@@ -5,6 +5,7 @@
  * Usage: import { ENV } from '../utils/env';
  */
 import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 import * as path from 'path';
 
 // Load the appropriate .env file
@@ -76,3 +77,19 @@ export const ENV = {
   ENV_NAME: optionalEnv('ENV', 'staging'),
   IS_CI: !!process.env.CI,
 } as const;
+
+/**
+ * Read the `Write-Safe:` flag out of envs/{env}.md — the hard-stop source of truth
+ * for whether Agent 3 (Live Exploration) or Agent 5 (Execution) may perform
+ * state-changing actions against this environment. Defaults to false (safe) if the
+ * manifest is missing or the flag can't be parsed — an unknown environment is never
+ * write-safe by default.
+ */
+export function isWriteSafe(envName: string): boolean {
+  const manifestPath = path.resolve(process.cwd(), 'envs', `${envName}.md`);
+  if (!fs.existsSync(manifestPath)) return false;
+
+  const content = fs.readFileSync(manifestPath, 'utf-8');
+  const match = content.match(/\*\*Write-Safe:\*\*\s*`(true|false)`/i);
+  return match ? match[1].toLowerCase() === 'true' : false;
+}

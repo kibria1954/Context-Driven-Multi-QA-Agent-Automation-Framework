@@ -93,7 +93,7 @@ export interface ReportData {
 const ROOT = path.resolve(__dirname, '..');
 const MEMORY_DIR = path.join(ROOT, 'memory');
 const REPORTS_DIR = path.join(ROOT, 'reports', 'generated');
-const CONTEXT_DIR = path.join(ROOT, 'context');
+const TRACE_DIR = path.join(MEMORY_DIR, 'traceability');
 
 // ─── Data Collection ─────────────────────────────────────────────────────────
 
@@ -201,24 +201,26 @@ export function buildReportData(
   const quarantined = testResults.filter((t) => t.status === 'quarantined').length;
   const totalDuration = testResults.reduce((sum, t) => sum + t.duration, 0);
 
-  // Read requirements and traceability data
-  const parsedFile = path.join(CONTEXT_DIR, 'requirements', storyName, 'parsed.json');
-  let totalRequirements = 6;
-  let coveredRequirements = 6;
+  // Read the traceability matrix already computed by scripts/validate-coverage.ts
+  // (memory/traceability/{story}.json) — single source of truth for coverage logic,
+  // rather than recomputing a second, weaker matrix here.
+  const traceabilityFile = path.join(TRACE_DIR, `${storyName}.json`);
+  let totalRequirements = 0;
+  let coveredRequirements = 0;
   let traceabilityMatrix: ReportData['traceabilityMatrix'] = [];
 
-  if (fs.existsSync(parsedFile)) {
+  if (fs.existsSync(traceabilityFile)) {
     try {
-      const parsedData = JSON.parse(fs.readFileSync(parsedFile, 'utf8'));
-      const reqs = parsedData.requirements || [];
-      totalRequirements = reqs.length;
-      coveredRequirements = reqs.filter((r: any) => r.status === 'clear' || r.status === 'covered').length;
-      traceabilityMatrix = reqs.map((r: any) => ({
-        reqId: r.id,
-        requirement: r.title || r.clause?.substring(0, 80) || '',
-        testCases: testResults.filter((t) => t.reqId === r.id).map((t) => t.tcId),
-        specFile: 'tests/e2e/registration/b2b-registration.spec.ts',
-        status: testResults.some((t) => t.reqId === r.id && t.status === 'passed') ? 'covered' : 'uncovered',
+      const traceData = JSON.parse(fs.readFileSync(traceabilityFile, 'utf8'));
+      const entries = traceData.entries || [];
+      totalRequirements = entries.length;
+      coveredRequirements = entries.filter((e: any) => e.coverageStatus === 'covered').length;
+      traceabilityMatrix = entries.map((e: any) => ({
+        reqId: e.reqId,
+        requirement: e.requirement || e.reqId,
+        testCases: (e.testCases || []).map((tc: any) => tc.tcId),
+        specFile: (e.specFiles && e.specFiles.join(', ')) || e.specFile || 'Not automated',
+        status: e.coverageStatus === 'covered' ? 'covered' : 'uncovered',
       }));
     } catch {
       // Use defaults if parse fails
@@ -247,7 +249,7 @@ export function buildReportData(
     coverage: {
       totalRequirements,
       coveredRequirements,
-      coveragePercentage: totalRequirements > 0 ? Math.round((coveredRequirements / totalRequirements) * 100) : 100,
+      coveragePercentage: totalRequirements > 0 ? Math.round((coveredRequirements / totalRequirements) * 100) : 0,
       uncoveredRequirements: [],
       totalTestCases: testResults.length,
       positiveCount: testResults.filter((t) => t.type === 'positive').length,

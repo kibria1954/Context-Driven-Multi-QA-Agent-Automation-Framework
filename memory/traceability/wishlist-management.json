@@ -1,0 +1,91 @@
+{
+  "storyName": "wishlist-management",
+  "coveragePercentage": 100,
+  "totalReqs": 3,
+  "covered": 3,
+  "entries": [
+    {
+      "reqId": "REQ-03",
+      "requirement": "Positive: Add Product to Wishlist from PDP & Verify Notification",
+      "testCases": [
+        {
+          "tcId": "TC-WISH-001",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-WISH-002",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-WISH-006",
+          "type": "negative"
+        },
+        {
+          "tcId": "TC-WISH-007",
+          "type": "negative"
+        }
+      ],
+      "specFile": "tests\\e2e\\catalog\\wishlist-management.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\catalog\\wishlist-management.spec.ts"
+      ],
+      "testTitles": [
+        "TC-WISH-001: Positive: Add Product to Wishlist from PDP & Verify Notification @smoke @regression @REQ-03",
+        "TC-WISH-002: Positive: Add Product to Wishlist from Catalog Product Grid Card @regression @REQ-03",
+        "TC-WISH-006: Negative: Unauthenticated Guest Wishlist Click Redirect @security @regression @REQ-03",
+        "TC-WISH-007: Negative: Rapid Double-Click Wishlist Addition Handling @edge @regression @REQ-03"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-01",
+      "requirement": "Positive: View Wishlist via Header Navbar Icon",
+      "testCases": [
+        {
+          "tcId": "TC-WISH-003",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-WISH-004",
+          "type": "positive"
+        },
+        {
+          "tcId": "TC-WISH-005",
+          "type": "positive"
+        }
+      ],
+      "specFile": "tests\\e2e\\catalog\\wishlist-management.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\catalog\\wishlist-management.spec.ts"
+      ],
+      "testTitles": [
+        "TC-WISH-003: Positive: View Wishlist via Header Navbar Icon @regression @REQ-01",
+        "TC-WISH-004: Positive: View Wishlist via My Account Dashboard Sidebar Link @regression @REQ-01",
+        "TC-WISH-005: Positive: Remove Item from Wishlist Table @regression @REQ-01"
+      ],
+      "coverageStatus": "covered"
+    },
+    {
+      "reqId": "REQ-02",
+      "requirement": "Edge: Empty Wishlist State Verification",
+      "testCases": [
+        {
+          "tcId": "TC-WISH-008",
+          "type": "edge"
+        },
+        {
+          "tcId": "TC-WISH-009",
+          "type": "edge"
+        }
+      ],
+      "specFile": "tests\\e2e\\catalog\\wishlist-management.spec.ts",
+      "specFiles": [
+        "tests\\e2e\\catalog\\wishlist-management.spec.ts"
+      ],
+      "testTitles": [
+        "TC-WISH-008: Edge: Empty Wishlist State Verification @ui @regression @REQ-02"
+      ],
+      "coverageStatus": "covered"
+    }
+  ]
+}
