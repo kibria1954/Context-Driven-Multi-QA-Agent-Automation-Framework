@@ -6,7 +6,7 @@ description: Explore live application DOM to verify interactive selectors, input
 # Stage 4 — Live Explorer Skill
 
 ## Overview
-Stage 4 inspects the live application (`https://kbd.nop-station.site`) using browser subagent tools to verify DOM element IDs, form control types, Select2 dropdown behaviors, and popup overlay modals before generating automated code.
+Stage 4 inspects the target live application DOM using browser subagent tools to verify element IDs, form control types, dynamic dropdown behaviors (e.g. Select2, custom components), and popup overlay modals before generating automated test code.
 
 ---
 
@@ -14,22 +14,22 @@ Stage 4 inspects the live application (`https://kbd.nop-station.site`) using bro
 
 ### 1. Element & Selector Audit
 - Verify input element attributes (`id`, `name`, `type`, `class`).
-- Inspect Select2 custom dropdowns (e.g. customer role filter tags, business type options).
-- Identify submit buttons (`button[name="save"]`, `button[name="save-continue"]`).
+- Inspect dynamic custom dropdowns (e.g. custom role filters, tags, select options).
+- Identify submit and action buttons (`button[type="submit"]`, `button[name="save"]`, etc.).
 
 ### 2. Modal & Overlay Handling
-- Check for global popups (e.g. `Ready to grow your K-Beauty business?` modal).
-- Document dismissal rules (`#kd-modal .close`, backdrop clicks).
+- Check for global popups and modal overlays.
+- Document dismissal rules (`.modal .close`, backdrop clicks, escape key).
 
 ### 3. Verification Log Output (`.verify.json`)
 Record verified DOM properties:
 ```json
 {
-  "page": "Admin Customer Edit",
-  "urlPattern": "/Admin/Customer/Edit/*",
+  "page": "<Page Name>",
+  "urlPattern": "/<path-pattern>/*",
   "selectors": {
-    "activeCheckbox": "input#Active",
-    "saveContinueBtn": "button[name=\"save-continue\"]"
+    "targetField": "input#field-id",
+    "submitBtn": "button[name=\"submit\"]"
   },
   "verified": true
 }

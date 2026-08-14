@@ -18,10 +18,10 @@ Stage 1 ingests raw user story requirements from `context/requirements/<story>/s
 - Store snapshot metadata in `context/requirements/<story>/source.meta.json`:
   ```json
   {
-    "storyName": "b2b-registration",
-    "sha256": "dfa97fdf1df4ced9...",
-    "ingestedAt": "2026-08-10T12:00:00Z",
-    "clauseCount": 55
+    "storyName": "<story-name>",
+    "sha256": "<computed-sha256-hash>",
+    "ingestedAt": "<iso-timestamp>",
+    "clauseCount": 0
   }
   ```
 

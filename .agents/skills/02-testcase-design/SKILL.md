@@ -34,7 +34,7 @@ $$\text{Pass Gate} = \text{Req Coverage} \land \text{Risk Coverage} \land \text{
 Each test case must follow this exact Markdown structure:
 
 ```markdown
-## TC-001 — Happy Path: Successful B2B Registration Submission — REQ-01
+## TC-001 — Happy Path: <Scenario Summary> — REQ-01
 
 - **Requirement:** REQ-01
 - **Type:** positive
@@ -44,16 +44,14 @@ Each test case must follow this exact Markdown structure:
 - **Status:** draft
 
 **Preconditions:**
-- User is on the public storefront registration page (`/register`)
+- <Prerequisite state, e.g. User is on target page `/path`>
 
 **Steps:**
-1. Enter dynamic company details (Company Name, Type of Business, Email, Phone Number)
-2. Select preferred contact media channel (WhatsApp) and enter conditional field values
-3. Setup account credentials (Username, Password, Confirm Password)
-4. Accept agreements (Terms of Service, Privacy Policy, Age confirmation)
-5. Click "Create Account"
+1. Navigate to target URL or component
+2. Fill required input fields with valid data
+3. Execute primary action (e.g. Click submit / save / proceed button)
 
-**Expected Result:** Form submits successfully, entity is created, and user is navigated to confirmation page.
+**Expected Result:** Action completes successfully, target state transitions occur, and appropriate confirmation message or view is displayed.
 ```
 
 ---

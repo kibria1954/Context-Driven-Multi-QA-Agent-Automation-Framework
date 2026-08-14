@@ -16,13 +16,13 @@ Stage 5 translates verified user journeys into clean, maintainable Playwright Ty
 - Every page class must inherit from `BasePage` (`pages/base.page.ts`).
 - **Centralized Selectors**: All element locators MUST reside in `utils/selectors.ts`. Never hardcode inline CSS/XPath selectors in spec files.
 - **Pre-Emptive Pattern Injection**: Query `memory/healed-patterns.json` (Stage 9) for `TRUSTED` interaction patterns (e.g. Select2 dropdowns, dynamic popups) before generating code to prevent repeat failures.
-- Include step actions and explicit assertion methods on page object classes (e.g. `assertRegistrationSuccess()`, `assertAccountIsActive()`).
+- Include step actions and explicit assertion methods on page object classes (e.g. `assertActionSuccess()`, `assertEntityStatus()`).
 
 ### 2. Spec File Standards
 - Spec files reside in `tests/e2e/<feature>/<story>.spec.ts`.
 - Use custom fixtures (`import { test, expect } from '../../fixtures/custom-fixtures'`).
-- Generate dynamic test data using faker utilities (`generateDynamicB2BRegistrationData()`).
-- Tag tests with requirement IDs and execution categories (`@smoke`, `@regression`, `@admin`, `@REQ-01`).
+- Generate dynamic test data using faker utilities (`generateDynamicTestData()`).
+- Tag tests with requirement IDs and execution categories (`@smoke`, `@regression`, `@REQ-01`).
 
 ---
 

@@ -1,0 +1,25 @@
+# Environment variables (Credentials)
+.env
+.env.staging
+.env.prod
+.env.local
+.env.*.local
+.env.*
+
+# Dependencies
+node_modules/
+
+# Test Results & Reports
+test-results/
+playwright-report/
+allure-results/
+allure-report/
+reports/generated/
+screenshots/
+
+# IDE / System
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db

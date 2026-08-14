@@ -6,7 +6,7 @@ description: Map individual test cases into end-to-end user journeys and state t
 # Stage 3 — Workflow Design Skill
 
 ## Overview
-Stage 3 maps atomic test cases from Stage 2 into cohesive end-to-end user journeys, establishing state transitions and workflow sequencing (e.g. Guest Registration ➔ Admin Application Review ➔ Admin Account Activation).
+Stage 3 maps atomic test cases from Stage 2 into cohesive end-to-end user journeys, establishing state transitions and workflow sequencing across primary system roles.
 
 ---
 
@@ -14,24 +14,24 @@ Stage 3 maps atomic test cases from Stage 2 into cohesive end-to-end user journe
 
 ### 1. State Transitions Mapping
 Map the lifecycle of entities across user roles:
-- `STATE 0`: Guest / Unauthenticated Visitor
-- `STATE 1`: Form Submitted / Pending Wholesale Application
-- `STATE 2`: Admin Review (`/Admin/Customer/List`)
-- `STATE 3`: Account Approved & Activated (`Active = true`)
-- `STATE 4`: Active Wholesale Buyer Logged In
+- `STATE 0`: Initial / Unauthenticated / Empty State
+- `STATE 1`: Action Submitted / Entity Created (Pending Status)
+- `STATE 2`: Admin / Secondary Role Processing or Verification
+- `STATE 3`: Entity Approved / Status Updated (`Active = true` / `Completed`)
+- `STATE 4`: Post-Transition Operational State
 
 ### 2. User Journey Structuring
 Group individual `TC-XXX` items into ordered journeys:
-- `J-01: B2B Wholesale Customer Registration & Admin Approval Pipeline`
-  - Step 1: Guest submits registration (`TC-REG-001`)
-  - Step 2: Uniqueness validation (`TC-REG-002`)
-  - Step 3: Admin reviews application details in Admin Panel (`TC-REG-003`)
-  - Step 4: Admin approves and activates account (`TC-REG-004`)
+- `J-01: <Feature Name> End-to-End Workflow & Verification Pipeline`
+  - Step 1: Initiator performs trigger action (`TC-XXX-001`)
+  - Step 2: System validates input constraints & business rules (`TC-XXX-002`)
+  - Step 3: Admin / Processing role verifies state transition (`TC-XXX-003`)
+  - Step 4: System completes transaction / confirms state change (`TC-XXX-004`)
 
 ### 3. Async State Transition Handlers
 Define explicit async waiting strategies for asynchronous state transitions:
-- **Admin Approval / Webhook Latency**: Poll entity status endpoint or poll list table with exponential backoff (`maxWaitMs: 30000`).
-- **Email Verification Tokens**: Intercept token via mock API / MailHog endpoint before navigating to activation URLs.
+- **Async Approval / Webhook / Processing Latency**: Poll entity status endpoint or UI table with exponential backoff (`maxWaitMs: 30000`).
+- **Token / Email Notifications**: Intercept dynamic token or payload before navigating to confirmation URLs.
 
 ---
 
