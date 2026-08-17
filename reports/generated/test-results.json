@@ -4,7 +4,7 @@
       "C:\\Program Files\\nodejs\\node.exe",
       "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\node_modules\\@playwright\\test\\cli.js",
       "test",
-      "tests/e2e/checkout/wholesale-checkout.spec.ts",
+      "tests/e2e/registration/b2b-registration.spec.ts",
       "--headed",
       "--workers=1"
     ],
@@ -138,193 +138,187 @@
   },
   "suites": [
     {
-      "title": "checkout\\wholesale-checkout.spec.ts",
-      "file": "checkout/wholesale-checkout.spec.ts",
+      "title": "registration\\b2b-registration.spec.ts",
+      "file": "registration/b2b-registration.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Wholesale Checkout Suite",
-          "file": "checkout/wholesale-checkout.spec.ts",
-          "line": 23,
+          "title": "B2B Registration — Core Lifecycle @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 69,
           "column": 6,
           "specs": [
             {
-              "title": "TC-CHK-001-004-008: Nested E2E Flow: Cart Addition -> Subtotal Threshold -> Direct Checkout -> Credit Limit Bypass -> Address Locking & Order History Validation @smoke @regression @REQ-01 @REQ-02 @REQ-03",
-              "ok": true,
+              "title": "TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01",
+              "ok": false,
               "tags": [
-                "smoke",
                 "regression",
-                "REQ-01",
-                "REQ-02",
-                "REQ-03"
+                "REQ-01"
               ],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "storefront-chromium",
-                  "projectName": "storefront-chromium",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
                   "results": [
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 83303,
+                      "duration": 26778,
                       "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n\n    at CheckoutPage.assertMinOrderMetAndCheckoutEnabled (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts:418:31)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:42:7\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:39:5",
+                        "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:75:7\n    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:73:5",
                         "location": {
-                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
-                          "column": 31,
-                          "line": 418
+                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                          "column": 35,
+                          "line": 73
                         },
-                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\checkout.page.ts:418\n\n\u001b[0m \u001b[90m 416 |\u001b[39m\n \u001b[90m 417 |\u001b[39m     \u001b[36mconst\u001b[39m checkoutBtn \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mproceedToCheckoutButton\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 418 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 419 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 420 |\u001b[39m   }\n \u001b[90m 421 |\u001b[39m\u001b[0m"
+                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
-                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
-                            "column": 31,
-                            "line": 418
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                            "column": 35,
+                            "line": 73
                           },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\checkout.page.ts:418\n\n\u001b[0m \u001b[90m 416 |\u001b[39m\n \u001b[90m 417 |\u001b[39m     \u001b[36mconst\u001b[39m checkoutBtn \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mproceedToCheckoutButton\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 418 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 419 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 420 |\u001b[39m   }\n \u001b[90m 421 |\u001b[39m\u001b[0m\n\u001b[2m    at CheckoutPage.assertMinOrderMetAndCheckoutEnabled (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts:418:31)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:42:7\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:39:5\u001b[22m"
+                          "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m\n\u001b[2m    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:75:7\u001b[22m\n\u001b[2m    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:73:5\u001b[22m"
                         }
                       ],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "steps": [
-                        {
-                          "title": "TC-CHK-004: Clear cart one by one, add eligible product (qty 10-15), and verify cart subtotal >= ৳10,000",
-                          "duration": 68906,
-                          "error": {
-                            "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n",
-                            "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('button#checkout, button.checkout-button').first()\nExpected: visible\nTimeout: 10000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('button#checkout, button.checkout-button').first()\u001b[22m\n\n    at CheckoutPage.assertMinOrderMetAndCheckoutEnabled (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts:418:31)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:42:7\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\checkout\\wholesale-checkout.spec.ts:39:5",
-                            "location": {
-                              "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
-                              "column": 31,
-                              "line": 418
-                            },
-                            "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\checkout.page.ts:418\n\n\u001b[0m \u001b[90m 416 |\u001b[39m\n \u001b[90m 417 |\u001b[39m     \u001b[36mconst\u001b[39m checkoutBtn \u001b[33m=\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mproceedToCheckoutButton\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 418 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                               \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 419 |\u001b[39m     \u001b[36mawait\u001b[39m expect(checkoutBtn)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 420 |\u001b[39m   }\n \u001b[90m 421 |\u001b[39m\u001b[0m"
-                          }
-                        }
-                      ],
-                      "startTime": "2026-08-12T13:54:34.156Z",
+                      "startTime": "2026-08-17T10:14:51.578Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium\\test-failed-1.png"
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest\\test-failed-1.png"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest\\test-failed-2.png"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium\\error-context.md"
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest\\error-context.md"
                         }
                       ],
                       "errorLocation": {
-                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\checkout.page.ts",
-                        "column": 31,
-                        "line": 418
+                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                        "column": 35,
+                        "line": 73
                       }
                     },
                     {
                       "workerIndex": 1,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 98097,
-                      "errors": [],
+                      "status": "timedOut",
+                      "duration": 31271,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                            "column": 35,
+                            "line": 73
+                          },
+                          "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m\n\u001b[2m    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:75:7\u001b[22m\n\u001b[2m    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:73:5\u001b[22m"
+                        }
+                      ],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 1,
-                      "steps": [
-                        {
-                          "title": "TC-CHK-004: Clear cart one by one, add eligible product (qty 10-15), and verify cart subtotal >= ৳10,000",
-                          "duration": 58771
-                        },
-                        {
-                          "title": "TC-CHK-001: Proceed to Checkout and verify payment method & shipping address entry are bypassed",
-                          "duration": 11745
-                        },
-                        {
-                          "title": "TC-CHK-003: Confirm order placement despite exceeded credit limit and extract generated Order Number",
-                          "duration": 8392
-                        },
-                        {
-                          "title": "TC-CHK-002: Verify default registration address was used as shipping address",
-                          "duration": 15
-                        },
-                        {
-                          "title": "TC-CHK-008: Navigate to Order History (https://kbd.nop-station.site/order/history) and validate generated Order ID",
-                          "duration": 3606
-                        }
-                      ],
-                      "startTime": "2026-08-12T13:55:58.502Z",
+                      "startTime": "2026-08-17T10:15:19.727Z",
                       "annotations": [],
                       "attachments": [
                         {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest-retry1\\test-failed-2.png"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest-retry1\\test-failed-1.png"
+                        },
+                        {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium-retry1\\video.webm"
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest-retry1\\error-context.md"
                         },
                         {
                           "name": "trace",
                           "contentType": "application/zip",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\checkout-wholesale-checkou-a5ffb-ession-REQ-01-REQ-02-REQ-03-storefront-chromium-retry1\\trace.zip"
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-e20a5-d-to-ERP-application-REQ-01-storefront-guest-retry1\\trace.zip"
                         }
                       ]
                     }
                   ],
-                  "status": "flaky"
+                  "status": "unexpected"
                 }
               ],
-              "id": "87779583204e2ba30b9b-6fd57afb2a969f0ade08",
-              "file": "checkout/wholesale-checkout.spec.ts",
-              "line": 36,
+              "id": "c0ab22ae3dd430f3dd2e-1f20fe09c616df2d6d48",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 70,
               "column": 7
             },
             {
-              "title": "TC-CHK-005: Negative: Subtotal Below ৳10,000 Threshold Blocks Checkout (No Order Placed) @validation @regression @REQ-01",
+              "title": "TC-002: Valid submission with alternate Type of Business and Contact Media combination @REQ-01",
               "ok": true,
               "tags": [
-                "validation",
                 "regression",
                 "REQ-01"
               ],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "storefront-chromium",
-                  "projectName": "storefront-chromium",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 2,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 38426,
+                      "duration": 15068,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-12T13:57:38.345Z",
+                      "startTime": "2026-08-17T10:15:52.452Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -332,41 +326,434 @@
                   "status": "expected"
                 }
               ],
-              "id": "87779583204e2ba30b9b-f68b8f9eea24b1087e5a",
-              "file": "checkout/wholesale-checkout.spec.ts",
-              "line": 67,
+              "id": "c0ab22ae3dd430f3dd2e-e55e3ee07a1733941ffb",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 85,
               "column": 7
             },
             {
-              "title": "TC-CHK-006: Security: Address Locking Verification During Checkout @security @regression @REQ-02",
+              "title": "TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01",
+              "ok": false,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 30179,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                            "column": 35,
+                            "line": 73
+                          },
+                          "message": "Error: locator.waitFor: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m\n\u001b[2m    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\u001b[22m\n\u001b[2m    at AdminCustomerDetailsPage.getMatchingRowCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:107:5)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:106:24\u001b[22m\n\u001b[2m    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:104:5\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-17T10:16:07.871Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest\\test-failed-2.png"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest\\test-failed-1.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest\\error-context.md"
+                        }
+                      ]
+                    },
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 31372,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                            "column": 35,
+                            "line": 73
+                          },
+                          "message": "Error: locator.waitFor: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m\n\u001b[2m    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\u001b[22m\n\u001b[2m    at AdminCustomerDetailsPage.getMatchingRowCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:107:5)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:106:24\u001b[22m\n\u001b[2m    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:104:5\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-17T10:16:38.845Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest-retry1\\test-failed-2.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest-retry1\\video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-46587--—-no-entity-created-REQ-01-storefront-guest-retry1\\trace.zip"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-2395b04f088fff6d9e63",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 95,
+              "column": 7
+            },
+            {
+              "title": "TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01",
+              "ok": false,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 24213,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\n    at AdminCustomerDetailsPage.getMatchingRowCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:107:5)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:127:24\n    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:125:5",
+                        "location": {
+                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                          "column": 35,
+                          "line": 73
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                            "column": 35,
+                            "line": 73
+                          },
+                          "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m\n\u001b[2m    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\u001b[22m\n\u001b[2m    at AdminCustomerDetailsPage.getMatchingRowCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:107:5)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:127:24\u001b[22m\n\u001b[2m    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:125:5\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-08-17T10:17:12.026Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest\\test-failed-1.png"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest\\test-failed-2.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest\\error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                        "column": 35,
+                        "line": 73
+                      }
+                    },
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 25629,
+                      "error": {
+                        "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n",
+                        "stack": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\n    at AdminCustomerDetailsPage.getMatchingRowCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:107:5)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:127:24\n    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:125:5",
+                        "location": {
+                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                          "column": 35,
+                          "line": 73
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                            "column": 35,
+                            "line": 73
+                          },
+                          "message": "TimeoutError: locator.waitFor: Timeout 5000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#SearchEmail, input[name=\"SearchEmail\"]') to be visible\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\admin\\admin-customer-details.page.ts:73\n\n\u001b[0m \u001b[90m 71 |\u001b[39m\n \u001b[90m 72 |\u001b[39m     \u001b[36mif\u001b[39m (email) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 73 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mwaitFor({ state\u001b[33m:\u001b[39m \u001b[32m'visible'\u001b[39m\u001b[33m,\u001b[39m timeout\u001b[33m:\u001b[39m \u001b[35m5000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 74 |\u001b[39m       \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39msearchEmailInput\u001b[33m.\u001b[39mfill(email)\u001b[33m;\u001b[39m\n \u001b[90m 75 |\u001b[39m     }\n \u001b[90m 76 |\u001b[39m\u001b[0m\n\u001b[2m    at AdminCustomerDetailsPage.searchOnly (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:73:35)\u001b[22m\n\u001b[2m    at AdminCustomerDetailsPage.getMatchingRowCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts:107:5)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:127:24\u001b[22m\n\u001b[2m    at withAdminPage (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:53:12)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:125:5\u001b[22m"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 1,
+                      "startTime": "2026-08-17T10:17:37.439Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest-retry1\\test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest-retry1\\video.webm"
+                        },
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest-retry1\\test-failed-2.png"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest-retry1\\error-context.md"
+                        },
+                        {
+                          "name": "trace",
+                          "contentType": "application/zip",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-fccc2-e-duplicate-entities-REQ-01-storefront-guest-retry1\\trace.zip"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\admin\\admin-customer-details.page.ts",
+                        "column": 35,
+                        "line": 73
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-0cfc8d1aeb25fe6da127",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 111,
+              "column": 7
+            },
+            {
+              "title": "TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01",
               "ok": true,
               "tags": [
-                "security",
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-e6fbc75d0767ade23c04",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 70,
+              "column": 7
+            },
+            {
+              "title": "TC-002: Valid submission with alternate Type of Business and Contact Media combination @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-14970593187d2ed6b7d8",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 85,
+              "column": 7
+            },
+            {
+              "title": "TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-9a3e0a7e2101cb242440",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 95,
+              "column": 7
+            },
+            {
+              "title": "TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-37e4b8cc4cd86d68c0a5",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 111,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Company Info Fields @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 133,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-005: All Company Info fields accepted across different Type of Business options @REQ-02",
+              "ok": true,
+              "tags": [
                 "regression",
                 "REQ-02"
               ],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "storefront-chromium",
-                  "projectName": "storefront-chromium",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 78882,
+                      "duration": 20431,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-12T13:58:16.796Z",
+                      "steps": [
+                        {
+                          "title": "typeOfBusiness = Wholesaler (Online page)",
+                          "duration": 7561
+                        },
+                        {
+                          "title": "typeOfBusiness = Clinic / Pharmacy",
+                          "duration": 6251
+                        },
+                        {
+                          "title": "typeOfBusiness = Reseller",
+                          "duration": 6287
+                        }
+                      ],
+                      "startTime": "2026-08-17T10:18:04.894Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -374,41 +761,40 @@
                   "status": "expected"
                 }
               ],
-              "id": "87779583204e2ba30b9b-66e3558e07198f0f8382",
-              "file": "checkout/wholesale-checkout.spec.ts",
-              "line": 74,
+              "id": "c0ab22ae3dd430f3dd2e-5140bda6f82e683b51cc",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 134,
               "column": 7
             },
             {
-              "title": "TC-CHK-007: Security: Unauthenticated Guest Checkout Click Redirect @security @regression @REQ-01",
+              "title": "TC-006: Empty Company Name blocks submission with validation error @REQ-02",
               "ok": true,
               "tags": [
-                "security",
                 "regression",
-                "REQ-01"
+                "REQ-02"
               ],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "storefront-chromium",
-                  "projectName": "storefront-chromium",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 17905,
+                      "duration": 22748,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-12T13:59:35.700Z",
+                      "startTime": "2026-08-17T10:18:25.659Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -416,41 +802,40 @@
                   "status": "expected"
                 }
               ],
-              "id": "87779583204e2ba30b9b-0a29ebd833a8b5022725",
-              "file": "checkout/wholesale-checkout.spec.ts",
-              "line": 82,
+              "id": "c0ab22ae3dd430f3dd2e-0477f9757c13dabe12d3",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 152,
               "column": 7
             },
             {
-              "title": "TC-CHK-009: Edge: Rapid Double-Click Checkout Handling (Without Order Placement) @edge @regression @REQ-01",
+              "title": "TC-007: Invalid email format blocks submission with validation error @REQ-02",
               "ok": true,
               "tags": [
-                "edge",
                 "regression",
-                "REQ-01"
+                "REQ-02"
               ],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "storefront-chromium",
-                  "projectName": "storefront-chromium",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 96220,
+                      "duration": 7870,
                       "errors": [],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-12T13:59:53.628Z",
+                      "startTime": "2026-08-17T10:18:48.431Z",
                       "annotations": [],
                       "attachments": []
                     }
@@ -458,51 +843,1260 @@
                   "status": "expected"
                 }
               ],
-              "id": "87779583204e2ba30b9b-f8cac82642a672cc2131",
-              "file": "checkout/wholesale-checkout.spec.ts",
-              "line": 95,
+              "id": "c0ab22ae3dd430f3dd2e-1e4f3c1451ed9a08ab90",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 162,
               "column": 7
             },
             {
-              "title": "TC-CHK-010: UI: Terms of Service Agreement Unchecked Warning @ui @regression @REQ-01",
+              "title": "TC-008: BD phone number — 11-digit accepted, 10-digit and 12-digit rejected @REQ-02",
               "ok": true,
               "tags": [
-                "ui",
                 "regression",
-                "REQ-01"
+                "REQ-02"
               ],
               "tests": [
                 {
-                  "timeout": 120000,
+                  "timeout": 30000,
                   "annotations": [],
                   "expectedStatus": "passed",
-                  "projectId": "storefront-chromium",
-                  "projectName": "storefront-chromium",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
                   "results": [
                     {
-                      "workerIndex": 1,
+                      "workerIndex": 6,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 75954,
-                      "errors": [],
+                      "status": "interrupted",
+                      "duration": 8966,
+                      "error": {
+                        "message": "Error: locator.fill: Target page, context or browser has been closed",
+                        "stack": "Error: locator.fill: Target page, context or browser has been closed\n    at RegisterPage.fillStep1 (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts:206:69)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:183:9\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:179:7",
+                        "location": {
+                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts",
+                          "column": 69,
+                          "line": 206
+                        },
+                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\register.page.ts:206\n\n\u001b[0m \u001b[90m 204 |\u001b[39m\n \u001b[90m 205 |\u001b[39m     \u001b[90m// Company Info\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 206 |\u001b[39m     \u001b[36mif\u001b[39m (data\u001b[33m.\u001b[39mcompanyName \u001b[33m!==\u001b[39m undefined) \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mcompanyNameInput\u001b[33m.\u001b[39mfill(data\u001b[33m.\u001b[39mcompanyName)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 207 |\u001b[39m     \u001b[36mif\u001b[39m (data\u001b[33m.\u001b[39mtypeOfBusiness) {\n \u001b[90m 208 |\u001b[39m       \u001b[36mconst\u001b[39m tobMap\u001b[33m:\u001b[39m \u001b[33mRecord\u001b[39m\u001b[33m<\u001b[39m\u001b[33mstring\u001b[39m\u001b[33m,\u001b[39m string\u001b[33m>\u001b[39m \u001b[33m=\u001b[39m {\n \u001b[90m 209 |\u001b[39m         \u001b[32m'Retailer (Online page only)'\u001b[39m\u001b[33m:\u001b[39m \u001b[32m'10'\u001b[39m\u001b[33m,\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts",
+                            "column": 69,
+                            "line": 206
+                          },
+                          "message": "Error: locator.fill: Target page, context or browser has been closed\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\register.page.ts:206\n\n\u001b[0m \u001b[90m 204 |\u001b[39m\n \u001b[90m 205 |\u001b[39m     \u001b[90m// Company Info\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 206 |\u001b[39m     \u001b[36mif\u001b[39m (data\u001b[33m.\u001b[39mcompanyName \u001b[33m!==\u001b[39m undefined) \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mcompanyNameInput\u001b[33m.\u001b[39mfill(data\u001b[33m.\u001b[39mcompanyName)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 207 |\u001b[39m     \u001b[36mif\u001b[39m (data\u001b[33m.\u001b[39mtypeOfBusiness) {\n \u001b[90m 208 |\u001b[39m       \u001b[36mconst\u001b[39m tobMap\u001b[33m:\u001b[39m \u001b[33mRecord\u001b[39m\u001b[33m<\u001b[39m\u001b[33mstring\u001b[39m\u001b[33m,\u001b[39m string\u001b[33m>\u001b[39m \u001b[33m=\u001b[39m {\n \u001b[90m 209 |\u001b[39m         \u001b[32m'Retailer (Online page only)'\u001b[39m\u001b[33m:\u001b[39m \u001b[32m'10'\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n\u001b[2m    at RegisterPage.fillStep1 (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts:206:69)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:183:9\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:179:7\u001b[22m"
+                        }
+                      ],
                       "stdout": [
                         {
-                          "text": "\n🧹 Dismissed 2 popup modal(s).\n"
+                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
                         }
                       ],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-08-12T14:01:29.871Z",
+                      "steps": [
+                        {
+                          "title": "11-digit (valid)",
+                          "duration": 7299
+                        },
+                        {
+                          "title": "10-digit (too short)",
+                          "duration": 1594,
+                          "error": {
+                            "message": "Error: locator.fill: Target page, context or browser has been closed",
+                            "stack": "Error: locator.fill: Target page, context or browser has been closed\n    at RegisterPage.fillStep1 (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts:206:69)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:183:9\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\registration\\b2b-registration.spec.ts:179:7",
+                            "location": {
+                              "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts",
+                              "column": 69,
+                              "line": 206
+                            },
+                            "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\register.page.ts:206\n\n\u001b[0m \u001b[90m 204 |\u001b[39m\n \u001b[90m 205 |\u001b[39m     \u001b[90m// Company Info\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 206 |\u001b[39m     \u001b[36mif\u001b[39m (data\u001b[33m.\u001b[39mcompanyName \u001b[33m!==\u001b[39m undefined) \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mcompanyNameInput\u001b[33m.\u001b[39mfill(data\u001b[33m.\u001b[39mcompanyName)\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                                     \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 207 |\u001b[39m     \u001b[36mif\u001b[39m (data\u001b[33m.\u001b[39mtypeOfBusiness) {\n \u001b[90m 208 |\u001b[39m       \u001b[36mconst\u001b[39m tobMap\u001b[33m:\u001b[39m \u001b[33mRecord\u001b[39m\u001b[33m<\u001b[39m\u001b[33mstring\u001b[39m\u001b[33m,\u001b[39m string\u001b[33m>\u001b[39m \u001b[33m=\u001b[39m {\n \u001b[90m 209 |\u001b[39m         \u001b[32m'Retailer (Online page only)'\u001b[39m\u001b[33m:\u001b[39m \u001b[32m'10'\u001b[39m\u001b[33m,\u001b[39m\u001b[0m"
+                          }
+                        }
+                      ],
+                      "startTime": "2026-08-17T10:18:56.324Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\registration-b2b-registrat-64b7a-nd-12-digit-rejected-REQ-02-storefront-guest\\test-failed-1.png"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\register.page.ts",
+                        "column": 69,
+                        "line": 206
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "skipped"
                 }
               ],
-              "id": "87779583204e2ba30b9b-9983e506724f7cd7bfa7",
-              "file": "checkout/wholesale-checkout.spec.ts",
-              "line": 122,
+              "id": "c0ab22ae3dd430f3dd2e-f7f81fa8b59d74772584",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 172,
+              "column": 7
+            },
+            {
+              "title": "TC-009: Special characters and Unicode in Company Name handled without breaking the form @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-7b3beca3614e8585374c",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 190,
+              "column": 7
+            },
+            {
+              "title": "TC-010: Zip Code empty vs whitespace-only input — consistent handling @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-73e4616716b966653e86",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 200,
+              "column": 7
+            },
+            {
+              "title": "TC-005: All Company Info fields accepted across different Type of Business options @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1133705815bfc167087a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 134,
+              "column": 7
+            },
+            {
+              "title": "TC-006: Empty Company Name blocks submission with validation error @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-8bc7a6926c89aced4939",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 152,
+              "column": 7
+            },
+            {
+              "title": "TC-007: Invalid email format blocks submission with validation error @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-335b58f706fdd861cfe4",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 162,
+              "column": 7
+            },
+            {
+              "title": "TC-008: BD phone number — 11-digit accepted, 10-digit and 12-digit rejected @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-fd4b1a37f654af584740",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 172,
+              "column": 7
+            },
+            {
+              "title": "TC-009: Special characters and Unicode in Company Name handled without breaking the form @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-0437af08c512148d58e7",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 190,
+              "column": 7
+            },
+            {
+              "title": "TC-010: Zip Code empty vs whitespace-only input — consistent handling @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-8fc48beac17886165b0b",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 200,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Contact Media Conditional Fields @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 217,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-011: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-140f230682d2f2f83850",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "TC-012: Selecting Messenger reveals required Messenger fields, WhatsApp field hidden @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-63c80e964405a360c719",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 228,
+              "column": 7
+            },
+            {
+              "title": "TC-013: Toggling Contact Media from WhatsApp to Messenger clears/hides the WhatsApp Number field @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-af66f73ff376a7d84281",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 242,
+              "column": 7
+            },
+            {
+              "title": "TC-014: WhatsApp selected but WhatsApp Number left blank blocks submission @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-8f0d1aacbb370e31bb3a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 257,
+              "column": 7
+            },
+            {
+              "title": "TC-011: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-ad4211ca09e60c0448aa",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 218,
+              "column": 7
+            },
+            {
+              "title": "TC-012: Selecting Messenger reveals required Messenger fields, WhatsApp field hidden @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-a93ac003580a5304c9f7",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 228,
+              "column": 7
+            },
+            {
+              "title": "TC-013: Toggling Contact Media from WhatsApp to Messenger clears/hides the WhatsApp Number field @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-bd9ab20c983e878031c0",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 242,
+              "column": 7
+            },
+            {
+              "title": "TC-014: WhatsApp selected but WhatsApp Number left blank blocks submission @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-0227dc218f33702923a3",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 257,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Account Setup Fields @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 267,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-015: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-7f9020d166e3c4b029ee",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 268,
+              "column": 7
+            },
+            {
+              "title": "TC-016: Password and Confirm Password mismatch blocks submission @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-04c678ac75946d93c67a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 280,
+              "column": 7
+            },
+            {
+              "title": "TC-017: Empty Password field blocks submission @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-90b07c795efc580abd34",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 291,
+              "column": 7
+            },
+            {
+              "title": "TC-018: Username containing special characters or spaces @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-56407f15b0156c36008a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 302,
+              "column": 7
+            },
+            {
+              "title": "TC-015: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-26196188473492f0e626",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 268,
+              "column": 7
+            },
+            {
+              "title": "TC-016: Password and Confirm Password mismatch blocks submission @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-90977863cc180bb239bd",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 280,
+              "column": 7
+            },
+            {
+              "title": "TC-017: Empty Password field blocks submission @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-04343468a40b2536e711",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 291,
+              "column": 7
+            },
+            {
+              "title": "TC-018: Username containing special characters or spaces @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-05f4a445373a38c88b91",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 302,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Agreement Checkboxes @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 317,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-019: All 3 required checkboxes checked allows submission — Wholesale Agreement is display text, not a checkbox @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1cafbb1ffc94313cf664",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 318,
+              "column": 7
+            },
+            {
+              "title": "TC-020: Terms of Service unchecked blocks submission @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-88df6644da2ef87938b4",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 322,
+              "column": 7
+            },
+            {
+              "title": "TC-021: Only the 18+ Age confirmation unchecked blocks submission with specific error @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-2fedffb5ce0de29c7bc3",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 331,
+              "column": 7
+            },
+            {
+              "title": "TC-019: All 3 required checkboxes checked allows submission — Wholesale Agreement is display text, not a checkbox @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-c330814e6fa29b8c3970",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 318,
+              "column": 7
+            },
+            {
+              "title": "TC-020: Terms of Service unchecked blocks submission @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-eecee801054892225c34",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 322,
+              "column": 7
+            },
+            {
+              "title": "TC-021: Only the 18+ Age confirmation unchecked blocks submission with specific error @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-d7f2499cecb98d74cc97",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 331,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Email/Username Uniqueness @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 341,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-022: Brand-new unique email and username pass the uniqueness check @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-19931d06447cb20a5d0c",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 342,
+              "column": 7
+            },
+            {
+              "title": "TC-023: Duplicate email (already-registered wholesale account) blocks submission with clear error @smoke @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "smoke",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1cbe442137b27e9404d9",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 351,
+              "column": 7
+            },
+            {
+              "title": "TC-024: Duplicate username blocks submission with clear error @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-4e7bd422df06f4c93abd",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 362,
+              "column": 7
+            },
+            {
+              "title": "TC-025: Case-variant duplicate email blocks submission @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-93c4b2305993c6e239b6",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 375,
+              "column": 7
+            },
+            {
+              "title": "TC-022: Brand-new unique email and username pass the uniqueness check @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-fa0b5a2ad927cfc79ba6",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 342,
+              "column": 7
+            },
+            {
+              "title": "TC-023: Duplicate email (already-registered wholesale account) blocks submission with clear error @smoke @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "smoke",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-678f32e48147f54f6af4",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 351,
+              "column": 7
+            },
+            {
+              "title": "TC-024: Duplicate username blocks submission with clear error @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-57e7f50888a3dfebc1ed",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 362,
+              "column": 7
+            },
+            {
+              "title": "TC-025: Case-variant duplicate email blocks submission @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-04cb677a9afda490abbf",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 375,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Admin Registration Applications Grid @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 387,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-07"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-e041973d6ad4fc95e886",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 388,
+              "column": 7
+            },
+            {
+              "title": "TC-027: Registration Applications list correctly handles no matching application, no crash @REQ-07",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-07"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-b016e807083a35e243b1",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 399,
+              "column": 7
+            },
+            {
+              "title": "TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-07"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1be978fe2b82f23026ee",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 388,
+              "column": 7
+            },
+            {
+              "title": "TC-027: Registration Applications list correctly handles no matching application, no crash @REQ-07",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-07"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-cbf78f54f453781451be",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 399,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Admin Activation Lifecycle @smoke @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 408,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-028: Admin activates account via Active flag + save — login enabled @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-5da5674192d80afef784",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 409,
+              "column": 7
+            },
+            {
+              "title": "TC-029: Login attempt before admin approval is blocked with inactive-account message @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-ae826240b7e07d1e40b9",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 429,
+              "column": 7
+            },
+            {
+              "title": "TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-36d8c61fef9c5ea135fb",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 439,
+              "column": 7
+            },
+            {
+              "title": "TC-028: Admin activates account via Active flag + save — login enabled @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-32fb5247f131e7e07c44",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 409,
+              "column": 7
+            },
+            {
+              "title": "TC-029: Login attempt before admin approval is blocked with inactive-account message @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-b2b6f32365c2642986be",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 429,
+              "column": 7
+            },
+            {
+              "title": "TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-firefox",
+                  "projectName": "storefront-firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-558807c42fbe9c15fb69",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 439,
               "column": 7
             }
           ]
@@ -512,11 +2106,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-12T13:54:33.643Z",
-    "duration": 501331.793,
-    "expected": 5,
-    "skipped": 0,
-    "unexpected": 0,
-    "flaky": 1
+    "startTime": "2026-08-17T10:14:51.011Z",
+    "duration": 255477.618,
+    "expected": 4,
+    "skipped": 53,
+    "unexpected": 3,
+    "flaky": 0
   }
 }

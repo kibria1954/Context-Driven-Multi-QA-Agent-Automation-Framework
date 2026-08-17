@@ -85,9 +85,9 @@ $$\text{Auto-Heal Trigger} = (\text{Confidence} \ge 90\%) \land (\text{Safe Chan
    - Same or similar `text content`
    - Same `position/context` in the DOM (e.g., inside the same form)
    - Same `element type` (input, button, select, etc.)
-4. If semantic match confidence ≥ 90% → patch `utils/selectors.ts` with new locator.
+4. If semantic match confidence ≥ 90% → append the new candidate to that entry's `fallbacks` array in `utils/selectors.ts` (the structured field, not a comment — see `05-codegen-pom/SKILL.md` Section 2).
 5. Run anti-regression check on all dependent specs.
-6. If regression passes → commit the heal.
+6. If regression passes → promote the new candidate to be the entry's primary `selector` (keep the old one in `fallbacks` for reference) and commit the heal.
 
 **Evidence to Record:**
 ```json

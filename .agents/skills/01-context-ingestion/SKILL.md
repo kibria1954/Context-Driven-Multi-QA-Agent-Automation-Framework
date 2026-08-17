@@ -1,5 +1,5 @@
 ---
-name: 01-requirement-ingestion
+name: 01-context-ingestion
 description: Ingest raw feature requirements, compute immutable SHA-256 hashes, parse into atomic REQ-ID clauses, detect changes with versioned archival, perform ambiguity audit, and support legacy/retrofit path.
 ---
 
@@ -25,7 +25,7 @@ Agent 1 accepts input in multiple formats:
 
 ### 2. Structured Requirement Template
 
-Parse raw input into the following standard template and save as `requirements/{feature}.md`:
+Use the following template to organize your thinking before parsing into `parsed.json` (Section 4) — this structure does **not** get saved as its own file. In practice, its content ends up split across `requirements/{feature}/parsed.json` (the atomic REQ-ID clauses — the actual machine source of truth) and `requirements/{feature}/clarifications.md` (any ambiguity notes raised during structuring). Do not create a separate `requirements/{feature}.md` file — it would just be a third, redundant copy of the same information and has never actually been produced by this stage in practice.
 
 ```markdown
 # Feature: {Feature Name}
@@ -136,8 +136,10 @@ Inspect every clause for ambiguous trigger patterns:
 ```
 
 3. Append the question to `memory/pending-questions.md`.
-4. **STOP processing this clause.** Do not invent acceptance criteria.
-5. Ask the owner directly in chat.
+4. Append a matching entry to `requirements/{feature}/clarifications.md` (create it if it doesn't exist yet — header + one entry per ambiguous REQ-ID, with `Status: OPEN`). This is the feature-scoped, human-readable twin of the `pending-questions.md` entry.
+5. **STOP processing this clause.** Do not invent acceptance criteria.
+6. Ask the owner directly in chat.
+7. Once answered: update the entry in `requirements/{feature}/clarifications.md` to `Status: ✅ RESOLVED` with the resolution text, update `parsed.json`'s clause to `status: "clear"`, and record the same answer in `memory/decisions.md` per the escalation flow in `AGENTS.md`.
 
 ### 6. Change Detection & Version Archival
 
@@ -178,11 +180,11 @@ For features that already exist in production without an AI-authored requirement
 ---
 
 ## 📄 Output Files
-- `requirements/{feature}.md` (Structured requirement specification)
 - `requirements/{feature}/source.md` (Raw immutable input)
 - `requirements/{feature}/source.meta.json` (SHA-256 hash, version metadata)
-- `requirements/{feature}/parsed.json` (Atomic REQ-ID clauses with categories)
-- `requirements/history/{feature}-v{n}.md` (Archived previous versions)
+- `requirements/{feature}/parsed.json` (Atomic REQ-ID clauses with categories — the machine source of truth)
+- `requirements/{feature}/clarifications.md` (Ambiguous clauses flagged during parsing, their questions, and — once answered — the resolution; see Section 5)
+- `requirements/history/{feature}-v{n}.md` (Archived previous versions, written on change detection — Section 6)
 
 ## ✅ Gate Condition
 - Zero unresolved `NEEDS_CLARIFICATION` items.

@@ -1,13 +1,15 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2026-08-10T13:01:18.400Z",
+  "lastUpdated": "2026-08-17T00:00:00.000Z",
   "features": [
     {
-      "feature": "b2b-registration",
-      "coverage": 100,
-      "totalReqs": 55,
-      "totalTCs": 187,
-      "lastUpdated": "2026-08-10T13:01:18.392Z"
+      "storyName": "b2b-registration",
+      "coveragePercentage": 100,
+      "totalReqs": 8,
+      "covered": 8,
+      "totalTestCases": 30,
+      "matrixFile": "memory/traceability/b2b-registration.md",
+      "matrixJson": "memory/traceability/b2b-registration.json"
     }
   ]
 }

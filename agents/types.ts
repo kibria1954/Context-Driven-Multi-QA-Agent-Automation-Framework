@@ -30,4 +30,12 @@ export interface StageDefinition {
   artifacts: (feature: string) => string[];
   /** True if this stage may perform state-changing (write) actions against a live environment. */
   requiresWriteSafety: boolean;
+  /**
+   * Stages that must be 'complete' before this one can run. NOT assumed to be [id - 1] —
+   * e.g. Stage 1 (Context Ingestion) has no dependency on Stage 0 (Test Data & Environment);
+   * only the stages that actually touch a live environment (4, 7) depend on Stage 0, per
+   * AGENTS.md: "Agent 0 completes before Agent 3 (Live Explorer) or Agent 5 (Execution)
+   * touch any environment."
+   */
+  dependsOn: StageId[];
 }

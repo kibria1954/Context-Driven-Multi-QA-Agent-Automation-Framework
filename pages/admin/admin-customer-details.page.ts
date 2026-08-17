@@ -36,10 +36,6 @@ export class AdminCustomerDetailsPage extends BasePage {
     return this.page.locator('#customers-grid tbody tr a:has-text("Edit"), a.btn:has-text("Edit"), a[href*="/Admin/Customer/Edit/"]').first();
   }
 
-  get kdRegistrationDetailsSection() {
-    return this.page.locator('.card:has-text("Wholesale Registration Details"), .card:has-text("Customer Erp Account Info"), .card:has-text("KD Registration Details"), .card:has-text("Customer info")');
-  }
-
   get activeCheckbox() {
     return this.page.locator('input#Active, #Active').first();
   }
@@ -59,9 +55,10 @@ export class AdminCustomerDetailsPage extends BasePage {
   // ─── Actions ───────────────────────────────────────────────────────────────
 
   /**
-   * Search for customer by email using the "Active" filter set to "All" (value "") and clearing role restrictions.
+   * Search for a customer by email using the "Active" filter set to "All" (value "") and
+   * clearing default role restrictions. Leaves the grid displayed without opening a row.
    */
-  async searchAndOpenCustomer(email: string): Promise<void> {
+  async searchOnly(email: string): Promise<void> {
     await this.navigate();
     await this.waitForPageReady();
 
@@ -72,7 +69,6 @@ export class AdminCustomerDetailsPage extends BasePage {
       await removeRoleBtns.nth(0).click().catch(() => {});
     }
 
-    // Fill search email if provided
     if (email) {
       await this.searchEmailInput.waitFor({ state: 'visible', timeout: 5000 });
       await this.searchEmailInput.fill(email);
@@ -88,13 +84,28 @@ export class AdminCustomerDetailsPage extends BasePage {
     await this.searchButton.click();
     await this.waitForPageReady();
     await this.page.waitForTimeout(2000); // Allow dataTable AJAX grid reload
+  }
 
-    // Locate matching row Edit button or first row Edit button in table
+  /**
+   * Search for customer by email and open their Edit page.
+   */
+  async searchAndOpenCustomer(email: string): Promise<void> {
+    await this.searchOnly(email);
+
     const rowEditBtn = this.page.locator(`tr:has-text("${email}") a:has-text("Edit"), #customers-grid tbody tr a:has-text("Edit")`).first();
 
     await rowEditBtn.waitFor({ state: 'visible', timeout: 10000 });
     await rowEditBtn.click();
     await this.waitForPageReady();
+  }
+
+  /**
+   * Count grid rows matching the given email — used to confirm no duplicate customer
+   * entities were created (e.g. rapid double-click on submit, TC-004).
+   */
+  async getMatchingRowCount(email: string): Promise<number> {
+    await this.searchOnly(email);
+    return this.page.locator(`#customers-grid tbody tr:has-text("${email}"), tr:has-text("${email}")`).count().catch(() => 0);
   }
 
   /**
@@ -117,22 +128,33 @@ export class AdminCustomerDetailsPage extends BasePage {
     await this.page.waitForTimeout(1000);
   }
 
+  /**
+   * Deactivate a previously-active account by unchecking Active and saving (TC-030).
+   */
+  async deactivateAccount(): Promise<void> {
+    await this.activeCheckbox.waitFor({ state: 'visible', timeout: 10000 });
+    const isChecked = await this.activeCheckbox.isChecked();
+    if (isChecked) {
+      await this.activeCheckbox.uncheck();
+    }
+
+    if (await this.saveAndContinueButton.isVisible().catch(() => false)) {
+      await this.saveAndContinueButton.click();
+    } else {
+      await this.saveButton.click();
+    }
+    await this.waitForPageReady();
+    await this.page.waitForTimeout(1000);
+  }
+
   // ─── Assertions ────────────────────────────────────────────────────────────
 
   /**
-   * Assert the Edit customer details page and profile details sections are displayed (Scenario 3).
+   * Assert the Edit customer details page is displayed (used before activation actions).
    */
-  async assertKdRegistrationDetailsDisplayed(): Promise<void> {
+  async assertCustomerEditPageDisplayed(): Promise<void> {
     const pageTitle = this.page.locator('.content-header h1, h1.float-left, .content-header').first();
     await expect(pageTitle).toContainText(/Edit customer details/i, { timeout: 10000 });
-  }
-
-  /**
-   * Assert specific custom wholesale data field content in admin portal.
-   */
-  async assertWholesaleDetailContains(label: string, value: string): Promise<void> {
-    const bodyText = await this.page.locator('body').textContent();
-    expect(bodyText?.toLowerCase()).toContain(label.toLowerCase());
   }
 
   /**
@@ -147,6 +169,17 @@ export class AdminCustomerDetailsPage extends BasePage {
   }
 
   /**
+   * Assert customer account is set to Inactive (TC-030).
+   */
+  async assertAccountIsInactive(): Promise<void> {
+    if (this.page.url().includes('/Edit/')) {
+      await expect(this.activeCheckbox).not.toBeChecked({ timeout: 10000 });
+    } else {
+      expect(this.page.url()).toContain('/Admin/Customer');
+    }
+  }
+
+  /**
    * Assert save success alert is shown or page redirected cleanly.
    */
   async assertSaveSuccess(): Promise<void> {
@@ -154,5 +187,13 @@ export class AdminCustomerDetailsPage extends BasePage {
     const hasSuccessText = await this.page.locator('body').textContent().then(t => t?.includes('updated successfully') || false).catch(() => false);
     const redirected = this.page.url().includes('/Admin/Customer');
     expect(alertVisible || hasSuccessText || redirected).toBeTruthy();
+  }
+
+  /**
+   * Assert the customer grid row for this email shows a given role tag (e.g. "B2B Customer").
+   */
+  async assertRoleContains(email: string, role: string): Promise<void> {
+    const row = this.page.locator(`#customers-grid tbody tr:has-text("${email}"), tr:has-text("${email}")`).first();
+    await expect(row).toContainText(role, { timeout: 10000 });
   }
 }

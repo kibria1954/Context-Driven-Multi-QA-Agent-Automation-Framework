@@ -55,19 +55,21 @@ export class RegisterPage extends BasePage {
 
 ### 2. Centralized Selectors — Enhanced with Fallback Tiers
 
-`utils/selectors.ts` entries should include stability metadata when available:
+`utils/selectors.ts`'s `SelectorEntry` type has a real `fallbacks` field (not just a comment) — populate it from Agent 3's `verify.json` `locatorCandidates` whenever more than one tier was verified for an element:
 
 ```typescript
 export const REGISTER_SELECTORS = {
   companyName: {
-    selector: '#CompanyName',
+    selector: '#CompanyName',              // primary — from verify.json's recommendedSelector
     description: 'Company name input',
-    // Fallback tiers (from Agent 3 verify.json):
-    // T2: #CompanyName (primary)
-    // T5: input[name='CompanyName'] (fallback)
+    fallbacks: [
+      { tier: 'T5', selector: "input[name='CompanyName']" },
+    ],
   },
 } as const;
 ```
+
+This is what Loop B (Stage 7) patches mechanically on a `FLAKY_LOCATOR` heal: it appends a new candidate to `fallbacks` first, and only promotes it to be the primary `selector` after the semantic-verification gate passes — never edit `fallbacks` by hand as a comment, it must stay structured data both stages can read and write.
 
 ### 3. Layer Split — UI vs API Specs
 

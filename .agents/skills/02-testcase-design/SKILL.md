@@ -15,19 +15,25 @@ Agent 2 reads `parsed.json` from Agent 1 and generates a comprehensive, traceabl
 
 ## 🛠️ Test Case Generation Protocol
 
-### 1. Scenario Matrix Multiplier
+### 1. Scenario Matrix Multiplier — Applied PER REQ-ID, Not Per Feature
 
-For **every** feature and requirement clause (`REQ-ID`):
+**There is no flat per-feature test case cap.** Minimums below apply to **every individual `REQ-ID`** from `parsed.json` — a feature with 6 requirement clauses and a feature with 40 requirement clauses are held to the same per-clause bar, so the total test count scales with actual requirement complexity instead of being squeezed into a fixed feature-level budget.
 
-| Category | Minimum Count | What to Cover |
+For **every** `REQ-ID`, apply the category table below and generate whichever categories are applicable to that clause (not every REQ-ID needs every category — a static text-display requirement may have no boundary cases; a numeric/length-constrained field always does):
+
+| Category | Minimum Count (per applicable REQ-ID) | What to Cover |
 |----------|--------------|---------------|
-| **Positive** | ≥ 3–5 | Primary happy path, variant inputs, multi-entry navigation, all valid dropdown options |
-| **Negative** | ≥ 2–3 | Duplicate entity handling, format mismatch, unauthenticated redirects, missing required fields, boundary breaches |
-| **Edge** | ≥ 2–3 | Empty state handling, rapid double-clicks, toggle field clearing, network retry, max-length inputs, Unicode/special chars |
-| **Boundary** | ≥ 1–2 | Min, min-1, max, max+1, 0, negative values, empty string vs whitespace-only |
+| **Positive** | ≥ 1, target 3–5 for `critical`/`high` priority | Primary happy path, variant inputs, multi-entry navigation, all valid dropdown options |
+| **Negative** | ≥ 1, target 2–3 for `critical`/`high` priority | Duplicate entity handling, format mismatch, unauthenticated redirects, missing required fields, boundary breaches |
+| **Edge** | ≥ 1 where applicable | Empty state handling, rapid double-clicks, toggle field clearing, network retry, max-length inputs, Unicode/special chars |
+| **Boundary** | ≥ 1 for every numeric/length-constrained field, else N/A | Min, min-1, max, max+1, 0, negative values, empty string vs whitespace-only |
 | **Accessibility** | As applicable | Missing labels, focus order, keyboard navigation, color contrast (flagged, not blocking) |
 
-**Total minimum per feature: 8–15 comprehensive test cases.**
+**Hard floor — Loop A's Risk Coverage dimension (below) enforces this, not just this table:**
+- Every REQ-ID: **at least 1 positive AND 1 negative-or-edge** test case. A REQ-ID with only a happy-path test has not been adequately covered.
+- Every `critical`-priority REQ-ID: **at least 1 positive + 1 negative + 1 boundary/edge** test case.
+
+A feature's total test-case count is whatever the sum of these per-REQ-ID minimums works out to — do not compress or trim the suite to fit a round number. If Loop A's iterations produce a large total for a complex feature, that's the correct outcome, not a signal to cut back.
 
 ### 2. Layer Classification (Test Pyramid Awareness)
 
@@ -99,7 +105,7 @@ $$\text{Pass Gate} = \text{Req Coverage} \land \text{Risk Coverage} \land \text{
 
 ### Iteration Tracking Output
 
-After each Loop A iteration, append to `memory/convergence/{feature}-loopA.json`:
+After each Loop A iteration, append to `memory/convergence/{feature}.json` — **one file per feature.** Do not share a single file across features; each feature gets its own convergence history so it stays scoped and doesn't grow into an unbounded shared log.
 
 ```json
 {
@@ -221,7 +227,7 @@ Alongside the technical TC table, generate a plain-language version for non-tech
 - `testcases/{feature}.tc.md` (Human-readable Markdown test cases)
 - `testcases/{feature}.tc.json` (Machine-readable pipeline format)
 - `testcases/{feature}.stakeholder.md` (Plain-language stakeholder export)
-- `memory/convergence/{feature}-loopA.json` (Loop A iteration tracking)
+- `memory/convergence/{feature}.json` (Loop A iteration tracking — one file per feature)
 
 ## ✅ Gate Condition
 - Loop A convergence gate passed (all 7 dimensions).

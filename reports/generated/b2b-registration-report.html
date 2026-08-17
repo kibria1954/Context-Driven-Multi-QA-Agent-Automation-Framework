@@ -45,15 +45,15 @@
   <div class="header">
     <h1>🤖 Context-Driven AI QA Agent — Executive Dashboard</h1>
     <div class="meta">
-      Feature: b2b-registration | Env: staging | Date: 8/14/2026, 11:06:17 PM | Run: run-1786727177676
+      Feature: b2b-registration | Env: staging | Date: 8/17/2026, 4:19:06 PM | Run: run-1786961946499
     </div>
   </div>
   <div class="container">
     <div class="grid">
-      <div class="stat-card"><div class="value" style="color:#10b981">100%</div><div class="label">Pass Rate</div></div>
-      <div class="stat-card"><div class="value">6</div><div class="label">Total Tests</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--success)">6</div><div class="label">Passed</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--danger)">0</div><div class="label">Failed</div></div>
+      <div class="stat-card"><div class="value" style="color:#f59e0b">77%</div><div class="label">Pass Rate</div></div>
+      <div class="stat-card"><div class="value">30</div><div class="label">Total Tests</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--success)">23</div><div class="label">Passed</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--danger)">7</div><div class="label">Failed</div></div>
       <div class="stat-card"><div class="value" style="color:var(--warning)">0</div><div class="label">Skipped</div></div>
       <div class="stat-card"><div class="value" style="color:var(--info)">0</div><div class="label">Quarantined</div></div>
     </div>
@@ -61,8 +61,8 @@
     <div class="card">
       <h2>📈 Overall Execution Pass Rate</h2>
       <div class="progress-bar">
-        <div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#10b981,#10b981cc)">
-          100%
+        <div class="progress-fill" style="width:77%;background:linear-gradient(90deg,#f59e0b,#f59e0bcc)">
+          77%
         </div>
       </div>
     </div>
@@ -74,57 +74,273 @@
         <tbody>
         
           <tr>
-            <td><strong>TC-CHK-001-004-008</strong></td>
-            <td>TC-CHK-001-004-008: Nested E2E Flow: Cart Addition -> Subtotal Threshold -> Direct Checkout -> Credit Limit Bypass -> Address Locking & Order History Validation @smoke @regression @REQ-01 @REQ-02 @REQ-03</td>
+            <td><strong>TC-001</strong></td>
+            <td>TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01</td>
             <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>98.1s</td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>31.1s</td>
             <td>REQ-01</td>
           </tr>
         
           <tr>
-            <td><strong>TC-CHK-005</strong></td>
-            <td>TC-CHK-005: Negative: Subtotal Below ৳10,000 Threshold Blocks Checkout (No Order Placed) @validation @regression @REQ-01</td>
+            <td><strong>TC-002</strong></td>
+            <td>TC-002: Valid submission with alternate Type of Business and Contact Media combination @REQ-01</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>16.9s</td>
+            <td>REQ-01</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-003</strong></td>
+            <td>TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>31.6s</td>
+            <td>REQ-01</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-004</strong></td>
+            <td>TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01</td>
             <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>38.4s</td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>26.6s</td>
             <td>REQ-01</td>
           </tr>
         
           <tr>
-            <td><strong>TC-CHK-006</strong></td>
-            <td>TC-CHK-006: Security: Address Locking Verification During Checkout @security @regression @REQ-02</td>
+            <td><strong>TC-005</strong></td>
+            <td>TC-005: All Company Info fields accepted across different Type of Business options @REQ-02</td>
             <td><span class="badge badge-positive">positive</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>78.9s</td>
+            <td>21.5s</td>
             <td>REQ-02</td>
           </tr>
         
           <tr>
-            <td><strong>TC-CHK-007</strong></td>
-            <td>TC-CHK-007: Security: Unauthenticated Guest Checkout Click Redirect @security @regression @REQ-01</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>17.9s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-CHK-009</strong></td>
-            <td>TC-CHK-009: Edge: Rapid Double-Click Checkout Handling (Without Order Placement) @edge @regression @REQ-01</td>
+            <td><strong>TC-006</strong></td>
+            <td>TC-006: Empty Company Name blocks submission with validation error @REQ-02</td>
             <td><span class="badge badge-edge">edge</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>96.2s</td>
-            <td>REQ-01</td>
+            <td>23.0s</td>
+            <td>REQ-02</td>
           </tr>
         
           <tr>
-            <td><strong>TC-CHK-010</strong></td>
-            <td>TC-CHK-010: UI: Terms of Service Agreement Unchecked Warning @ui @regression @REQ-01</td>
+            <td><strong>TC-007</strong></td>
+            <td>TC-007: Invalid email format blocks submission with validation error @REQ-02</td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>8.8s</td>
+            <td>REQ-02</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-008</strong></td>
+            <td>TC-008: BD phone number — 11-digit accepted, 10-digit and 12-digit rejected @REQ-02</td>
             <td><span class="badge badge-positive">positive</span></td>
             <td><span class="badge badge-pass">PASSED</span></td>
-            <td>76.0s</td>
-            <td>REQ-01</td>
+            <td>20.3s</td>
+            <td>REQ-02</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-009</strong></td>
+            <td>TC-009: Special characters and Unicode in Company Name handled without breaking the form @REQ-02</td>
+            <td><span class="badge badge-edge">edge</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>8.1s</td>
+            <td>REQ-02</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-010</strong></td>
+            <td>TC-010: Zip Code empty vs whitespace-only input — consistent handling @REQ-02</td>
+            <td><span class="badge badge-edge">edge</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>14.2s</td>
+            <td>REQ-02</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-011</strong></td>
+            <td>TC-011: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden @REQ-03</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>4.7s</td>
+            <td>REQ-03</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-012</strong></td>
+            <td>TC-012: Selecting Messenger reveals required Messenger fields, WhatsApp field hidden @REQ-03</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>6.1s</td>
+            <td>REQ-03</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-013</strong></td>
+            <td>TC-013: Toggling Contact Media from WhatsApp to Messenger clears/hides the WhatsApp Number field @REQ-03</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>4.9s</td>
+            <td>REQ-03</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-014</strong></td>
+            <td>TC-014: WhatsApp selected but WhatsApp Number left blank blocks submission @REQ-03</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>8.2s</td>
+            <td>REQ-03</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-015</strong></td>
+            <td>TC-015: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted @REQ-04</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>11.1s</td>
+            <td>REQ-04</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-016</strong></td>
+            <td>TC-016: Password and Confirm Password mismatch blocks submission @REQ-04</td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>11.6s</td>
+            <td>REQ-04</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-017</strong></td>
+            <td>TC-017: Empty Password field blocks submission @REQ-04</td>
+            <td><span class="badge badge-edge">edge</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>10.9s</td>
+            <td>REQ-04</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-018</strong></td>
+            <td>TC-018: Username containing special characters or spaces @REQ-04</td>
+            <td><span class="badge badge-edge">edge</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>11.7s</td>
+            <td>REQ-04</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-019</strong></td>
+            <td>TC-019: All 3 required checkboxes checked allows submission — Wholesale Agreement is display text, not a checkbox @REQ-05</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>14.8s</td>
+            <td>REQ-05</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-020</strong></td>
+            <td>TC-020: Terms of Service unchecked blocks submission @REQ-05</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>17.6s</td>
+            <td>REQ-05</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-021</strong></td>
+            <td>TC-021: Only the 18+ Age confirmation unchecked blocks submission with specific error @REQ-05</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>17.4s</td>
+            <td>REQ-05</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-022</strong></td>
+            <td>TC-022: Brand-new unique email and username pass the uniqueness check @REQ-06</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>7.8s</td>
+            <td>REQ-06</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-023</strong></td>
+            <td>TC-023: Duplicate email (already-registered wholesale account) blocks submission with clear error @smoke @REQ-06</td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>22.9s</td>
+            <td>REQ-06</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-024</strong></td>
+            <td>TC-024: Duplicate username blocks submission with clear error @REQ-06</td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>24.3s</td>
+            <td>REQ-06</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-025</strong></td>
+            <td>TC-025: Case-variant duplicate email blocks submission @REQ-06</td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>7.9s</td>
+            <td>REQ-06</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-026</strong></td>
+            <td>TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>31.5s</td>
+            <td>REQ-07</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-027</strong></td>
+            <td>TC-027: Registration Applications list correctly handles no matching application, no crash @REQ-07</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>14.7s</td>
+            <td>REQ-07</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-028</strong></td>
+            <td>TC-028: Admin activates account via Active flag + save — login enabled @REQ-08</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>31.2s</td>
+            <td>REQ-08</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-029</strong></td>
+            <td>TC-029: Login attempt before admin approval is blocked with inactive-account message @REQ-08</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-pass">PASSED</span></td>
+            <td>21.9s</td>
+            <td>REQ-08</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-030</strong></td>
+            <td>TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08</td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td><span class="badge badge-fail">FAILED</span></td>
+            <td>29.5s</td>
+            <td>REQ-08</td>
           </tr>
         
         </tbody>
@@ -134,16 +350,16 @@
     <div class="card">
       <h2>🎯 Scenario Coverage Breakdown</h2>
       <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="stat-card"><div class="value" style="color:var(--accent)">4</div><div class="label">Positive Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#f97316">1</div><div class="label">Negative Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#a855f7">1</div><div class="label">Edge Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:var(--accent)">19</div><div class="label">Positive Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#f97316">6</div><div class="label">Negative Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#a855f7">5</div><div class="label">Edge Scenarios</div></div>
       </div>
     </div>
 
     <div class="card">
       <h2>🛡️ 100% Requirements Traceability Matrix & Assertion Audit</h2>
       <div style="margin-bottom: 12px; font-size: 0.875rem; color: var(--text-secondary);">
-        Overall Requirements Coverage: <strong style="color:var(--success); font-size: 1.1rem;">100% COVERED</strong> (6/6 REQ-IDs Mapped to Automated Assertions)
+        Overall Requirements Coverage: <strong style="color:var(--success); font-size: 1.1rem;">100% COVERED</strong> (8/8 REQ-IDs Mapped to Automated Assertions)
       </div>
       <table>
         <thead><tr><th>REQ-ID</th><th>Requirement Description</th><th>Mapped Test Cases</th><th>Spec File</th><th>Status</th></tr></thead>
@@ -151,48 +367,64 @@
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-01</strong></td>
-            <td>Positive: Successful B2B Registration Form Submission & Entity Creation</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-001</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-008</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-010</span></td>
-            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">✅ COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-03</strong></td>
-            <td>Positive: Admin Reviews Wholesale Application Details</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-002</span></td>
-            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">✅ COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-04</strong></td>
-            <td>Positive: Admin Approves and Activates B2B Account</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-003</span></td>
-            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
-            <td><span class="badge badge-pass">✅ COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-06</strong></td>
-            <td>Positive/UI: Dynamic Contact Channel Toggle & Field Clear</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-004</span></td>
+            <td>Positive: Successful B2B registration creates ERP account, Ship-To address, inactive customer, mapping, and redirects to review page</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-001</span><span class="badge badge-positive" style="margin-right:4px;">TC-002</span><span class="badge badge-positive" style="margin-right:4px;">TC-003</span><span class="badge badge-positive" style="margin-right:4px;">TC-004</span></td>
             <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
             <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-02</strong></td>
-            <td>Negative: Uniqueness Validation for Duplicate Email/Username</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-005</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-009</span></td>
+            <td>Positive: All Company Info fields accepted across different Type of Business dropdown options</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-005</span><span class="badge badge-positive" style="margin-right:4px;">TC-006</span><span class="badge badge-positive" style="margin-right:4px;">TC-007</span><span class="badge badge-positive" style="margin-right:4px;">TC-008</span><span class="badge badge-positive" style="margin-right:4px;">TC-009</span><span class="badge badge-positive" style="margin-right:4px;">TC-010</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-03</strong></td>
+            <td>Positive: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-011</span><span class="badge badge-positive" style="margin-right:4px;">TC-012</span><span class="badge badge-positive" style="margin-right:4px;">TC-013</span><span class="badge badge-positive" style="margin-right:4px;">TC-014</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-04</strong></td>
+            <td>Positive: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-015</span><span class="badge badge-positive" style="margin-right:4px;">TC-016</span><span class="badge badge-positive" style="margin-right:4px;">TC-017</span><span class="badge badge-positive" style="margin-right:4px;">TC-018</span></td>
             <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
             <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
         
           <tr>
             <td><strong style="color:var(--accent)">REQ-05</strong></td>
-            <td>Negative: Password Mismatch Validation</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-REG-006</span><span class="badge badge-positive" style="margin-right:4px;">TC-REG-007</span></td>
+            <td>Positive: All 3 required checkboxes checked (ToS, Privacy Policy, 18+) allows submission — Wholesale Agreement is display text, not a checkbox</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-019</span><span class="badge badge-positive" style="margin-right:4px;">TC-020</span><span class="badge badge-positive" style="margin-right:4px;">TC-021</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-06</strong></td>
+            <td>Positive: Brand-new unique email and username pass the uniqueness check</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-022</span><span class="badge badge-positive" style="margin-right:4px;">TC-023</span><span class="badge badge-positive" style="margin-right:4px;">TC-024</span><span class="badge badge-positive" style="margin-right:4px;">TC-025</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-07</strong></td>
+            <td>Positive: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-026</span><span class="badge badge-positive" style="margin-right:4px;">TC-027</span></td>
+            <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
+            <td><span class="badge badge-pass">✅ COVERED</span></td>
+          </tr>
+        
+          <tr>
+            <td><strong style="color:var(--accent)">REQ-08</strong></td>
+            <td>Positive: Admin activates account via Active flag + save — login enabled and welcome email sent</td>
+            <td><span class="badge badge-positive" style="margin-right:4px;">TC-028</span><span class="badge badge-positive" style="margin-right:4px;">TC-029</span><span class="badge badge-positive" style="margin-right:4px;">TC-030</span></td>
             <td><code>tests\e2e\registration\b2b-registration.spec.ts</code></td>
             <td><span class="badge badge-pass">✅ COVERED</span></td>
           </tr>
@@ -202,7 +434,7 @@
     </div>
   </div>
   <div class="footer">
-    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-14T17:06:17.776Z
+    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-17T10:19:06.506Z
   </div>
 </body>
 </html>

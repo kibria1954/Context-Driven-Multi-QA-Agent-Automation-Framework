@@ -45,14 +45,14 @@
   <div class="header">
     <h1>🤖 Context-Driven AI QA Agent — Executive Dashboard</h1>
     <div class="meta">
-      Feature: wishlist-management | Env: staging | Date: 8/14/2026, 11:06:22 PM | Run: run-1786727182979
+      Feature: wishlist-management | Env: staging | Date: 8/17/2026, 3:53:07 PM | Run: run-1786960387253
     </div>
   </div>
   <div class="container">
     <div class="grid">
-      <div class="stat-card"><div class="value" style="color:#10b981">100%</div><div class="label">Pass Rate</div></div>
-      <div class="stat-card"><div class="value">6</div><div class="label">Total Tests</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--success)">6</div><div class="label">Passed</div></div>
+      <div class="stat-card"><div class="value" style="color:#ef4444">0%</div><div class="label">Pass Rate</div></div>
+      <div class="stat-card"><div class="value">0</div><div class="label">Total Tests</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--success)">0</div><div class="label">Passed</div></div>
       <div class="stat-card"><div class="value" style="color:var(--danger)">0</div><div class="label">Failed</div></div>
       <div class="stat-card"><div class="value" style="color:var(--warning)">0</div><div class="label">Skipped</div></div>
       <div class="stat-card"><div class="value" style="color:var(--info)">0</div><div class="label">Quarantined</div></div>
@@ -61,8 +61,8 @@
     <div class="card">
       <h2>📈 Overall Execution Pass Rate</h2>
       <div class="progress-bar">
-        <div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#10b981,#10b981cc)">
-          100%
+        <div class="progress-fill" style="width:0%;background:linear-gradient(90deg,#ef4444,#ef4444cc)">
+          0%
         </div>
       </div>
     </div>
@@ -73,60 +73,6 @@
         <thead><tr><th>TC-ID</th><th>Name</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th></tr></thead>
         <tbody>
         
-          <tr>
-            <td><strong>TC-CHK-001-004-008</strong></td>
-            <td>TC-CHK-001-004-008: Nested E2E Flow: Cart Addition -> Subtotal Threshold -> Direct Checkout -> Credit Limit Bypass -> Address Locking & Order History Validation @smoke @regression @REQ-01 @REQ-02 @REQ-03</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>98.1s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-CHK-005</strong></td>
-            <td>TC-CHK-005: Negative: Subtotal Below ৳10,000 Threshold Blocks Checkout (No Order Placed) @validation @regression @REQ-01</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>38.4s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-CHK-006</strong></td>
-            <td>TC-CHK-006: Security: Address Locking Verification During Checkout @security @regression @REQ-02</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>78.9s</td>
-            <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-CHK-007</strong></td>
-            <td>TC-CHK-007: Security: Unauthenticated Guest Checkout Click Redirect @security @regression @REQ-01</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>17.9s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-CHK-009</strong></td>
-            <td>TC-CHK-009: Edge: Rapid Double-Click Checkout Handling (Without Order Placement) @edge @regression @REQ-01</td>
-            <td><span class="badge badge-edge">edge</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>96.2s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-CHK-010</strong></td>
-            <td>TC-CHK-010: UI: Terms of Service Agreement Unchecked Warning @ui @regression @REQ-01</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>76.0s</td>
-            <td>REQ-01</td>
-          </tr>
-        
         </tbody>
       </table>
     </div>
@@ -134,51 +80,27 @@
     <div class="card">
       <h2>🎯 Scenario Coverage Breakdown</h2>
       <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="stat-card"><div class="value" style="color:var(--accent)">4</div><div class="label">Positive Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#f97316">1</div><div class="label">Negative Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#a855f7">1</div><div class="label">Edge Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:var(--accent)">0</div><div class="label">Positive Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#f97316">0</div><div class="label">Negative Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#a855f7">0</div><div class="label">Edge Scenarios</div></div>
       </div>
     </div>
 
     <div class="card">
       <h2>🛡️ 100% Requirements Traceability Matrix & Assertion Audit</h2>
       <div style="margin-bottom: 12px; font-size: 0.875rem; color: var(--text-secondary);">
-        Overall Requirements Coverage: <strong style="color:var(--success); font-size: 1.1rem;">100% COVERED</strong> (3/3 REQ-IDs Mapped to Automated Assertions)
+        Overall Requirements Coverage: <strong style="color:var(--success); font-size: 1.1rem;">0% COVERED</strong> (0/0 REQ-IDs Mapped to Automated Assertions)
       </div>
       <table>
         <thead><tr><th>REQ-ID</th><th>Requirement Description</th><th>Mapped Test Cases</th><th>Spec File</th><th>Status</th></tr></thead>
         <tbody>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-03</strong></td>
-            <td>Positive: Add Product to Wishlist from PDP & Verify Notification</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-001</span><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-002</span><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-006</span><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-007</span></td>
-            <td><code>tests\e2e\catalog\wishlist-management.spec.ts</code></td>
-            <td><span class="badge badge-pass">✅ COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-01</strong></td>
-            <td>Positive: View Wishlist via Header Navbar Icon</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-003</span><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-004</span><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-005</span></td>
-            <td><code>tests\e2e\catalog\wishlist-management.spec.ts</code></td>
-            <td><span class="badge badge-pass">✅ COVERED</span></td>
-          </tr>
-        
-          <tr>
-            <td><strong style="color:var(--accent)">REQ-02</strong></td>
-            <td>Edge: Empty Wishlist State Verification</td>
-            <td><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-008</span><span class="badge badge-positive" style="margin-right:4px;">TC-WISH-009</span></td>
-            <td><code>tests\e2e\catalog\wishlist-management.spec.ts</code></td>
-            <td><span class="badge badge-pass">✅ COVERED</span></td>
-          </tr>
         
         </tbody>
       </table>
     </div>
   </div>
   <div class="footer">
-    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-14T17:06:23.002Z
+    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-17T09:53:07.297Z
   </div>
 </body>
 </html>

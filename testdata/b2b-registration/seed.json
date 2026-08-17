@@ -1,0 +1,28 @@
+{
+  "feature": "b2b-registration",
+  "generatedAt": "2026-08-14T18:03:46.270Z",
+  "runId": "qa-agent-1786730626270-ruxtsy",
+  "entities": [
+    {
+      "type": "customer",
+      "data": {
+        "email": "qatest.1786730626271.1k4ubg@qa-test.example.com",
+        "firstName": "Anika",
+        "lastName": "Mia",
+        "company": "QA-Auto-0-ruxtsy Enterprise",
+        "phone": "01709439332",
+        "username": "qa_anika_1786730626271",
+        "password": "QaTest@6565!",
+        "addressLine1": "381 Gulshan Avenue",
+        "city": "Rajshahi",
+        "division": "Sylhet",
+        "zipCode": "0884",
+        "contactName": "Anika Mia",
+        "position": "Director",
+        "websiteUrl": "https://www.qa-test-iquxae.com"
+      },
+      "createdVia": "fixture",
+      "cleanupRequired": true
+    }
+  ]
+}

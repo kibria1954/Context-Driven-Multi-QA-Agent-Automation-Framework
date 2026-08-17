@@ -1,97 +1,45 @@
 {
-  "storyId": "STORY-B2B_REGISTRATION",
-  "generatedAt": "2026-08-11T14:32:00.000Z",
-  "loopAGate": {
-    "status": "PASS",
-    "reqCoverage": 1.0,
-    "riskCoverage": 1.0,
-    "businessRuleCoverage": 1.0,
-    "boundaryAccuracy": 1.0,
-    "dataValidity": 1.0,
-    "feasibility": 1.0,
-    "traceability": 1.0,
-    "iterations": 1
-  },
+  "feature": "b2b-registration",
+  "generatedAt": "2026-08-15T00:00:00.000Z",
+  "loopAIterations": 1,
+  "totalTestCases": 30,
   "testCases": [
-    {
-      "id": "TC-REG-001",
-      "name": "Positive: Successful B2B Registration Form Submission & Entity Creation",
-      "requirementId": "REQ-01",
-      "type": "positive",
-      "layer": "functional",
-      "priority": "critical"
-    },
-    {
-      "id": "TC-REG-002",
-      "name": "Positive: Admin Reviews Wholesale Application Details",
-      "requirementId": "REQ-03",
-      "type": "positive",
-      "layer": "functional",
-      "priority": "critical"
-    },
-    {
-      "id": "TC-REG-003",
-      "name": "Positive: Admin Approves and Activates B2B Account",
-      "requirementId": "REQ-04",
-      "type": "positive",
-      "layer": "functional",
-      "priority": "critical"
-    },
-    {
-      "id": "TC-REG-004",
-      "name": "Positive/UI: Dynamic Contact Channel Toggle & Field Clear",
-      "requirementId": "REQ-06",
-      "type": "positive",
-      "layer": "ui",
-      "priority": "medium"
-    },
-    {
-      "id": "TC-REG-005",
-      "name": "Negative: Uniqueness Validation for Duplicate Email/Username",
-      "requirementId": "REQ-02",
-      "type": "negative",
-      "layer": "functional",
-      "priority": "critical"
-    },
-    {
-      "id": "TC-REG-006",
-      "name": "Negative: Password Mismatch Validation",
-      "requirementId": "REQ-05",
-      "type": "negative",
-      "layer": "validation",
-      "priority": "high"
-    },
-    {
-      "id": "TC-REG-007",
-      "name": "Boundary: Invalid BD Mobile Format",
-      "requirementId": "REQ-05",
-      "type": "negative",
-      "layer": "boundary",
-      "priority": "high"
-    },
-    {
-      "id": "TC-REG-008",
-      "name": "Negative: Missing Required Agreement Checkboxes Validation",
-      "requirementId": "REQ-01",
-      "type": "negative",
-      "layer": "validation",
-      "priority": "high"
-    },
-    {
-      "id": "TC-REG-009",
-      "name": "Negative: Invalid Email Format Validation",
-      "requirementId": "REQ-02",
-      "type": "negative",
-      "layer": "validation",
-      "priority": "high"
-    },
-    {
-      "id": "TC-REG-010",
-      "name": "Edge: Special Characters in Company Name & Dynamic Sanitization",
-      "requirementId": "REQ-01",
-      "type": "edge",
-      "layer": "edge",
-      "priority": "medium"
-    }
+    { "id": "TC-001", "name": "Positive: Successful B2B registration creates ERP account, Ship-To address, inactive customer, mapping, and redirects to review page", "requirementId": "REQ-01", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["smoke", "regression", "REQ-01"] },
+    { "id": "TC-002", "name": "Positive: Valid submission with alternate Type of Business and Contact Media combination", "requirementId": "REQ-01", "type": "positive", "layer": "UI", "priority": "P1", "tags": ["regression", "REQ-01"] },
+    { "id": "TC-003", "name": "Negative: Missing required field blocks submission — no ERP/customer entities created", "requirementId": "REQ-01", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-01"] },
+    { "id": "TC-004", "name": "Edge: Rapid double-click on Create Account does not create duplicate entities", "requirementId": "REQ-01", "type": "edge", "layer": "UI", "priority": "P1", "tags": ["edge", "regression", "REQ-01"] },
+
+    { "id": "TC-005", "name": "Positive: All Company Info fields accepted across different Type of Business dropdown options", "requirementId": "REQ-02", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["regression", "REQ-02"] },
+    { "id": "TC-006", "name": "Negative: Empty Company Name blocks submission with validation error", "requirementId": "REQ-02", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-02"] },
+    { "id": "TC-007", "name": "Negative: Invalid email format blocks submission with validation error", "requirementId": "REQ-02", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-02"] },
+    { "id": "TC-008", "name": "Boundary: BD phone number — valid 11-digit accepted, 10-digit and 12-digit rejected", "requirementId": "REQ-02", "type": "boundary", "layer": "UI", "priority": "P1", "tags": ["boundary", "regression", "REQ-02"] },
+    { "id": "TC-009", "name": "Edge: Special characters and Unicode in Company Name handled without breaking the form", "requirementId": "REQ-02", "type": "edge", "layer": "UI", "priority": "P2", "tags": ["edge", "security", "REQ-02"] },
+    { "id": "TC-010", "name": "Boundary: Zip Code empty vs whitespace-only input", "requirementId": "REQ-02", "type": "boundary", "layer": "UI", "priority": "P2", "tags": ["boundary", "REQ-02"] },
+
+    { "id": "TC-011", "name": "Positive: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden", "requirementId": "REQ-03", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["regression", "REQ-03"] },
+    { "id": "TC-012", "name": "Positive: Selecting Messenger reveals required Messenger Account Name/Link fields, WhatsApp field hidden", "requirementId": "REQ-03", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["regression", "REQ-03"] },
+    { "id": "TC-013", "name": "Edge: Toggling Contact Media from WhatsApp to Messenger clears the WhatsApp Number field/value", "requirementId": "REQ-03", "type": "edge", "layer": "UI", "priority": "P1", "tags": ["edge", "regression", "REQ-03"] },
+    { "id": "TC-014", "name": "Negative: WhatsApp selected but WhatsApp Number left blank blocks submission", "requirementId": "REQ-03", "type": "negative", "layer": "UI", "priority": "P1", "tags": ["regression", "validation", "REQ-03"] },
+
+    { "id": "TC-015", "name": "Positive: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted", "requirementId": "REQ-04", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["regression", "REQ-04"] },
+    { "id": "TC-016", "name": "Negative: Password and Confirm Password mismatch blocks submission", "requirementId": "REQ-04", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-04"] },
+    { "id": "TC-017", "name": "Boundary: Empty Password field blocks submission", "requirementId": "REQ-04", "type": "boundary", "layer": "UI", "priority": "P1", "tags": ["boundary", "regression", "REQ-04"] },
+    { "id": "TC-018", "name": "Edge: Username containing special characters or spaces", "requirementId": "REQ-04", "type": "edge", "layer": "UI", "priority": "P2", "tags": ["edge", "REQ-04"] },
+
+    { "id": "TC-019", "name": "Positive: All 3 required checkboxes checked (ToS, Privacy Policy, 18+) allows submission — Wholesale Agreement is display text, not a checkbox", "requirementId": "REQ-05", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["regression", "REQ-05"] },
+    { "id": "TC-020", "name": "Negative: Terms of Service unchecked blocks submission", "requirementId": "REQ-05", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-05"] },
+    { "id": "TC-021", "name": "Edge: Only the 18+ Age confirmation unchecked (others checked) blocks submission with specific error", "requirementId": "REQ-05", "type": "edge", "layer": "UI", "priority": "P1", "tags": ["edge", "regression", "REQ-05"] },
+
+    { "id": "TC-022", "name": "Positive: Brand-new unique email and username pass the uniqueness check", "requirementId": "REQ-06", "type": "positive", "layer": "UI", "priority": "P1", "tags": ["regression", "REQ-06"] },
+    { "id": "TC-023", "name": "Negative: Duplicate email (already-registered wholesale account) blocks submission with clear error", "requirementId": "REQ-06", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["smoke", "regression", "validation", "REQ-06"] },
+    { "id": "TC-024", "name": "Negative: Duplicate username blocks submission with clear error", "requirementId": "REQ-06", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-06"] },
+    { "id": "TC-025", "name": "Edge: Case-variant duplicate email (e.g. UserKBD@gmail.com vs userKBD@gmail.com)", "requirementId": "REQ-06", "type": "edge", "layer": "UI", "priority": "P2", "tags": ["edge", "REQ-06"] },
+
+    { "id": "TC-026", "name": "Positive: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications", "requirementId": "REQ-07", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["regression", "REQ-07"] },
+    { "id": "TC-027", "name": "Edge: Registration Applications list correctly excludes/shows entries with no matching application, no crash", "requirementId": "REQ-07", "type": "edge", "layer": "UI", "priority": "P2", "tags": ["edge", "REQ-07"] },
+
+    { "id": "TC-028", "name": "Positive: Admin activates account via Active flag + save — login enabled and welcome email sent", "requirementId": "REQ-08", "type": "positive", "layer": "UI", "priority": "P0", "tags": ["smoke", "regression", "REQ-08"] },
+    { "id": "TC-029", "name": "Negative: Login attempt before admin approval is blocked / inactive-account message shown", "requirementId": "REQ-08", "type": "negative", "layer": "UI", "priority": "P0", "tags": ["regression", "validation", "REQ-08"] },
+    { "id": "TC-030", "name": "Edge: Admin deactivates a previously-active account — login blocked again", "requirementId": "REQ-08", "type": "edge", "layer": "UI", "priority": "P2", "tags": ["edge", "REQ-08"] }
   ]
 }

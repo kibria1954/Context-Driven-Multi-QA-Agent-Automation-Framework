@@ -54,6 +54,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '00-testdata-environment',
     artifacts: (f) => [`testdata/${f}/seed.json`],
     requiresWriteSafety: false,
+    dependsOn: [],
   },
   {
     id: 1,
@@ -61,6 +62,8 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '01-context-ingestion',
     artifacts: (f) => [`requirements/${f}/parsed.json`],
     requiresWriteSafety: false,
+    // No dependency on Stage 0 — this is pure text processing, no live environment involved.
+    dependsOn: [],
   },
   {
     id: 2,
@@ -68,6 +71,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '02-testcase-design',
     artifacts: (f) => [`testcases/${f}.tc.json`],
     requiresWriteSafety: false,
+    dependsOn: [1],
   },
   {
     id: 3,
@@ -75,6 +79,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '03-workflow-design',
     artifacts: (f) => [`workflows/${f}.journey.json`],
     requiresWriteSafety: false,
+    dependsOn: [2],
   },
   {
     id: 4,
@@ -82,6 +87,8 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '04-live-explorer',
     artifacts: (f) => [`workflows/${f}.verify.json`],
     requiresWriteSafety: true,
+    // Needs the provisioned data from Stage 0 as well as the planned journey from Stage 3.
+    dependsOn: [3, 0],
   },
   {
     id: 5,
@@ -90,6 +97,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     // Location varies by feature (tests/e2e/{domain}/{feature}.spec.ts) — resolved via findSpecFile.
     artifacts: () => [],
     requiresWriteSafety: false,
+    dependsOn: [4],
   },
   {
     id: 6,
@@ -97,6 +105,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '06-coverage-validation',
     artifacts: (f) => [`memory/traceability/${f}.md`],
     requiresWriteSafety: false,
+    dependsOn: [5],
   },
   {
     id: 7,
@@ -106,6 +115,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     // invocation — this is a best-effort, repo-wide signal, not a strict per-feature one.
     artifacts: () => ['reports/generated/test-results.json'],
     requiresWriteSafety: true,
+    dependsOn: [6, 0],
   },
   {
     id: 8,
@@ -113,6 +123,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     skillDir: '08-report-generation',
     artifacts: (f) => [`reports/generated/${f}-report.html`],
     requiresWriteSafety: false,
+    dependsOn: [7],
   },
   {
     id: 9,
@@ -121,6 +132,7 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
     // Pattern store is global, not per-feature.
     artifacts: () => ['memory/healed-patterns.json'],
     requiresWriteSafety: false,
+    dependsOn: [8],
   },
 ];
 
@@ -208,14 +220,14 @@ export class Orchestrator {
       }
     }
 
-    if (stageId === 0) return { canRun: true };
-
-    const prevStatus = this.getStageStatus((stageId - 1) as StageId);
-    if (prevStatus.status !== 'complete') {
-      return {
-        canRun: false,
-        reason: `Stage ${stageId - 1} (${prevStatus.name}) is "${prevStatus.status}" — ${prevStatus.detail}`,
-      };
+    for (const depId of def.dependsOn) {
+      const depStatus = this.getStageStatus(depId);
+      if (depStatus.status !== 'complete') {
+        return {
+          canRun: false,
+          reason: `Stage ${depId} (${depStatus.name}) is "${depStatus.status}" — ${depStatus.detail}`,
+        };
+      }
     }
 
     return { canRun: true };

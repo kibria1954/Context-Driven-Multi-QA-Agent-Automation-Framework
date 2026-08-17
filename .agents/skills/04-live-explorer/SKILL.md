@@ -19,7 +19,7 @@ The Live Explorer visits the actual live/staging application via browser subagen
 
 Before ANY live site interaction:
 
-1. **Verify target environment** is marked `write-safe: true` in `envs/{env}.md` (for write actions).
+1. **Verify target environment is write-safe** by calling `isWriteSafe(envName)` from `utils/env.ts` (also what `agents/orchestrator.ts` uses to gate this stage) — don't just eyeball `envs/{env}.md`. If it returns `false` and the plan requires a write action (submit, delete, pay), stop: exploration proceeds read-only only.
 2. **Load test data** provisioned by Agent 0 — NEVER invent accounts/records on the fly.
 3. **Dismiss modals** on first navigation using `dismissAllModals()`.
 

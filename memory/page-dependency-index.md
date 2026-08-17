@@ -7,12 +7,13 @@
 
 | Page Object | Features Using It | Last Modified |
 |-------------|-------------------|---------------|
-| `pages/admin/admin-customer-details.page.ts` |  | 2026-08-10 |
+| `pages/admin/admin-customer-details.page.ts` | b2b-registration | 2026-08-17 |
 | `pages/admin/admin-dashboard.page.ts` |  | 2026-08-10 |
 | `pages/admin/admin-login.page.ts` |  | 2026-08-10 |
-| `pages/base.page.ts` |  | 2026-08-10 |
-| `pages/checkout.page.ts` | checkout | 2026-08-12 |
+| `pages/admin/admin-registration-applications.page.ts` | b2b-registration | 2026-08-17 |
+| `pages/base.page.ts` | b2b-registration | 2026-08-17 |
+| `pages/checkout.page.ts` |  | 2026-08-10 |
 | `pages/home.page.ts` |  | 2026-08-10 |
-| `pages/login.page.ts` | catalog, checkout, registration | 2026-08-12 |
-| `pages/register.page.ts` | registration | 2026-08-10 |
-| `pages/wishlist.page.ts` | catalog | 2026-08-11 |
+| `pages/login.page.ts` | b2b-registration | 2026-08-17 |
+| `pages/register.page.ts` | b2b-registration | 2026-08-17 |
+| `pages/wishlist.page.ts` |  | 2026-08-10 |

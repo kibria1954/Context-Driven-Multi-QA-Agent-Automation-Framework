@@ -1,0 +1,21 @@
+{
+  "feature": "b2b-registration",
+  "iterations": [
+    {
+      "iteration": 1,
+      "timestamp": "2026-08-15T00:00:00.000Z",
+      "dimensions": {
+        "reqCoverage": { "pass": true, "covered": 8, "total": 8 },
+        "riskCoverage": { "pass": true, "criticalCovered": 7, "criticalTotal": 7 },
+        "businessRules": { "pass": true, "rulesCovered": 0, "rulesTotal": 0, "note": "Source requirement has no explicit BR-XX list; N/A" },
+        "boundaryAccuracy": { "pass": true, "missing": [] },
+        "dataValidity": { "pass": true, "note": "BD 11-digit phone, faker email/company/address via Agent 0" },
+        "feasibility": { "pass": true, "note": "No selectors invented — TCs describe fields/actions only; live selector verification is Stage 4" },
+        "traceability": { "pass": true }
+      },
+      "gapsFilled": 0,
+      "duplicatesRemoved": 0,
+      "converged": true
+    }
+  ]
+}

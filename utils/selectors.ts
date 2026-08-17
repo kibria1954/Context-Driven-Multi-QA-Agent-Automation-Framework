@@ -17,9 +17,23 @@
 
 // ─── Selector Entry Type ─────────────────────────────────────────────────────
 
+export interface SelectorFallback {
+  /** Stability tier from Agent 3's live-exploration capture — see .agents/skills/04-live-explorer/SKILL.md */
+  readonly tier: 'T1' | 'T2' | 'T3' | 'T4' | 'T5' | 'T6' | 'T7';
+  readonly selector: string;
+}
+
 export interface SelectorEntry {
   readonly selector: string;
   readonly description: string;
+  /**
+   * Optional ranked fallback candidates captured during live exploration (Stage 4) or
+   * added by self-healing (Stage 5, Loop B). Absent until a page has actually been
+   * explored/healed — `selector` alone remains valid and functional either way.
+   * Loop B patches a heal by appending here first; it only promotes a fallback to be
+   * the primary `selector` after semantic verification passes (see 07-execution-self-heal).
+   */
+  readonly fallbacks?: readonly SelectorFallback[];
 }
 
 // ─── Helper: Extract selector string ─────────────────────────────────────────
@@ -278,6 +292,10 @@ export const REGISTER_SELECTORS = {
   nextStepButton: {
     selector: 'button.register-next-step-button, button.kd-next-btn, button:has-text("Next")',
     description: 'Next step button on wizard',
+    fallbacks: [
+      { tier: 'T4', selector: 'button.kd-next-btn' },
+      { tier: 'T6', selector: "button:has-text('Next')" },
+    ],
   },
   previousStepButton: {
     selector: 'button.kd-prev-btn, button:has-text("Previous")',
@@ -513,6 +531,26 @@ export const ADMIN_SELECTORS = {
 } as const;
 
 // ─────────────────────────────────────────────
+// ADMIN — ADVANCED B2B/B2C > REGISTRATION APPLICATIONS
+// (Confirmed real location for REQ-07's "KD Registration Details" —
+//  see workflows/b2b-registration.verify.json's discrepancy note)
+// ─────────────────────────────────────────────
+
+export const ERP_REGISTRATION_SELECTORS = {
+  applicationsGrid: {
+    selector: 'table tbody tr',
+    description: 'Registration Applications data grid rows',
+    fallbacks: [
+      { tier: 'T5', selector: '.dataTables_wrapper table tbody tr' },
+    ],
+  },
+  gridSearchInput: {
+    selector: 'input[name="SearchCompanyName"], input.k-textbox, .dataTables_filter input',
+    description: 'Registration Applications grid search/filter input',
+  },
+} as const;
+
+// ─────────────────────────────────────────────
 // COMMON / SHARED SELECTORS
 // ─────────────────────────────────────────────
 
@@ -717,6 +755,7 @@ export const ALL_SELECTOR_GROUPS = {
   PRODUCT: PRODUCT_SELECTORS,
   CART: CART_SELECTORS,
   ADMIN: ADMIN_SELECTORS,
+  ERP_REGISTRATION: ERP_REGISTRATION_SELECTORS,
   COMMON: COMMON_SELECTORS,
   WISHLIST: WISHLIST_SELECTORS,
   CHECKOUT: CHECKOUT_SELECTORS,

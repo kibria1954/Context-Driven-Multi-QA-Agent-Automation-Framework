@@ -6,6 +6,24 @@
 
 ---
 
+## 🚦 Mandatory Pre-Flight Protocol (Read This First)
+
+**Any model or agent — not just this session — MUST complete this checklist, in order, before doing any pipeline work in this repo.** Skipping a step here is how the two real incidents below happened: fabricated SHA-256 hashes that silently broke change-detection for months, and coverage matching that cross-contaminated REQ-IDs between features. Neither would have survived this checklist.
+
+1. **Read this file (`AGENTS.md`) in full.** Don't jump straight to a stage's skill file without the master rules — they override anything a skill file doesn't cover.
+2. **Identify the feature slug.** Run `npx ts-node scripts/run-pipeline.ts --story={feature}` (see `agents/orchestrator.ts`) and trust its READY / BLOCKED / STALE / ALREADY COMPLETE output over any assumption about what stage comes next.
+3. **Never run a stage the orchestrator reports BLOCKED for, and never skip a stage.** If it says stage N is blocked, fix the blocking reason first — don't route around it.
+4. **Read the specific `.agents/skills/{NN}-*/SKILL.md` for the stage about to run**, in full, and follow its exact schema (field names, file paths, table structure). Don't improvise a simplified version of the format.
+5. **Check `memory/pending-questions.md` for open blocking questions on this feature** before proceeding. If one exists, that's the next thing to resolve — not the stage you were about to run.
+6. **Check `memory/pattern-library.md` and `memory/healed-patterns.json` (TRUSTED-status entries) before generating new code or test cases.** Reuse a known-good pattern before inventing a new approach to a problem this system has already solved.
+7. **Treat `envs/production.md`'s `write-safe: false` as a hard stop, never a judgment call.** No confidence threshold overrides it. If a task seems to require a write action against production, that's an escalation, not a decision.
+8. **Never fabricate data.** SHA-256 hashes, coverage percentages, and selectors must be computed or verified for real — not plausible-looking placeholders. (Real incident: all 3 original features' `source.meta.json` had fabricated hash strings that were never actual SHA-256 output, silently breaking Agent 1's change-detection until caught during a framework audit.)
+9. **When a requirement or result is ambiguous, stop and write to `memory/pending-questions.md`.** Do not guess and do not silently pick an interpretation, even a reasonable-sounding one.
+10. **After generating or editing any `.ts` file, run `npx tsc --noEmit` before considering the stage done.** A stage isn't complete if the project doesn't typecheck.
+11. **Never invent a new file path or schema.** Check this file's "Memory & Knowledge Store Structure" section (below) for the canonical path first — if what you need isn't there, that's a signal to ask, not to freelance a new convention.
+
+---
+
 ## Core Principles
 
 1. **Strict Agent Pipeline Hierarchy** — Pipeline MUST proceed sequentially: Agent 0 ➔ Agent 7, with cross-cutting Learning Loop. No skipping agents. Agent 0 (Data & Environment) completes before Agent 3 (Live Explorer) or Agent 5 (Execution) touch any environment.
@@ -30,7 +48,7 @@
 16. **Test Pyramid Awareness** — UI E2E is the most expensive, most flaky layer. Agent 2 classifies each test case with a **Layer** column (UI/API). API-only validations go to `tests/api/`, not forced through the browser.
 17. **Stakeholder-Readable Outputs** — Technical artifacts (test tables, traceability matrices) are the working format, but every report includes a plain-language summary layer for non-technical stakeholders.
 18. **Drift-Aware Re-Verification** — The system doesn't only re-check when requirements change on paper. Stable/high-priority features are periodically re-explored via Agent 3 to catch environment drift proactively.
-19. **Agent Quality Control** — Each agent's instructions are versioned files (`memory/agent-prompts/{agent}-v{n}.md`). Prompt updates run against `memory/eval-regression-set.md` before promotion.
+19. **Agent Quality Control** — `.agents/skills/{NN}-*/SKILL.md` **is** the live, current prompt for that stage — there is only one version in effect at a time, and it's the one in that file. `memory/agent-prompts/{agent}-v{n}.md` is NOT a parallel or duplicate set of prompts — it only gets a new file when someone is *proposing a change* to a skill file: snapshot the current `SKILL.md` there before editing, run both the old and new versions against `memory/eval-regression-set.md`, and only overwrite the live `SKILL.md` if the new version's output quality is ≥ the baseline. If it's worse, discard the edit and keep the snapshot as a record of what was tried.
 20. **Cross-Feature Impact Detection** — When a page object changes (via Agent 4 codegen or Agent 5 healing), `memory/page-dependency-index.md` is consulted to flag all other features sharing that page for re-verification.
 
 ---
@@ -189,6 +207,8 @@ Track over time, surfaced in `reports/`:
 /memory/pattern-library.md                   (Distilled reusable rules from heal-log + decisions)
 /memory/page-dependency-index.md             (Which features use which shared page objects)
 /memory/a11y-findings.md                     (Accessibility scan results, non-blocking backlog)
+/memory/known-bugs.md                        (Filed bug tickets — Agent 7 dedup lookup before filing new ones)
+/memory/convergence/{feature}.json           (Loop A iteration/convergence history — one file per feature)
 /memory/healed-patterns.json                 (Pattern lifecycle store)
 /memory/healed-patterns.md                   (Human-readable pattern sync)
 /memory/self-heal-log.json                   (Execution audit log)

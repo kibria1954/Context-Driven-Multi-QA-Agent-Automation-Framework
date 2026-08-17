@@ -1,15 +1,147 @@
 {
-  "storyName": "b2b-registration",
-  "verifiedAt": "2026-08-10T09:06:00.000Z",
-  "results": [
+  "feature": "b2b-registration",
+  "verifiedAt": "2026-08-15T01:00:00.000Z",
+  "environment": "staging",
+  "baseUrl": "https://kbd.nop-station.site",
+  "method": "Playwright script (headless Chromium), driven directly rather than via a browser extension — see explore1-12.js in this session for the exact scripts run.",
+  "pages": [
     {
-      "journeyId": "JOURNEY-001",
-      "name": "B2B Registration 3-Step Wizard & Admin Approval Workflow",
-      "status": "pass",
-      "stepsVerified": 15,
-      "stepsTotal": 15,
-      "mismatches": [],
-      "notes": "Verified live site 3-step registration wizard at https://kbd.nop-station.site/register. All fields, dropdown values, conditional contact channels (Whatsapp vs Messenger), credentials setup, and agreement checkboxes match expectations 100%."
+      "pageName": "Registration Page — Step 1 (Company Info + Contact Details)",
+      "urlPattern": "/register",
+      "elements": [
+        { "elementName": "companyName", "locatorCandidates": [{ "tier": "T2", "selector": "#CompanyName", "verified": true }], "recommendedSelector": "#CompanyName", "elementType": "input" },
+        { "elementName": "typeOfBusiness", "locatorCandidates": [{ "tier": "T2", "selector": "#TypeOfBusinessId", "verified": true }], "recommendedSelector": "#TypeOfBusinessId", "elementType": "select", "note": "Confirmed working via Playwright's native selectOption() — no special Select2 handling needed in this flow, though PAT-SEL2-001 may still apply visually." },
+        { "elementName": "email", "locatorCandidates": [{ "tier": "T2", "selector": "#Email", "verified": true }], "recommendedSelector": "#Email", "elementType": "input" },
+        { "elementName": "phoneNumber", "locatorCandidates": [{ "tier": "T2", "selector": "#PhoneNumber", "verified": true }], "recommendedSelector": "#PhoneNumber", "elementType": "input", "note": "Placeholder '+8801 XXX-XXXXXX' confirms BD format expectation." },
+        { "elementName": "websiteUrl", "locatorCandidates": [{ "tier": "T2", "selector": "#WebsiteUrl", "verified": true }], "recommendedSelector": "#WebsiteUrl", "elementType": "input" },
+        { "elementName": "addressLine1", "locatorCandidates": [{ "tier": "T2", "selector": "#AddressLine1", "verified": true }], "recommendedSelector": "#AddressLine1", "elementType": "input" },
+        { "elementName": "addressLine2", "locatorCandidates": [{ "tier": "T2", "selector": "#AddressLine2", "verified": true }], "recommendedSelector": "#AddressLine2", "elementType": "input" },
+        { "elementName": "city", "locatorCandidates": [{ "tier": "T2", "selector": "#City", "verified": true }], "recommendedSelector": "#City", "elementType": "input" },
+        { "elementName": "stateDivision", "locatorCandidates": [{ "tier": "T2", "selector": "#County", "verified": true }], "recommendedSelector": "#County", "elementType": "input" },
+        { "elementName": "zipCode", "locatorCandidates": [{ "tier": "T2", "selector": "#ZipPostalCode", "verified": true }], "recommendedSelector": "#ZipPostalCode", "elementType": "input" },
+        { "elementName": "contactName", "locatorCandidates": [{ "tier": "T2", "selector": "#ContactName", "verified": true }], "recommendedSelector": "#ContactName", "elementType": "input" },
+        { "elementName": "position", "locatorCandidates": [{ "tier": "T2", "selector": "#Position", "verified": true }], "recommendedSelector": "#Position", "elementType": "input" },
+        { "elementName": "contactMedia", "locatorCandidates": [{ "tier": "T2", "selector": "#ContactMediaId", "verified": true }], "recommendedSelector": "#ContactMediaId", "elementType": "select" },
+        { "elementName": "whatsAppNumber", "locatorCandidates": [{ "tier": "T2", "selector": "#WhatsAppNumber", "verified": true }], "recommendedSelector": "#WhatsAppNumber", "elementType": "input", "states": { "default": "hidden", "whatsAppSelected": "visible+required" } },
+        { "elementName": "messengerAccountName", "locatorCandidates": [{ "tier": "T2", "selector": "#MessengerAccountName", "verified": true }], "recommendedSelector": "#MessengerAccountName", "elementType": "input", "states": { "default": "hidden", "messengerSelected": "visible+required" } },
+        { "elementName": "messengerAccountLink", "locatorCandidates": [{ "tier": "T2", "selector": "#MessengerAccountLink", "verified": true }], "recommendedSelector": "#MessengerAccountLink", "elementType": "input", "states": { "default": "hidden", "messengerSelected": "visible+required" } },
+        { "elementName": "nextStepButton", "locatorCandidates": [{ "tier": "T6", "selector": "button:has-text('Next')", "verified": true }, { "tier": "T4", "selector": "button.kd-next-btn", "verified": true }], "recommendedSelector": "button.kd-next-btn", "elementType": "button" },
+        { "elementName": "dateOfBirth", "locatorCandidates": [{ "tier": "T2", "selector": "#DateOfBirth", "verified": true }], "recommendedSelector": "#DateOfBirth", "elementType": "input", "note": "NOT in original requirement text. Label confirms 'Date of birth (optional)' — not required, unrelated to the 18+ agreement checkbox." },
+        { "elementName": "marketingOptIn", "locatorCandidates": [{ "tier": "T2", "selector": "#MarketingOptIn", "verified": true }], "recommendedSelector": "#MarketingOptIn", "elementType": "checkbox", "note": "NOT in original requirement text. Optional, unrelated to the 4 named agreements." }
+      ],
+      "dynamicWidgets": [
+        { "widgetType": "Multi-step wizard", "selector": ".kd-step, [data-step]", "handlingStrategy": "3 real steps confirmed: Step 1 (Company Info + Contact Details combined), Step 2 (Account Setup), Step 3 (Agreements + Submit). Next buttons matched via button:has-text('Next') — 2 total, use .first() / .nth(1).", "verified": true }
+      ],
+      "modals": [
+        { "modalName": "Welcome/Announcement Overlay", "selector": "#kdn-welcome-modal", "dismissal": "TRUSTED pattern PAT-MODAL-002 (memory/healed-patterns.json): evaluate DOM removal of #kdn-welcome-modal + .modal-backdrop, reset body overflow. Clicking its close button was unreliable in this session — it intercepted pointer events and timed out the click.", "appearsOn": "first-visit, timing-sensitive" }
+      ],
+      "negativeStates": [
+        {
+          "scenario": "Submit with Company Name blank (blocked at Step 1 -> Step 2 'Next' transition)",
+          "errorMessages": [{ "selector": "span[data-valmsg-for='CompanyName'], .field-validation-error", "text": "Company name is required." }],
+          "formState": "stays on step 1, retained values",
+          "urlState": "stays on /register"
+        },
+        {
+          "scenario": "Submit with an already-registered Email (userKBD@gmail.com), blocked at Step 1 -> Step 2 'Next' transition — NOT at final submit",
+          "errorMessages": [{ "selector": "TBD - inline body text near Email field", "text": "An account with this email address already exists." }],
+          "formState": "stays on step 1, retained values",
+          "urlState": "stays on /register"
+        }
+      ],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/b2b-registration/visual/registration-step1-initial.png"
+    },
+    {
+      "pageName": "Registration Page — Step 3 (Agreements + Submit)",
+      "urlPattern": "/register",
+      "elements": [
+        { "elementName": "acceptTermsOfService", "locatorCandidates": [{ "tier": "T2", "selector": "#AcceptTermsOfService", "verified": true }], "recommendedSelector": "#AcceptTermsOfService", "elementType": "checkbox", "required": true, "labelText": "I have read and agree to the Terms of Service. *" },
+        { "elementName": "acceptPrivacyPolicy", "locatorCandidates": [{ "tier": "T2", "selector": "#AcceptPrivacyPolicy", "verified": true }], "recommendedSelector": "#AcceptPrivacyPolicy", "elementType": "checkbox", "required": true, "labelText": "I have read and agree to the Privacy Policy. *" },
+        { "elementName": "ageConfirmed", "locatorCandidates": [{ "tier": "T2", "selector": "#AgeConfirmed", "verified": true }], "recommendedSelector": "#AgeConfirmed", "elementType": "checkbox", "required": true, "labelText": "I confirm I am 18 years or older and have legal authority to register on behalf of the business. *" },
+        { "elementName": "submitButton", "locatorCandidates": [{ "tier": "T2", "selector": "#kd-register-submit", "verified": true }], "recommendedSelector": "#kd-register-submit", "elementType": "button", "text": "Submit Application" }
+      ],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/b2b-registration/visual/registration-step3-agreements.png",
+      "discrepancy": "REQUIREMENT CORRECTION: the requirement text listed 4 agreements ('Wholesale Account Agreement (Texts), Terms of Service, Privacy Policy, and 18+ Age confirmation'). Live verification confirms only 3 real checkboxes exist (ToS, Privacy Policy, Age). 'Wholesale Account Agreement' is DISPLAY TEXT ('Agreement — By creating a wholesale account...') shown above the checkboxes, not itself a checkbox. Also reveals a real business rule not in the requirement: 'A Minimum Order Value of BDT 10,000 applies to every wholesale order.' REQ-05 and TC-019/020/021 updated accordingly."
+    },
+    {
+      "pageName": "Registration Result / Success Page",
+      "urlPattern": "/register/result",
+      "elements": [
+        { "elementName": "resultMessage", "locatorCandidates": [{ "tier": "T4", "selector": ".result", "verified": true }], "recommendedSelector": ".result", "elementType": "container", "exactText": "Application Submitted. Thank you for applying for a wholesale account. Your application is under review and you will be notified by email once it has been approved." }
+      ],
+      "dynamicWidgets": [], "modals": [], "negativeStates": [], "a11yFindings": [],
+      "visualBaseline": "workflows/b2b-registration/visual/registration-success.png"
+    },
+    {
+      "pageName": "Login Page",
+      "urlPattern": "/login",
+      "elements": [
+        { "elementName": "emailInput", "locatorCandidates": [{ "tier": "T2", "selector": "#Email", "verified": true }], "recommendedSelector": "#Email", "elementType": "input" },
+        { "elementName": "passwordInput", "locatorCandidates": [{ "tier": "T2", "selector": "#Password", "verified": true }], "recommendedSelector": "#Password", "elementType": "input" },
+        { "elementName": "loginButton", "locatorCandidates": [{ "tier": "T4", "selector": "button.login-button", "verified": true }], "recommendedSelector": "button.login-button, form.login-form button[type='submit']", "elementType": "button" }
+      ],
+      "dynamicWidgets": [], "modals": [], "a11yFindings": [],
+      "negativeStates": [
+        {
+          "scenario": "Login attempt before admin approval (account inactive)",
+          "errorMessages": [{ "selector": "body text", "text": "Login was unsuccessful. Please correct the errors and try again. Account is not active" }],
+          "formState": "stays on login form",
+          "urlState": "stays on /login"
+        }
+      ],
+      "visualBaseline": null
+    },
+    {
+      "pageName": "Admin — Customer List",
+      "urlPattern": "/Admin/Customer/List",
+      "elements": [
+        { "elementName": "searchEmail", "locatorCandidates": [{ "tier": "T2", "selector": "#SearchEmail", "verified": true }], "recommendedSelector": "#SearchEmail", "elementType": "input" },
+        { "elementName": "searchIsActive", "locatorCandidates": [{ "tier": "T2", "selector": "#SearchIsActive", "verified": true }], "recommendedSelector": "#SearchIsActive", "elementType": "select", "note": "Options: '' = All, 'True' = Yes, 'False' = No. MUST be explicitly set to 'False' to find pending/inactive applicants — search returns 'No records' otherwise even with a correct email, confirming the project owner's original instruction to use this filter." },
+        { "elementName": "searchButton", "locatorCandidates": [{ "tier": "T2", "selector": "#search-customers", "verified": true }], "recommendedSelector": "#search-customers", "elementType": "button" }
+      ],
+      "dynamicWidgets": [{ "widgetType": "AJAX grid (Kendo-style)", "selector": "table tbody tr", "handlingStrategy": "waitForLoadState('networkidle') + explicit wait after clicking #search-customers", "verified": true }],
+      "modals": [], "negativeStates": [], "a11yFindings": [],
+      "visualBaseline": null
+    },
+    {
+      "pageName": "Admin — Customer Edit",
+      "urlPattern": "/Admin/Customer/Edit/{id}",
+      "elements": [
+        { "elementName": "activeCheckbox", "locatorCandidates": [{ "tier": "T2", "selector": "#Active", "verified": true }], "recommendedSelector": "#Active", "elementType": "checkbox" },
+        { "elementName": "saveButton", "locatorCandidates": [{ "tier": "T6", "selector": "button:has-text('Save')", "verified": true }], "recommendedSelector": "button:has-text('Save')", "elementType": "button" }
+      ],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/b2b-registration/visual/admin-customer-edit.png",
+      "discrepancy": "No 'KD Registration Details' section found on this page (checked visible text and tab structure twice). See Admin Registration Applications page below for the confirmed real location, per owner decision."
+    },
+    {
+      "pageName": "Admin — Advanced B2B/B2C > Registration Applications",
+      "urlPattern": "/Admin/ErpRegistrationApplication/List",
+      "elements": [
+        { "elementName": "registrationApplicationsGrid", "locatorCandidates": [{ "tier": "T5", "selector": "table tbody tr", "verified": true }], "recommendedSelector": "table tbody tr", "elementType": "table", "columns": ["Full Registered Name", "Registration Number", "Vat Number", "Telephone Number 1", "Telephone Number 2", "Telefax Number", "Accounts Contact Person Name/Surname", "Accounts Email", "Accounts Telephone/Cellphone Number", "Buyer Contact Person Name/Surname", "Buyer Email", "Nature Of Business", "Estimate Purchases Per Month", "US Dollar Credit Limit Required", "Created On", "Edit"] }
+      ],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/b2b-registration/visual/admin-registration-applications.png",
+      "note": "CONFIRMED REAL LOCATION for REQ-07 ('KD Registration Details' in original requirement). Owner-confirmed correction — see requirements/b2b-registration/parsed.json REQ-07."
     }
-  ]
+  ],
+  "endToEndConfirmed": {
+    "fullHappyPathLifecycle": true,
+    "notes": "TC-001 (register) -> account created, tagged 'B2B Customer' role, found via admin search with Is Active=No -> TC-028 (admin checks Active + Save, exact success text 'The customer has been updated successfully.') -> post-approval login succeeded (homepage shows authenticated 'Anika Mia' session). Full loop verified live against real data, not assumed."
+  },
+  "knownLimitations": [
+    "Welcome/activation email (REQ-08): no observable in-app signal was found to confirm the email was actually sent — this remains untestable E2E without mail server access, as flagged in workflows/b2b-registration.journey.json asyncHandlers."
+  ],
+  "overallStatus": "verified"
 }

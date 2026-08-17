@@ -17,6 +17,8 @@ Agent 6 builds the complete traceability chain: **Requirement clause → Test Ca
 
 ### 1. Multi-Level Coverage Audit
 
+**Scope every match to the feature's own spec file(s) — never match REQ-IDs against specs repo-wide.** REQ-IDs are numbered locally per feature (every feature has its own REQ-01, REQ-02, ...), so a repo-wide substring/tag search will cross-contaminate — `b2b-registration`'s REQ-01 will falsely "match" `wishlist-management`'s spec file just because it also happens to have a REQ-01. This is a real bug that was found and fixed in this codebase (`scripts/validate-coverage.ts`); do not reintroduce it. Restrict candidate spec files to `tests/e2e/**/{story}.spec.ts` and `tests/api/**/{story}*.spec.ts` for the feature currently being validated before doing any REQ-ID matching.
+
 For each REQ-ID in `requirements/{feature}/parsed.json`:
 
 | Level | Check | Pass Criteria |
