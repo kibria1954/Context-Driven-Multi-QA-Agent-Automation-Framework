@@ -130,6 +130,19 @@ After exploring all steps:
    - Different validation messages → Update expected results in `.verify.json`.
    - Flow fundamentally different → **ESCALATE** to owner: "The live site does {X} but the requirement says {Y}. Please clarify."
 
+#### 7a. Verifying Claimed Cross-Surface Effects ("Admin sees X after customer does Y")
+
+**Incident (2026-08-18):** REQ-07 claimed "admin sees the submitted wholesale application" at `/Admin/ErpRegistrationApplication/List`. Stage 4 visited that page, saw plausible column headers, and screenshotted it — but the screenshot itself shows **"No records."** No test registration had ever actually appeared there because that grid isn't fed by self-registration at all; the real location (`/Admin/ErpAccount/List`) was never checked. This was recorded as "confirmed real location... confirmed with the project owner" and shipped into `TC-026`/`TC-027`, which then failed against every real run until a human investigated live.
+
+**A page loading with the right-looking columns is NOT verification.** When a requirement or journey step claims one surface (admin, a report, an email, another user's view) reflects an effect caused on a different surface, you MUST close the loop before marking it `verified: true`:
+
+1. **Perform the actual triggering action** (e.g. submit the registration) with a data value you'll recognize (a unique company name, order ID, etc.) — reuse Agent 0's provisioned data, don't invent throwaway data.
+2. **Navigate to the claimed destination surface** and search/filter for that *specific* value.
+3. **Confirm a row/element containing that specific value is visible** — not just that the page/grid renders. If the grid is empty, paginated, or requires a search filter to surface the entry, note that in `handlingStrategy` and use it in codegen (Agent 4) too.
+4. **Capture the populated-state screenshot**, not just the empty/initial-state one — `workflows/{feature}/visual/{state}.png` should show your actual test data, not a blank grid.
+5. If step 3 fails (no matching row found anywhere reasonable — check pagination, check "Show: All" filters), **do not guess a fallback location and do not accept a verbal "confirmed with the owner" as a substitute.** Classify as unresolved and escalate: "Requirement says {surface} shows {effect} after {action} — after performing {action} with test data `{value}`, no matching record was found at {location}. Where does this actually appear?"
+6. A verbal/chat confirmation from the project owner about *which page* is a lead worth checking, not evidence — it still needs step 1-4 proof before being marked `verified: true`.
+
 ### 8. Scheduled Drift Re-Verification
 
 Independent of requirement changes, stable/high-priority features should be re-explored periodically:
@@ -138,6 +151,21 @@ Independent of requirement changes, stable/high-priority features should be re-e
 - **Purpose**: Catch environment drift — a redesigned page, changed validation, or new popup that nobody logged.
 - **Action**: Re-run Agent 3 for the feature, diff against previous `.verify.json`.
 - **If drift detected** → Flag as `DRIFT_DETECTED` and trigger downstream re-verification.
+
+### 9. Infrastructure Verification (Setup/Teardown/Config)
+
+**Gap this closes:** `tests/global-setup.ts`, `tests/global-teardown.ts`, and `playwright.config.ts` are hand-authored once and then treated as fixed scaffolding — no skill currently re-verifies them the way feature pages get re-verified in Section 8. `03-workflow-design/SKILL.md` lists `global-setup.ts` only as a passive data *source* (`storageState`), and `05-codegen-pom/SKILL.md` just consumes `tests/.auth/admin.json` on trust. When that trust is misplaced (a broken login selector, e.g.), nothing catches it until every downstream test fails.
+
+Apply the SAME live-verification rigor used for feature pages to this infrastructure, at these times:
+- **Whenever `tests/global-setup.ts` is written or modified.**
+- **On the same drift cadence as P0 features** (Section 8) — infra breaking silently is at least as costly as a P0 feature breaking.
+- **Immediately, if Section 1 of the Cascading Failure Pattern Recognition check in `07-execution-self-heal/SKILL.md` fires** (≥3 unrelated test failures at the same early step in a shared-context helper).
+
+**Verification protocol for auth-establishing setup code specifically:**
+1. Run the setup script's login flow live, exactly as written.
+2. Confirm success via an unambiguous signal — the actual session/auth cookie the app sets on real login (capture its name once via a real manual login and record it in `.verify.json`), not "the click didn't throw."
+3. Confirm the button/element actually clicked is the one intended — if the selector is a comma-separated list, verify each alternative doesn't ALSO match an unrelated element earlier in the DOM (e.g. a header search button). See `memory/pattern-library.md` ANTI-005.
+4. Record the confirmed auth-cookie name and the selector's semantic verification in `.verify.json` under a `infrastructure` key, so future changes to the login form trigger the same drift-detection review as a feature page would.
 
 ---
 
@@ -215,6 +243,8 @@ Independent of requirement changes, stable/high-priority features should be re-e
 - Dynamic widgets documented with handling strategies.
 - Write-action safety enforced.
 - Visual baselines captured.
+- Every "surface A shows effect of action on surface B" claim has a populated-state screenshot with matching test data, not just a page-loads screenshot (Section 7a).
+- Auth-establishing infrastructure (`tests/global-setup.ts`) has a confirmed auth-cookie signal recorded, not assumed (Section 9).
 
 ## ❌ Blocked Conditions
 - Target environment unreachable → `ENVIRONMENT_ISSUE`, retry later.

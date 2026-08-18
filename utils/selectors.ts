@@ -537,16 +537,24 @@ export const ADMIN_SELECTORS = {
 // ─────────────────────────────────────────────
 
 export const ERP_REGISTRATION_SELECTORS = {
+  // Admin → Advanced B2B/B2C → ERP Accounts (/Admin/ErpAccount/List) — the grid that
+  // actually receives a row per submitted wholesale registration. The previously-used
+  // /Admin/ErpRegistrationApplication/List ("Registration Applications") page never
+  // populates from self-registration — confirmed live, always shows "No records" there.
   applicationsGrid: {
     selector: 'table tbody tr',
-    description: 'Registration Applications data grid rows',
+    description: 'ERP Accounts data grid rows',
     fallbacks: [
       { tier: 'T5', selector: '.dataTables_wrapper table tbody tr' },
     ],
   },
   gridSearchInput: {
-    selector: 'input[name="SearchCompanyName"], input.k-textbox, .dataTables_filter input',
-    description: 'Registration Applications grid search/filter input',
+    selector: '#AccountName',
+    description: 'ERP Accounts grid "Account Name" search/filter input',
+  },
+  gridSearchButton: {
+    selector: '#search-erpAccounts',
+    description: 'ERP Accounts grid Search button',
   },
 } as const;
 

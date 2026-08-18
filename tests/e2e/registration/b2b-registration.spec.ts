@@ -68,6 +68,9 @@ async function registerFullAccount(page: Page, overrides: Partial<B2BRegistratio
 
 test.describe('B2B Registration — Core Lifecycle @regression', () => {
   test('TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01', async ({ page, browser }) => {
+    // Registration (~15-20s) + a second admin-authenticated browser context navigating
+    // two admin pages exceeds the global 30s default against the live site in headed mode.
+    test.setTimeout(60_000);
     const data = await registerFullAccount(page);
 
     await withAdminPage(browser, async (adminPage) => {
@@ -93,6 +96,7 @@ test.describe('B2B Registration — Core Lifecycle @regression', () => {
   });
 
   test('TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01', async ({ page, browser }) => {
+    test.setTimeout(60_000); // see TC-001 note: registration + a second admin context needs more than the 30s default
     const registerPage = new RegisterPage(page);
     const data = generateDynamicB2BRegistrationData({ companyName: '' });
     await registerPage.navigate();
@@ -109,6 +113,7 @@ test.describe('B2B Registration — Core Lifecycle @regression', () => {
   });
 
   test('TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01', async ({ page, browser }) => {
+    test.setTimeout(60_000); // see TC-001 note: registration + a second admin context needs more than the 30s default
     const registerPage = new RegisterPage(page);
     const data = generateDynamicB2BRegistrationData();
     await registerPage.navigate();
@@ -386,6 +391,7 @@ test.describe('B2B Registration — Email/Username Uniqueness @regression', () =
 
 test.describe('B2B Registration — Admin Registration Applications Grid @regression', () => {
   test('TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07', async ({ page, browser }) => {
+    test.setTimeout(60_000); // see TC-001 note: registration + a second admin context needs more than the 30s default
     const data = await registerFullAccount(page);
 
     await withAdminPage(browser, async (adminPage) => {
@@ -407,6 +413,8 @@ test.describe('B2B Registration — Admin Registration Applications Grid @regres
 
 test.describe('B2B Registration — Admin Activation Lifecycle @smoke @regression', () => {
   test('TC-028: Admin activates account via Active flag + save — login enabled @REQ-08', async ({ page, browser }) => {
+    // Three sequential browser contexts (registration, admin, post-approval login) — needs even more headroom than TC-001.
+    test.setTimeout(75_000);
     const data = await registerFullAccount(page);
 
     await withAdminPage(browser, async (adminPage) => {
@@ -437,6 +445,8 @@ test.describe('B2B Registration — Admin Activation Lifecycle @smoke @regressio
   });
 
   test('TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08', async ({ page, browser }) => {
+    // Three sequential browser contexts (registration, admin, post-deactivation login) — needs even more headroom than TC-001.
+    test.setTimeout(75_000);
     const data = await registerFullAccount(page);
 
     await withAdminPage(browser, async (adminPage) => {

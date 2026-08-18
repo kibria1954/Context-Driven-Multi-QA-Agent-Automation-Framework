@@ -23,6 +23,8 @@ export interface TestResultSummary {
 export interface TestCaseResult {
   tcId: string;
   name: string;
+  project: string;
+  retries: number;
   status: 'passed' | 'failed' | 'skipped' | 'quarantined';
   duration: number;
   error?: string;
@@ -41,6 +43,13 @@ export interface CoverageData {
   positiveCount: number;
   negativeCount: number;
   edgeCount: number;
+}
+
+export interface AuthSetupResult {
+  role: 'admin' | 'customer';
+  success: boolean;
+  error?: string;
+  timestamp: string;
 }
 
 export interface SelfHealEntry {
@@ -73,6 +82,7 @@ export interface ReportData {
     status: 'covered' | 'partial' | 'uncovered';
   }>;
   selfHealLog: SelfHealEntry[];
+  setupStatus: AuthSetupResult[];
   loopMetrics: {
     loopAIterations: number;
     loopAConvergenceScore: number;
@@ -120,7 +130,9 @@ export function readPlaywrightResults(): TestCaseResult[] {
 
             results.push({
               tcId: extractTcId(spec.title) || `TC-00${results.length + 1}`,
-              name: spec.title,
+              name: cleanDisplayName(spec.title),
+              project: test.projectName || 'unknown',
+              retries: Math.max(0, (test.results?.length || 1) - 1),
               status: finalStatus,
               duration: lastResult?.duration || 0,
               error: lastResult?.error?.message,
@@ -158,9 +170,25 @@ export function readSelfHealLog(): SelfHealEntry[] {
 }
 
 /**
+ * Read admin/customer login health from the last global-setup run
+ * (written by tests/global-setup.ts to reports/generated/setup-status.json).
+ */
+export function readSetupStatus(): AuthSetupResult[] {
+  const statusFile = path.join(REPORTS_DIR, 'setup-status.json');
+  if (!fs.existsSync(statusFile)) return [];
+
+  try {
+    const data = JSON.parse(fs.readFileSync(statusFile, 'utf8'));
+    return data.results || [];
+  } catch {
+    return [];
+  }
+}
+
+/**
  * Read run history for trend analysis.
  */
-export function readRunHistory(): ReportData['trends'] {
+export function readRunHistory(storyName?: string): ReportData['trends'] {
   const historyDir = path.join(MEMORY_DIR, 'run-history');
   if (!fs.existsSync(historyDir)) return [];
 
@@ -170,6 +198,7 @@ export function readRunHistory(): ReportData['trends'] {
       .map((f) => {
         const data = JSON.parse(fs.readFileSync(path.join(historyDir, f), 'utf8'));
         return {
+          story: data.story as string | undefined,
           runId: data.runId || f.replace('.json', ''),
           date: data.timestamp || data.startedAt || '',
           passRate: data.summary?.passRate || 0,
@@ -177,7 +206,10 @@ export function readRunHistory(): ReportData['trends'] {
           duration: data.summary?.duration || 0,
         };
       })
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      .filter((entry) => !storyName || !entry.story || entry.story === storyName)
+      .map(({ story, ...rest }) => rest)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(-20);
   } catch {
     return [];
   }
@@ -193,7 +225,8 @@ export function buildReportData(
 ): ReportData {
   const testResults = readPlaywrightResults();
   const selfHealLog = readSelfHealLog();
-  const trends = readRunHistory();
+  const setupStatus = readSetupStatus();
+  const trends = readRunHistory(storyName);
 
   const passed = testResults.filter((t) => t.status === 'passed').length;
   const failed = testResults.filter((t) => t.status === 'failed').length;
@@ -258,6 +291,7 @@ export function buildReportData(
     },
     traceabilityMatrix,
     selfHealLog,
+    setupStatus,
     loopMetrics: {
       loopAIterations: 1,
       loopAConvergenceScore: 100,
@@ -268,7 +302,49 @@ export function buildReportData(
   };
 }
 
+/**
+ * Persist this run's summary to memory/run-history/ so the NEXT report's trend
+ * chart can see it. (Previously trends were only ever read, never written —
+ * the trend chart had no data to show.)
+ */
+export function recordRunHistory(data: ReportData): void {
+  const historyDir = path.join(MEMORY_DIR, 'run-history');
+  try {
+    fs.mkdirSync(historyDir, { recursive: true });
+    const safeRunId = data.metadata.runId.replace(/[^a-zA-Z0-9_-]/g, '_');
+    const file = path.join(historyDir, `${data.metadata.pipelineStory}--${safeRunId}.json`);
+    fs.writeFileSync(
+      file,
+      JSON.stringify(
+        {
+          runId: data.metadata.runId,
+          story: data.metadata.pipelineStory,
+          timestamp: data.metadata.reportDate,
+          summary: data.summary,
+        },
+        null,
+        2
+      )
+    );
+  } catch {
+    // Non-fatal — trend chart simply won't gain a data point this run.
+  }
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
+
+/**
+ * Strip the "TC-XXX:" prefix and trailing "@tag" annotations from a spec title —
+ * both are already shown in their own dedicated columns (TC-ID, REQ-ID, Type),
+ * so repeating them inline just clutters the Name column and makes rows harder
+ * to scan at a glance.
+ */
+function cleanDisplayName(title: string): string {
+  return title
+    .replace(/^TC-[A-Z0-9-]+:\s*/i, '')
+    .replace(/\s*@\S+/g, '')
+    .trim();
+}
 
 function extractTcId(title: string): string | undefined {
   const match = title.match(/TC-[A-Z0-9-]+/i);

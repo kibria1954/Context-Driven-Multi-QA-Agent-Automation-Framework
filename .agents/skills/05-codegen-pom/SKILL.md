@@ -126,6 +126,18 @@ test.afterAll(async () => {
 });
 ```
 
+### 5a. Timeout Budget for Multi-Context Tests
+
+**Incident (2026-08-18):** Tests combining a multi-step registration flow with a SECOND (or third) `browser.newContext()` for admin/login verification consistently exceeded the suite's default `timeout` in headed mode against a live site — Playwright force-closed the nested context mid-action, producing a misleading `"Target page, context or browser has been closed"` error that looks like browser instability rather than the real cause (not enough time budgeted).
+
+Whenever generated spec code opens an additional `browser.newContext()` beyond the primary `page` fixture (e.g. a `withAdminPage()`-style helper, or a post-action re-login check), add an explicit `test.setTimeout()` as the first line of that test, sized as:
+
+```
+primary flow duration  +  (per extra context × [navigation + storageState load + assertions])
+```
+
+As a starting point against a live site in headed mode: budget ~15-20s for the primary flow per step, plus ~20-25s per extra context. Round up — a test finishing early costs nothing; a test timing out mid-assertion produces a confusing error that hides the real one. Never rely on the suite-wide default `timeout` to cover this — it's sized for the common single-context case.
+
 ### 6. Dynamic Waits — No Fixed Sleeps
 
 | Pattern | Implementation |

@@ -39,8 +39,41 @@ async function globalTeardown(config: FullConfig) {
 
   // Automatically update Stage 8 Custom Executive HTML & Markdown Dashboard Reports
   try {
-    // Wait 1000ms to ensure Playwright JSON reporter has fully flushed results to disk
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // A fixed sleep here previously raced the JSON reporter's flush under real load —
+    // report generation would run against a stale test-results.json (from an earlier
+    // run) and silently under-report the pass rate. Guessing "long enough" via mtime
+    // windows proved fragile (the reporter can flush several seconds before OR after
+    // globalTeardown starts, depending on run size). Instead, verify deterministically:
+    // the JSON reporter embeds the exact process argv it ran with — if that matches
+    // THIS invocation's own argv (also available on `config`), the file is unambiguously
+    // ours, no clock-based guessing involved. Poll only for the "not written yet" case.
+    const resultsFile = path.join(process.cwd(), 'reports', 'generated', 'test-results.json');
+    const thisRunArgv = JSON.stringify(config.argv || []);
+    const POLL_INTERVAL_MS = 300;
+    const MAX_WAIT_MS = 30000;
+    const pollStartedAt = Date.now();
+
+    let freshnessConfirmed = false;
+    while (Date.now() - pollStartedAt < MAX_WAIT_MS) {
+      try {
+        const fileArgv = JSON.stringify(JSON.parse(fs.readFileSync(resultsFile, 'utf-8')).config?.argv || []);
+        if (fileArgv === thisRunArgv) {
+          freshnessConfirmed = true;
+          break;
+        }
+      } catch {
+        // File missing or mid-write (invalid JSON) — keep polling.
+      }
+      await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+    }
+    if (!freshnessConfirmed) {
+      console.warn(
+        `⚠️ test-results.json still doesn't match this run's argv after waiting ${MAX_WAIT_MS}ms — ` +
+        `the JSON reporter is still finalizing attachments (common in --headed runs with ` +
+        `trace/video recording). The report below may reflect an earlier run, not this one.\n` +
+        `   → Run "npm run report" once the terminal is idle to regenerate it from the final data.`
+      );
+    }
 
     const executedSpec = config.argv?.find((a) => a.includes('.spec.ts'));
     const storyMatch = executedSpec?.match(/([^\/\\]+)\.spec\.ts/);

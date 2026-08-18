@@ -24,6 +24,9 @@ const HEADLESS = process.env.HEADLESS !== 'false';
 const SLOW_MO = parseInt(process.env.SLOW_MO || '0', 10);
 const DEFAULT_TIMEOUT = parseInt(process.env.DEFAULT_TIMEOUT || '30000', 10);
 const NAVIGATION_TIMEOUT = parseInt(process.env.NAVIGATION_TIMEOUT || '60000', 10);
+// Cross-browser (Firefox) and mobile-viewport projects are opt-in only — an unfiltered
+// `npx playwright test` should exercise Chrome only. Set CROSS_BROWSER=true to include them.
+const CROSS_BROWSER = process.env.CROSS_BROWSER === 'true';
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -97,22 +100,22 @@ export default defineConfig({
       testMatch: /admin\/.+\.spec\.ts/,
     },
 
-    // ─── Cross-browser (Firefox) ───
-    {
+    // ─── Cross-browser (Firefox) — opt-in via CROSS_BROWSER=true, excluded from default runs ───
+    ...(CROSS_BROWSER ? [{
       name: 'storefront-firefox',
       use: {
         ...devices['Desktop Firefox'],
       },
       testMatch: /(?:auth|registration)\/.+\.spec\.ts/,
-    },
+    }] : []),
 
-    // ─── Mobile viewport ───
-    {
+    // ─── Mobile viewport — opt-in via CROSS_BROWSER=true, excluded from default runs ───
+    ...(CROSS_BROWSER ? [{
       name: 'storefront-mobile',
       use: {
         ...devices['iPhone 14'],
       },
       testMatch: /mobile\/.+\.spec\.ts/,
-    },
+    }] : []),
   ],
 });

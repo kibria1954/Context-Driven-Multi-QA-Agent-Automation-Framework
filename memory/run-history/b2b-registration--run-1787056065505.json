@@ -1,0 +1,15 @@
+{
+  "runId": "run-1787056065505",
+  "story": "b2b-registration",
+  "timestamp": "2026-08-18T12:27:45.509Z",
+  "summary": {
+    "totalTests": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0,
+    "quarantined": 0,
+    "duration": 45113,
+    "timestamp": "2026-08-18T12:27:45.509Z",
+    "passRate": 0
+  }
+}

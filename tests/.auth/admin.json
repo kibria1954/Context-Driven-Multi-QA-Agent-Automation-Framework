@@ -2,7 +2,7 @@
   "cookies": [
     {
       "name": ".Nop.Antiforgery",
-      "value": "CfDJ8HKyYRXx9IBLnJ5ah6-OsJ8-7dxh8rdtHBWAC3KtT0msTR15iaHXjOEEj6ykHh3mXXYz3rykmexqg_FAHR318X9d3J1rQfo3pDYL6ED5JZ9gWpFMWh2Y4ktnHRCs75YbcOlkbUg9jImw0493uFpI778",
+      "value": "CfDJ8HKyYRXx9IBLnJ5ah6-OsJ9zVbV5-kacOjfqCxAkktRgu5Cs7APZfsOqS-6Gwd0l9f5KKhhbLw80xNIBeTWSmadv6NJZJjXjzmjRKKyVryVWd5NlkQDi4vPWuIwnWlZ1N97KW7k3C_C0e0cIjwKILG0",
       "domain": "kbd.nop-station.site",
       "path": "/",
       "expires": -1,
@@ -12,10 +12,10 @@
     },
     {
       "name": "_ga",
-      "value": "GA1.1.1485961115.1786960274",
+      "value": "GA1.1.134759523.1787061207",
       "domain": ".nop-station.site",
       "path": "/",
-      "expires": 1821520276.176056,
+      "expires": 1821621207.11946,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"
@@ -31,31 +31,41 @@
       "sameSite": "Lax"
     },
     {
-      "name": ".Nop.Culture",
-      "value": "c%3Den-US%7Cuic%3Den-US",
+      "name": ".Nop.Authentication",
+      "value": "CfDJ8HKyYRXx9IBLnJ5ah6-OsJ-VP0Pst4sEDoxpCg9b_mwUMXRMqIZgNP9Dc_Oq_taN_KQVn-WY2H-YeBDOV8GV1kM7ocn31BiVwra7GpwiK6nkO0Ibw3nN7NUfMAwrw0h81ZHKR_9BtAmhWiof4DXV2sfaUkWnKc239Gvw1DvcEQZ85q_sH8I7aUu_YZDbj3H5ukfnNa-56yxUqDW2D9-YxZoBIpaNYzU25xLyXJK-XTy1PxdKQnQ9yvyxBq3QhppWNvggquVCGmeEKGKl64HEr3bj7f0HHsGLyc-zvzJb3LTXxWoNisBVVDNHNxbchLmLRaV_VJiMzlnBDfugvJ5OmJV8_0E7PD5SgU2vESUOOJviU7rUZBCj6xD_Q__aKcrcZiiqv4hI7sd63y0azuKEF727btVvWKPXoNrixE3EnAqQL5_kPCkli2QvDJmGTtVMsV8rV0-zeiyLSj0XD5aYlzdvH_X2o4rJw_vymuHxvNG9wkdAZyzuKM7E7uhq1AFs7Wzgj6xOKC6Wfd3euhUBQbVDVUeerv62oqmyyBRRME0EUsre7hkjyrKFg05sAhU2TMSs_XPkEqzSc24Pi-m5Z4bgr09Zy-ZrSgkrq9-6jJH3",
       "domain": "kbd.nop-station.site",
       "path": "/",
-      "expires": 1818496276.083001,
-      "httpOnly": false,
-      "secure": false,
-      "sameSite": "Lax"
-    },
-    {
-      "name": ".Nop.Customer",
-      "value": "f8a96e6e-5614-4e9b-873c-5578ca84d473",
-      "domain": "kbd.nop-station.site",
-      "path": "/",
-      "expires": 1818496276.083075,
+      "expires": -1,
       "httpOnly": true,
       "secure": false,
       "sameSite": "Lax"
     },
     {
       "name": "_ga_XXXXXXXXXX",
-      "value": "GS2.1.s1786960274$o1$g1$t1786960276$j58$l0$h0",
+      "value": "GS2.1.s1787061207$o1$g0$t1787061210$j57$l0$h0",
       "domain": ".nop-station.site",
       "path": "/",
-      "expires": 1821520276.175833,
+      "expires": 1821621210.571511,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".Nop.Customer",
+      "value": "c3c8b0bb-3532-4b22-a48b-949344ce3561",
+      "domain": "kbd.nop-station.site",
+      "path": "/",
+      "expires": 1818597211.916708,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": ".Nop.Culture",
+      "value": "c%3Den-US%7Cuic%3Den-US",
+      "domain": "kbd.nop-station.site",
+      "path": "/",
+      "expires": 1818597211.916763,
       "httpOnly": false,
       "secure": false,
       "sameSite": "Lax"

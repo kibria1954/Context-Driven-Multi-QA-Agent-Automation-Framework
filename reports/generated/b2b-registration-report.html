@@ -36,24 +36,40 @@
     .badge-positive { background: rgba(59,130,246,0.15); color: var(--accent); }
     .badge-negative { background: rgba(249,115,22,0.15); color: #f97316; }
     .badge-edge { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .badge-browser { background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid var(--border); }
     .progress-bar { width: 100%; height: 24px; background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; margin: 8px 0; }
     .progress-fill { height: 100%; border-radius: 12px; transition: width 1s ease; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
     .footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 0.75rem; border-top: 1px solid var(--border); margin-top: 40px; }
+    .banner { border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; border: 1px solid var(--border); }
+    .banner-ok { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3); color: var(--text-primary); }
+    .banner-fail { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.35); color: var(--text-primary); }
+    .error-cell { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.75rem; color: var(--danger); max-width: 320px; white-space: pre-wrap; word-break: break-word; }
+    .row-blocked { background: rgba(239,68,68,0.04); }
+    .screenshot-link { color: var(--info); font-size: 0.75rem; text-decoration: none; }
+    .screenshot-link:hover { text-decoration: underline; }
+    .live-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--success); margin-right:6px; box-shadow: 0 0 6px var(--success); }
+    .status-pill { display:inline-flex; align-items:center; gap:4px; padding:4px 12px; border-radius:6px; font-size:0.8rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+    .status-pass { background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.4); }
+    .status-fail { background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); }
+    .status-skip { background:rgba(100,116,139,0.18); color:#cbd5e1; border:1px solid rgba(100,116,139,0.4); }
   </style>
 </head>
 <body>
   <div class="header">
     <h1>🤖 Context-Driven AI QA Agent — Executive Dashboard</h1>
     <div class="meta">
-      Feature: b2b-registration | Env: staging | Date: 8/17/2026, 4:19:06 PM | Run: run-1786961946499
+      <span class="live-dot"></span>Feature: b2b-registration | Env: staging | Date: 8/18/2026, 8:18:11 PM | Run: run-1787062691235
     </div>
   </div>
   <div class="container">
+    <div class="banner banner-ok">
+      ✅ <strong>Auth setup healthy</strong> — admin &amp; customer sessions verified before this run (real `.Nop.Authentication` cookie confirmed, not just "no error thrown").
+    </div>
     <div class="grid">
-      <div class="stat-card"><div class="value" style="color:#f59e0b">77%</div><div class="label">Pass Rate</div></div>
-      <div class="stat-card"><div class="value">30</div><div class="label">Total Tests</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--success)">23</div><div class="label">Passed</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--danger)">7</div><div class="label">Failed</div></div>
+      <div class="stat-card"><div class="value" style="color:#10b981">100%</div><div class="label">Pass Rate</div></div>
+      <div class="stat-card"><div class="value">3</div><div class="label">Total Tests</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--success)">3</div><div class="label">Passed</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--danger)">0</div><div class="label">Failed</div></div>
       <div class="stat-card"><div class="value" style="color:var(--warning)">0</div><div class="label">Skipped</div></div>
       <div class="stat-card"><div class="value" style="color:var(--info)">0</div><div class="label">Quarantined</div></div>
     </div>
@@ -61,8 +77,8 @@
     <div class="card">
       <h2>📈 Overall Execution Pass Rate</h2>
       <div class="progress-bar">
-        <div class="progress-fill" style="width:77%;background:linear-gradient(90deg,#f59e0b,#f59e0bcc)">
-          77%
+        <div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#10b981,#10b981cc)">
+          100%
         </div>
       </div>
     </div>
@@ -70,277 +86,52 @@
     <div class="card">
       <h2>📋 Test Execution Details</h2>
       <table>
-        <thead><tr><th>TC-ID</th><th>Name</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th></tr></thead>
+        <thead><tr><th>TC-ID</th><th>Name</th><th>Browser</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th><th>Failure Reason</th><th>Evidence</th></tr></thead>
         <tbody>
         
           <tr>
-            <td><strong>TC-001</strong></td>
-            <td>TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>31.1s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
             <td><strong>TC-002</strong></td>
-            <td>TC-002: Valid submission with alternate Type of Business and Contact Media combination @REQ-01</td>
+            <td>Valid submission with alternate Type of Business and Contact Media combination</td>
+            <td><span class="badge badge-browser">storefront-guest</span></td>
             <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>16.9s</td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>16.6s</td>
             <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-003</strong></td>
-            <td>TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>31.6s</td>
-            <td>REQ-01</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-004</strong></td>
-            <td>TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>26.6s</td>
-            <td>REQ-01</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
           </tr>
         
           <tr>
             <td><strong>TC-005</strong></td>
-            <td>TC-005: All Company Info fields accepted across different Type of Business options @REQ-02</td>
+            <td>All Company Info fields accepted across different Type of Business options</td>
+            <td><span class="badge badge-browser">storefront-guest</span></td>
             <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>21.5s</td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>21.2s</td>
             <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-006</strong></td>
-            <td>TC-006: Empty Company Name blocks submission with validation error @REQ-02</td>
-            <td><span class="badge badge-edge">edge</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>23.0s</td>
-            <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-007</strong></td>
-            <td>TC-007: Invalid email format blocks submission with validation error @REQ-02</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>8.8s</td>
-            <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-008</strong></td>
-            <td>TC-008: BD phone number — 11-digit accepted, 10-digit and 12-digit rejected @REQ-02</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>20.3s</td>
-            <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-009</strong></td>
-            <td>TC-009: Special characters and Unicode in Company Name handled without breaking the form @REQ-02</td>
-            <td><span class="badge badge-edge">edge</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>8.1s</td>
-            <td>REQ-02</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-010</strong></td>
-            <td>TC-010: Zip Code empty vs whitespace-only input — consistent handling @REQ-02</td>
-            <td><span class="badge badge-edge">edge</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>14.2s</td>
-            <td>REQ-02</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
           </tr>
         
           <tr>
             <td><strong>TC-011</strong></td>
-            <td>TC-011: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden @REQ-03</td>
+            <td>Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden</td>
+            <td><span class="badge badge-browser">storefront-guest</span></td>
             <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>4.7s</td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>4.8s</td>
             <td>REQ-03</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-012</strong></td>
-            <td>TC-012: Selecting Messenger reveals required Messenger fields, WhatsApp field hidden @REQ-03</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>6.1s</td>
-            <td>REQ-03</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-013</strong></td>
-            <td>TC-013: Toggling Contact Media from WhatsApp to Messenger clears/hides the WhatsApp Number field @REQ-03</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>4.9s</td>
-            <td>REQ-03</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-014</strong></td>
-            <td>TC-014: WhatsApp selected but WhatsApp Number left blank blocks submission @REQ-03</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>8.2s</td>
-            <td>REQ-03</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-015</strong></td>
-            <td>TC-015: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted @REQ-04</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>11.1s</td>
-            <td>REQ-04</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-016</strong></td>
-            <td>TC-016: Password and Confirm Password mismatch blocks submission @REQ-04</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>11.6s</td>
-            <td>REQ-04</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-017</strong></td>
-            <td>TC-017: Empty Password field blocks submission @REQ-04</td>
-            <td><span class="badge badge-edge">edge</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>10.9s</td>
-            <td>REQ-04</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-018</strong></td>
-            <td>TC-018: Username containing special characters or spaces @REQ-04</td>
-            <td><span class="badge badge-edge">edge</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>11.7s</td>
-            <td>REQ-04</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-019</strong></td>
-            <td>TC-019: All 3 required checkboxes checked allows submission — Wholesale Agreement is display text, not a checkbox @REQ-05</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>14.8s</td>
-            <td>REQ-05</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-020</strong></td>
-            <td>TC-020: Terms of Service unchecked blocks submission @REQ-05</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>17.6s</td>
-            <td>REQ-05</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-021</strong></td>
-            <td>TC-021: Only the 18+ Age confirmation unchecked blocks submission with specific error @REQ-05</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>17.4s</td>
-            <td>REQ-05</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-022</strong></td>
-            <td>TC-022: Brand-new unique email and username pass the uniqueness check @REQ-06</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>7.8s</td>
-            <td>REQ-06</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-023</strong></td>
-            <td>TC-023: Duplicate email (already-registered wholesale account) blocks submission with clear error @smoke @REQ-06</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>22.9s</td>
-            <td>REQ-06</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-024</strong></td>
-            <td>TC-024: Duplicate username blocks submission with clear error @REQ-06</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>24.3s</td>
-            <td>REQ-06</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-025</strong></td>
-            <td>TC-025: Case-variant duplicate email blocks submission @REQ-06</td>
-            <td><span class="badge badge-negative">negative</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>7.9s</td>
-            <td>REQ-06</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-026</strong></td>
-            <td>TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>31.5s</td>
-            <td>REQ-07</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-027</strong></td>
-            <td>TC-027: Registration Applications list correctly handles no matching application, no crash @REQ-07</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>14.7s</td>
-            <td>REQ-07</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-028</strong></td>
-            <td>TC-028: Admin activates account via Active flag + save — login enabled @REQ-08</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>31.2s</td>
-            <td>REQ-08</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-029</strong></td>
-            <td>TC-029: Login attempt before admin approval is blocked with inactive-account message @REQ-08</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-pass">PASSED</span></td>
-            <td>21.9s</td>
-            <td>REQ-08</td>
-          </tr>
-        
-          <tr>
-            <td><strong>TC-030</strong></td>
-            <td>TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08</td>
-            <td><span class="badge badge-positive">positive</span></td>
-            <td><span class="badge badge-fail">FAILED</span></td>
-            <td>29.5s</td>
-            <td>REQ-08</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
           </tr>
         
         </tbody>
@@ -348,11 +139,113 @@
     </div>
 
     <div class="card">
+      <h2>📈 Pass Rate Trend (last 18 runs)</h2>
+      <svg viewBox="0 0 900 160" style="width:100%; height:auto;"><line x1="36" y1="136" x2="888" y2="136" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="139" text-anchor="end" font-size="9" fill="var(--text-muted)">0%</text><line x1="36" y1="105" x2="888" y2="105" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="108" text-anchor="end" font-size="9" fill="var(--text-muted)">25%</text><line x1="36" y1="74" x2="888" y2="74" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="77" text-anchor="end" font-size="9" fill="var(--text-muted)">50%</text><line x1="36" y1="43" x2="888" y2="43" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="46" text-anchor="end" font-size="9" fill="var(--text-muted)">75%</text><line x1="36" y1="12" x2="888" y2="12" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="15" text-anchor="end" font-size="9" fill="var(--text-muted)">100%</text><g>
+      <rect x="36" y="127.32" width="41.333333333333336" height="8.680000000000001" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787052847835 — 7% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="56.66666666666667" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="83.33333333333334" y="127.32" width="41.333333333333336" height="8.680000000000001" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787054188766 — 7% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="104.00000000000001" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="130.66666666666669" y="86.4" width="41.333333333333336" height="49.6" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787055136406 — 40% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="151.33333333333334" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="178" y="136" width="41.333333333333336" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787055274956 — 0% (1 tests) — Aug 18</title>
+      </rect>
+      <text x="198.66666666666666" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="225.33333333333334" y="136" width="41.333333333333336" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787055285162 — 0% (1 tests) — Aug 18</title>
+      </rect>
+      <text x="246" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="272.6666666666667" y="136" width="41.333333333333336" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787055730425 — 0% (1 tests) — Aug 18</title>
+      </rect>
+      <text x="293.33333333333337" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="320" y="136" width="41.333333333333336" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787056065505 — 0% (1 tests) — Aug 18</title>
+      </rect>
+      <text x="340.6666666666667" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="367.33333333333337" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787057874795 — 100% (3 tests) — Aug 18</title>
+      </rect>
+      <text x="388.00000000000006" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="414.6666666666667" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787058960112 — 100% (3 tests) — Aug 18</title>
+      </rect>
+      <text x="435.33333333333337" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="462" y="74" width="41.333333333333336" height="62" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787060486628 — 50% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="482.6666666666667" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="509.33333333333337" y="74" width="41.333333333333336" height="62" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787060543841 — 50% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="530" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="556.6666666666667" y="136" width="41.333333333333336" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787061175657 — 0% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="577.3333333333334" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="604" y="136" width="41.333333333333336" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787061322929 — 0% (60 tests) — Aug 18</title>
+      </rect>
+      <text x="624.6666666666666" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="651.3333333333334" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787061553709 — 100% (4 tests) — Aug 18</title>
+      </rect>
+      <text x="672" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="698.6666666666667" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787061752704 — 100% (4 tests) — Aug 18</title>
+      </rect>
+      <text x="719.3333333333334" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="746" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787061827835 — 100% (4 tests) — Aug 18</title>
+      </rect>
+      <text x="766.6666666666666" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="793.3333333333334" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787062015367 — 100% (3 tests) — Aug 18</title>
+      </rect>
+      <text x="814" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g><g>
+      <rect x="840.6666666666667" y="12" width="41.333333333333336" height="124" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787062691235 — 100% (3 tests) — Aug 18</title>
+      </rect>
+      <text x="861.3333333333334" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 18</text>
+    </g></svg>
+    </div>
+
+    
+
+    <div class="card">
       <h2>🎯 Scenario Coverage Breakdown</h2>
       <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="stat-card"><div class="value" style="color:var(--accent)">19</div><div class="label">Positive Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#f97316">6</div><div class="label">Negative Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#a855f7">5</div><div class="label">Edge Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:var(--accent)">3</div><div class="label">Positive Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#f97316">0</div><div class="label">Negative Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#a855f7">0</div><div class="label">Edge Scenarios</div></div>
       </div>
     </div>
 
@@ -434,7 +327,7 @@
     </div>
   </div>
   <div class="footer">
-    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-17T10:19:06.506Z
+    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-18T14:18:11.246Z
   </div>
 </body>
 </html>

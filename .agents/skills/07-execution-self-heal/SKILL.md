@@ -1,6 +1,6 @@
 ---
 name: 07-execution-self-heal
-description: Execute Playwright test suites, classify failures via 6-class error taxonomy, perform Loop B self-healing with semantic verification and review gates, manage flaky quarantine, and record all heal evidence.
+description: Execute Playwright test suites, classify failures via 7-class error taxonomy (including cascading shared-infrastructure failures), perform Loop B self-healing with semantic verification and review gates, manage flaky quarantine, and record all heal evidence.
 ---
 
 # Agent 5 — Execution & Safe Self-Healing Skill (Loop B)
@@ -29,6 +29,23 @@ npx playwright test {spec} --workers=4
 ```bash
 npx playwright test --shard=1/4  # Run on 4 parallel workers
 ```
+
+---
+
+## 🚨 Cascading Failure Pattern Recognition (Run FIRST, Before Per-Test Classification)
+
+**Incident (2026-08-18):** A broken selector in `tests/global-setup.ts` silently saved an unauthenticated `storageState`. Every test reusing it then failed independently on unrelated-looking symptoms (`#SearchEmail` not found, "context has been closed", grid rows missing) — each of which *could* be individually mis-classified as `FLAKY_LOCATOR` and "healed" by hunting for a different `#SearchEmail` selector that would never exist, burning the 5-attempt circuit breaker on a fix that was never going to work, without ever pointing at the real root cause.
+
+**Before running the per-test decision tree below**, scan the batch of failures from this run for this shape:
+
+1. **≥3 different test cases fail at the same early step** inside the same shared-context helper (e.g. `withAdminPage()`, any helper that consumes `tests/.auth/*.json`) — regardless of how different their individual error messages look.
+2. If found, **suspect shared setup/auth infrastructure FIRST**:
+   - Check `reports/generated/setup-status.json` (written by `tests/global-setup.ts`) for a recorded failure.
+   - If missing/inconclusive, independently verify the relevant `tests/.auth/*.json` actually contains proof of a logged-in session (e.g. the `.Nop.Authentication` cookie for this app — not just a non-empty cookie array).
+3. If shared infra is broken, classify as **`SETUP_INFRA_ISSUE`** (not `FLAKY_LOCATOR`) and fix the ONE setup script — do not spend healing attempts on the individual downstream tests, they will all resolve once setup is fixed.
+4. Only fall through to per-test classification below once shared infra is confirmed healthy.
+
+> **Why this matters:** the failure classes below (`FLAKY_LOCATOR`, `REAL_BUG`, etc.) are designed for *code Agent 4 generated and Agent 3 verified* — `tests/global-setup.ts`, `tests/global-teardown.ts`, and `playwright.config.ts` are hand-authored infrastructure that no skill currently re-verifies live (see `04-live-explorer/SKILL.md`'s Infrastructure Verification section) or subjects to the semantic-match rigor applied to page-object selectors. Until that's true, this pattern check is the safety net.
 
 ---
 
@@ -160,6 +177,21 @@ $$\text{Auto-Heal Trigger} = (\text{Confidence} \ge 90\%) \land (\text{Safe Chan
 3. Quarantine the test (it should fail until the bug is fixed).
 4. Write to `reports/quarantine/{feature}-bugs.md`.
 
+### Class 7: `SETUP_INFRA_ISSUE`
+
+**Trigger:** Caught via the Cascading Failure Pattern Recognition check above — ≥3 unrelated-looking test failures trace back to shared infrastructure (`tests/global-setup.ts`, `tests/global-teardown.ts`, `playwright.config.ts`) rather than any individual test or page object.
+
+**Self-Heal Steps:**
+1. **DO NOT** attempt to heal the individual downstream tests — their locators/logic are likely correct; they're failing as a *symptom*.
+2. Identify the specific infra script and line responsible (auth login, storageState creation, report generation timing, project/timeout config).
+3. Apply the same rigor as `FLAKY_LOCATOR` semantic verification, but to the infra script's OWN success condition:
+   - If the script performs a UI action whose result other code depends on (login, form submit), verify via an unambiguous signal (session cookie, redirected URL, authenticated-only element) — see `memory/pattern-library.md` ANTI-006. Never trust "no exception was thrown."
+   - If the script combines a specific and a generic selector in one `.first()` call, check whether the generic half could match an unrelated element elsewhere on the page — see ANTI-005.
+   - If the script waits a fixed delay for another process (a reporter, a file write) to finish, replace it with a poll against a verifiable freshness signal — see ANTI-008.
+4. Fix the ONE infra script. Re-run the full batch of previously-failing tests together (not just one) to confirm they now pass as a group — this is the anti-regression check for this class.
+5. **Always flag for human review** (`⚠️` in the Review Gate table below) — infra scripts affect every test in the suite, so no infra heal auto-commits regardless of confidence.
+6. Record the heal in `memory/heal-log.md` as usual, and add a new entry to `memory/pattern-library.md`'s Anti-Patterns section if the root cause is a reusable lesson (selector pattern, missing verification, timing assumption) — infra bugs are exactly the kind of single-point-of-failure worth distilling, since one fix here prevents an entire class of downstream false failures.
+
 ---
 
 ## 🛡️ Review Gate on Healed Code
@@ -171,6 +203,7 @@ $$\text{Auto-Heal Trigger} = (\text{Confidence} \ge 90\%) \land (\text{Safe Chan
 | Structural page object change | Any | ❌ Human review required |
 | Assertion value change | Any | ❌ Human review required |
 | Step order change | ≥ 95% | ⚠️ Flag for human review |
+| Any `SETUP_INFRA_ISSUE` fix (`global-setup.ts`, `global-teardown.ts`, `playwright.config.ts`) | Any | ❌ Human review required — affects every test in the suite |
 
 ---
 

@@ -15,6 +15,15 @@ Agent 7 aggregates all pipeline data — execution results, coverage matrices, s
 
 ## 🛠️ Report Generation Protocol
 
+### 0. Data Freshness Gate (Run BEFORE generating anything)
+
+**Incident (2026-08-18):** `tests/global-teardown.ts` slept a fixed 1000ms hoping Playwright's JSON reporter had finished flushing `reports/generated/test-results.json`, then generated the report. Under real load that wasn't always enough — the report silently regenerated from a stale prior run's data, once showing 0% pass immediately after a run that had actually passed 100%, with no error or warning anywhere.
+
+Before reading `reports/generated/test-results.json` (or any other reporter output) to build a report:
+1. Never trust a fixed delay as proof another process finished writing a file. Poll for a verifiable freshness signal — e.g. the file's mtime advancing past a checkpoint captured before the wait began — with a bounded timeout (a few seconds is enough in practice).
+2. If the freshness check times out, still generate the report (better than nothing) but **log a visible warning** that the data may be stale, rather than silently presenting it as current.
+3. Sanity-check the loaded result count/pass-rate against what the test runner's own console output reported for this run, when both are available in the same invocation (e.g. `global-teardown.ts` has access to the run that just happened) — a mismatch is a strong signal the freshness check above needs tightening further.
+
 ### 1. Stakeholder Summary (Top of Report)
 
 The first section of every report is a plain-language summary:
@@ -192,6 +201,7 @@ The HTML report follows the existing glassmorphic dark-mode design from `scripts
 - `reports/generated/test-results.json` (Raw Playwright JSON output)
 
 ## ✅ Gate Condition
+- Data freshness verified before generation (Section 0) — not assumed from a fixed delay.
 - Report generated with all sections populated.
 - Stakeholder summary is plain-language (no jargon).
 - Bug reports deduped against known issues.

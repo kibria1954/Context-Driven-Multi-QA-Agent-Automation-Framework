@@ -8,15 +8,91 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
-import { buildReportData, ReportData } from '../utils/report-helpers';
+import { buildReportData, recordRunHistory, ReportData } from '../utils/report-helpers';
 
 const ROOT = path.resolve(__dirname, '..');
 const REPORTS_DIR = path.join(ROOT, 'reports', 'generated');
 
+function escapeHtml(value: string): string {
+  return value
+    // eslint-disable-next-line no-control-regex
+    .replace(/\x1b\[[0-9;]*m/g, '') // strip ANSI color codes from Playwright's terminal-formatted error messages
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/** Renders the trend history as a lightweight inline-SVG bar chart — no chart library dependency. */
+function renderTrendChart(trends: ReportData['trends']): string {
+  if (trends.length === 0) {
+    return `<p style="color:var(--text-muted); font-size:0.875rem;">No run history yet — this data point will appear here starting with the next run.</p>`;
+  }
+  const w = 900, h = 160, padL = 36, padB = 24, padT = 12;
+  const barGap = 6;
+  const plotW = w - padL - 12;
+  const plotH = h - padT - padB;
+  const barW = Math.max(4, plotW / trends.length - barGap);
+
+  const bars = trends.map((t, i) => {
+    const x = padL + i * (barW + barGap);
+    const barH = (Math.max(0, Math.min(100, t.passRate)) / 100) * plotH;
+    const y = padT + (plotH - barH);
+    const color = t.passRate >= 90 ? 'var(--success)' : t.passRate >= 70 ? 'var(--warning)' : 'var(--danger)';
+    const label = new Date(t.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    return `<g>
+      <rect x="${x}" y="${y}" width="${barW}" height="${barH}" rx="3" fill="${color}" opacity="0.85">
+        <title>${escapeHtml(t.runId)} — ${t.passRate}% (${t.totalTests} tests) — ${escapeHtml(label)}</title>
+      </rect>
+      <text x="${x + barW / 2}" y="${h - 6}" text-anchor="middle" font-size="9" fill="var(--text-muted)">${escapeHtml(label)}</text>
+    </g>`;
+  }).join('');
+
+  const gridLines = [0, 25, 50, 75, 100].map((pct) => {
+    const y = padT + (plotH - (pct / 100) * plotH);
+    return `<line x1="${padL}" y1="${y}" x2="${w - 12}" y2="${y}" stroke="var(--border)" stroke-width="1" />
+      <text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-size="9" fill="var(--text-muted)">${pct}%</text>`;
+  }).join('');
+
+  return `<svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto;">${gridLines}${bars}</svg>`;
+}
+
+/** Prominent banner surfacing admin/customer login health from the last global-setup run. */
+function renderSetupBanner(setupStatus: ReportData['setupStatus']): string {
+  if (setupStatus.length === 0) return '';
+  const failures = setupStatus.filter((s) => !s.success);
+  if (failures.length === 0) {
+    return `<div class="banner banner-ok">
+      ✅ <strong>Auth setup healthy</strong> — admin &amp; customer sessions verified before this run (real \`.Nop.Authentication\` cookie confirmed, not just "no error thrown").
+    </div>`;
+  }
+  return `<div class="banner banner-fail">
+    <div style="font-size:1.05rem; margin-bottom:8px;">🚨 <strong>Auth setup FAILED for: ${failures.map((f) => f.role).join(', ')}</strong></div>
+    <div style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:10px;">
+      Every test below that reuses this role's storageState (e.g. <code>withAdminPage()</code>, the <code>admin-chromium</code> project) ran <strong>unauthenticated</strong>.
+      Their failures are a downstream symptom of this one root cause, not ${failures.length > 1 ? 'independent bugs' : 'an independent bug'}.
+    </div>
+    ${failures.map((f) => `
+      <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:8px; padding:10px 14px; margin-top:6px;">
+        <strong style="color:var(--danger); text-transform:capitalize;">${f.role}</strong>
+        <div style="font-family:'SFMono-Regular',Consolas,monospace; font-size:0.8rem; color:var(--text-secondary); margin-top:4px; white-space:pre-wrap;">${escapeHtml(f.error || 'Unknown error')}</div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
 export function generateCustomReport(storyName = 'b2b-registration', runId = `run-${Date.now()}`): void {
   const data = buildReportData(storyName, runId, 'staging');
+  recordRunHistory(data);
+  // Include this run as the latest point on its own trend chart, not just prior runs.
+  data.trends = [
+    ...data.trends,
+    { runId: data.metadata.runId, date: data.metadata.reportDate, passRate: data.summary.passRate, totalTests: data.summary.totalTests, duration: data.summary.duration },
+  ].slice(-20);
+
   const passRate = data.summary.passRate;
   const passColor = passRate >= 90 ? '#10b981' : passRate >= 70 ? '#f59e0b' : '#ef4444';
+  const setupFailed = data.setupStatus.some((s) => !s.success);
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -56,19 +132,33 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
     .badge-positive { background: rgba(59,130,246,0.15); color: var(--accent); }
     .badge-negative { background: rgba(249,115,22,0.15); color: #f97316; }
     .badge-edge { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .badge-browser { background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid var(--border); }
     .progress-bar { width: 100%; height: 24px; background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; margin: 8px 0; }
     .progress-fill { height: 100%; border-radius: 12px; transition: width 1s ease; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
     .footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 0.75rem; border-top: 1px solid var(--border); margin-top: 40px; }
+    .banner { border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; border: 1px solid var(--border); }
+    .banner-ok { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3); color: var(--text-primary); }
+    .banner-fail { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.35); color: var(--text-primary); }
+    .error-cell { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.75rem; color: var(--danger); max-width: 320px; white-space: pre-wrap; word-break: break-word; }
+    .row-blocked { background: rgba(239,68,68,0.04); }
+    .screenshot-link { color: var(--info); font-size: 0.75rem; text-decoration: none; }
+    .screenshot-link:hover { text-decoration: underline; }
+    .live-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--success); margin-right:6px; box-shadow: 0 0 6px var(--success); }
+    .status-pill { display:inline-flex; align-items:center; gap:4px; padding:4px 12px; border-radius:6px; font-size:0.8rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+    .status-pass { background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.4); }
+    .status-fail { background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); }
+    .status-skip { background:rgba(100,116,139,0.18); color:#cbd5e1; border:1px solid rgba(100,116,139,0.4); }
   </style>
 </head>
 <body>
   <div class="header">
     <h1>🤖 Context-Driven AI QA Agent — Executive Dashboard</h1>
     <div class="meta">
-      Feature: ${data.metadata.pipelineStory} | Env: ${data.metadata.environment} | Date: ${new Date(data.metadata.reportDate).toLocaleString()} | Run: ${data.metadata.runId}
+      <span class="live-dot"></span>Feature: ${data.metadata.pipelineStory} | Env: ${data.metadata.environment} | Date: ${new Date(data.metadata.reportDate).toLocaleString()} | Run: ${data.metadata.runId}
     </div>
   </div>
   <div class="container">
+    ${renderSetupBanner(data.setupStatus)}
     <div class="grid">
       <div class="stat-card"><div class="value" style="color:${passColor}">${data.summary.passRate}%</div><div class="label">Pass Rate</div></div>
       <div class="stat-card"><div class="value">${data.summary.totalTests}</div><div class="label">Total Tests</div></div>
@@ -90,21 +180,57 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
     <div class="card">
       <h2>📋 Test Execution Details</h2>
       <table>
-        <thead><tr><th>TC-ID</th><th>Name</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th></tr></thead>
+        <thead><tr><th>TC-ID</th><th>Name</th><th>Browser</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th><th>Failure Reason</th><th>Evidence</th></tr></thead>
         <tbody>
-        ${data.testResults.map(t => `
-          <tr>
+        ${data.testResults.map(t => {
+          const failed = t.status === 'failed';
+          const statusIcon = t.status === 'passed' ? '✅' : t.status === 'failed' ? '❌' : t.status === 'quarantined' ? '🚧' : '⏭️';
+          const statusClass = t.status === 'passed' ? 'pass' : t.status === 'failed' ? 'fail' : 'skip';
+          const flaky = t.status === 'passed' && t.retries > 0;
+          return `
+          <tr${failed && setupFailed ? ' class="row-blocked"' : ''}>
             <td><strong>${t.tcId}</strong></td>
-            <td>${t.name}</td>
+            <td>${escapeHtml(t.name)}${failed && setupFailed ? ' <span class="badge badge-fail" title="A verified admin/customer login failure was recorded earlier in this run">🔒 Blocked by auth setup</span>' : ''}</td>
+            <td><span class="badge badge-browser">${escapeHtml(t.project)}</span></td>
             <td><span class="badge badge-${t.type}">${t.type}</span></td>
-            <td><span class="badge badge-${t.status === 'passed' ? 'pass' : t.status === 'failed' ? 'fail' : 'skip'}">${t.status.toUpperCase()}</span></td>
+            <td>
+              <span class="status-pill status-${statusClass}">${statusIcon} ${t.status.toUpperCase()}</span>
+              ${flaky ? `<span class="badge badge-negative" title="Failed on first attempt, passed on retry — investigate for flakiness even though the final result is green">🔁 flaky (${t.retries} retr${t.retries === 1 ? 'y' : 'ies'})</span>` : ''}
+            </td>
             <td>${(t.duration / 1000).toFixed(1)}s</td>
             <td>${t.reqId || '—'}</td>
+            <td class="error-cell">${t.error ? escapeHtml(t.error).slice(0, 400) : '—'}</td>
+            <td>${t.screenshot ? `<a class="screenshot-link" href="${escapeHtml(t.screenshot).replace(/\\/g, '/')}" target="_blank" rel="noopener">📷 screenshot</a>` : '—'}</td>
+          </tr>
+        `;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>📈 Pass Rate Trend (last ${data.trends.length} run${data.trends.length === 1 ? '' : 's'})</h2>
+      ${renderTrendChart(data.trends)}
+    </div>
+
+    ${data.selfHealLog.length > 0 ? `
+    <div class="card">
+      <h2>🩹 Self-Heal Log</h2>
+      <table>
+        <thead><tr><th>Timestamp</th><th>Test</th><th>Failure Class</th><th>Action Taken</th><th>Iteration</th></tr></thead>
+        <tbody>
+        ${data.selfHealLog.map(e => `
+          <tr>
+            <td>${new Date(e.timestamp).toLocaleString()}</td>
+            <td>${escapeHtml(e.testTitle)}</td>
+            <td><span class="badge badge-negative">${escapeHtml(e.failureClass)}</span></td>
+            <td>${escapeHtml(e.actionTaken)}</td>
+            <td>${e.iteration}</td>
           </tr>
         `).join('')}
         </tbody>
       </table>
-    </div>
+    </div>` : ''}
 
     <div class="card">
       <h2>🎯 Scenario Coverage Breakdown</h2>
@@ -154,12 +280,25 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
   mdContent += `- **Pass Rate**: **${data.summary.passRate}%**\n`;
   mdContent += `- **Total Tests**: ${data.summary.totalTests} | ✅ Passed: ${data.summary.passed} | ❌ Failed: ${data.summary.failed} | ⏭️ Skipped: ${data.summary.skipped}\n`;
   mdContent += `- **Report Generated**: \`${new Date().toLocaleString()}\`\n\n`;
+
+  const setupFailures = data.setupStatus.filter((s) => !s.success);
+  if (setupFailures.length > 0) {
+    mdContent += `## 🚨 Auth Setup Failure\n\n`;
+    for (const f of setupFailures) {
+      mdContent += `- **${f.role}** login failed: \`${f.error}\`\n`;
+    }
+    mdContent += `\nEvery failure below that reuses this role's session ran unauthenticated as a direct consequence — treat them as one root cause, not ${setupFailures.length > 1 ? 'independent bugs' : 'an independent bug'}.\n\n`;
+  }
+
   mdContent += `---\n\n`;
   mdContent += `## 📋 Test Execution Table\n\n`;
-  mdContent += `| TC-ID | Scenario Name | Type | Status | Duration | REQ-ID |\n`;
-  mdContent += `|---|---|---|---|---|---|\n`;
+  mdContent += `| TC-ID | Scenario Name | Browser | Type | Status | Duration | REQ-ID | Failure Reason |\n`;
+  mdContent += `|---|---|---|---|---|---|---|---|\n`;
   for (const t of data.testResults) {
-    mdContent += `| \`${t.tcId}\` | ${t.name} | \`${t.type}\` | **${t.status.toUpperCase()}** | ${(t.duration / 1000).toFixed(1)}s | \`${t.reqId || '—'}\` |\n`;
+    // eslint-disable-next-line no-control-regex
+    const reason = t.error ? t.error.replace(/\x1b\[[0-9;]*m/g, '').replace(/\|/g, '\\|').replace(/\n/g, ' ').slice(0, 200) : '—';
+    const statusText = t.status === 'passed' && t.retries > 0 ? `✅ PASSED (flaky, ${t.retries} retr${t.retries === 1 ? 'y' : 'ies'})` : `${t.status === 'passed' ? '✅' : t.status === 'failed' ? '❌' : '⏭️'} ${t.status.toUpperCase()}`;
+    mdContent += `| \`${t.tcId}\` | ${t.name} | \`${t.project}\` | \`${t.type}\` | ${statusText} | ${(t.duration / 1000).toFixed(1)}s | \`${t.reqId || '—'}\` | ${reason} |\n`;
   }
 
   fs.writeFileSync(mdFile, mdContent, 'utf8');
