@@ -110,7 +110,7 @@ const TRACE_DIR = path.join(MEMORY_DIR, 'traceability');
 /**
  * Read Playwright JSON test results file and correctly parse test statuses.
  */
-export function readPlaywrightResults(): TestCaseResult[] {
+export function readPlaywrightResults(storyName?: string): TestCaseResult[] {
   const resultsFile = path.join(REPORTS_DIR, 'test-results.json');
   if (!fs.existsSync(resultsFile)) return [];
 
@@ -121,6 +121,19 @@ export function readPlaywrightResults(): TestCaseResult[] {
     const walk = (suite: any, parentTitle = '') => {
       const suiteName = parentTitle ? `${parentTitle} > ${suite.title}` : suite.title;
 
+      // ── Story-level filter ──────────────────────────────────────────────────
+      // If a storyName is provided, only collect specs from suites whose file
+      // path contains that story slug. This prevents results from a different
+      // spec from polluting this story's report when test-results.json was
+      // written by a broader run that included multiple spec files.
+      if (storyName && suite.file) {
+        const normalizedFile = suite.file.replace(/\\/g, '/').toLowerCase();
+        const normalizedStory = storyName.toLowerCase();
+        if (!normalizedFile.includes(normalizedStory)) {
+          return; // skip this suite and all its children
+        }
+      }
+
       if (suite.specs) {
         for (const spec of suite.specs) {
           for (const test of spec.tests || []) {
@@ -128,14 +141,22 @@ export function readPlaywrightResults(): TestCaseResult[] {
             const rawStatus = lastResult?.status || test.status;
             const finalStatus = mapStatus(rawStatus, spec.ok);
 
+            // ── Error extraction ────────────────────────────────────────────
+            // Playwright JSON reporter writes failures into an `errors` array
+            // (each element has a `message` string), NOT a single `error` object.
+            // Fallback chain: errors[0].message → errors[0].value → legacy error.message
+            const errorEntry = lastResult?.errors?.[0];
+            const errorMessage: string | undefined =
+              errorEntry?.message ?? errorEntry?.value ?? lastResult?.error?.message;
+
             results.push({
-              tcId: extractTcId(spec.title) || `TC-00${results.length + 1}`,
+              tcId: extractTcId(spec.title) || `TC-${String(results.length + 1).padStart(3, '0')}`,
               name: cleanDisplayName(spec.title),
               project: test.projectName || 'unknown',
               retries: Math.max(0, (test.results?.length || 1) - 1),
               status: finalStatus,
               duration: lastResult?.duration || 0,
-              error: lastResult?.error?.message,
+              error: errorMessage,
               screenshot: lastResult?.attachments?.find((a: any) => a.name === 'screenshot')?.path,
               reqId: extractReqId(spec.title),
               type: inferTestType(spec.title),
@@ -148,6 +169,14 @@ export function readPlaywrightResults(): TestCaseResult[] {
     };
 
     data.suites?.forEach((s: any) => walk(s));
+
+    // Sort by TC-ID for consistent, predictable ordering in the report table.
+    results.sort((a, b) => {
+      const numA = parseInt(a.tcId.replace(/\D/g, ''), 10) || 0;
+      const numB = parseInt(b.tcId.replace(/\D/g, ''), 10) || 0;
+      return numA - numB;
+    });
+
     return results;
   } catch {
     return [];
@@ -223,7 +252,10 @@ export function buildReportData(
   runId: string,
   environment: string
 ): ReportData {
-  const testResults = readPlaywrightResults();
+  // Pass storyName so only results from this story's spec file are included —
+  // prevents other stories' results from appearing when test-results.json was
+  // written by a broader run (e.g. npx playwright test tests/e2e/ --headed).
+  const testResults = readPlaywrightResults(storyName);
   const selfHealLog = readSelfHealLog();
   const setupStatus = readSetupStatus();
   const trends = readRunHistory(storyName);
