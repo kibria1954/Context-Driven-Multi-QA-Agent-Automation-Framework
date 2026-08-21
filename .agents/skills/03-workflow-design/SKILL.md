@@ -13,6 +13,33 @@ The Workflow Design phase maps atomic test cases from Agent 2 into cohesive end-
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- `testcases/{feature}.tc.json` — every TC must map into a journey.
+- `memory/decisions.md` — cross-surface claims ("admin sees X after customer does Y") often have a prior owner decision recorded; check before assuming a location.
+- **Don't load:** `utils/selectors.ts` or `pages/*.page.ts` — no selectors exist yet at this stage; journeys describe state transitions and actions in prose, not DOM detail (that's Stage 4).
+
+## ⚠️ Common Mistakes
+
+- **Mapping only happy-path journeys.** Section 3 is explicit: every journey set MUST include negative/error flows, not just J-01-style success paths.
+- **Asserting a cross-surface effect ("Admin sees the submitted application") as a journey step without flagging it needs live verification.** This is exactly the class of claim that caused the REQ-07 admin-URL incident (see `07-coverage-validation/SKILL.md` D-001 / `06-execution-self-heal/SKILL.md` Class 8) — a journey step describing what SHOULD happen is not proof of where it actually happens; that proof is Stage 4's job (Section 7a there), but a journey step that states the surface with false confidence sets Stage 4 up to skip real verification.
+- **Mis-tagging parallel safety.** A journey that mutates shared state (e.g. account creation → admin approval) tagged `PARALLEL_SAFE` will cause flaky cross-test interference that looks like a completely unrelated bug later.
+- **Omitting data dependencies.** If Agent 0 doesn't know a journey needs a specific entity shape, it can't provision it — Section 4 isn't optional documentation, Agent 0 reads it.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- All TCs from Agent 2 mapped to at least one journey.
+- Every journey has explicit entry/exit states.
+- Data dependencies documented for Agent 0.
+- Negative/error flow journeys included.
+- Parallel safety tagged.
+
+## ❌ Blocked Conditions
+- Test cases not yet generated (Agent 2 incomplete) → Cannot map journeys.
+- Data dependencies that Agent 0 cannot provision → Escalate to owner.
+
+---
+
 ## 🛠️ Workflow Design Protocol
 
 ### 1. Enhanced State Machine Model
@@ -151,13 +178,4 @@ When features chain together, define meta-journeys:
 - `workflows/{feature}.journey.md` (Human-readable journey document)
 - `workflows/{feature}.journey.json` (Machine-readable journey data with state transitions)
 
-## ✅ Gate Condition
-- All TCs from Agent 2 mapped to at least one journey.
-- Every journey has explicit entry/exit states.
-- Data dependencies documented for Agent 0.
-- Negative/error flow journeys included.
-- Parallel safety tagged.
-
-## ❌ Blocked Conditions
-- Test cases not yet generated (Agent 2 incomplete) → Cannot map journeys.
-- Data dependencies that Agent 0 cannot provision → Escalate to owner.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

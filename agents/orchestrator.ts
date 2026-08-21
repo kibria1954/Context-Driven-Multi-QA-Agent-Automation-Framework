@@ -18,6 +18,7 @@ import * as path from 'path';
 import * as crypto from 'crypto';
 import { isWriteSafe } from '../utils/env';
 import { hasOpenQuestions } from '../utils/escalation-helpers';
+import { checkMemoryFreshness } from '../utils/memory-helpers';
 import type { StageId, StageStatus, StageResult, GateCheck, StageDefinition } from './types';
 
 const ROOT = path.resolve(__dirname, '..');
@@ -101,21 +102,24 @@ export const STAGE_DEFINITIONS: StageDefinition[] = [
   },
   {
     id: 6,
-    name: 'Coverage Validation',
-    skillDir: '06-coverage-validation',
-    artifacts: (f) => [`memory/traceability/${f}.md`],
-    requiresWriteSafety: false,
-    dependsOn: [5],
+    name: 'Execution + Self-Heal',
+    skillDir: '06-execution-self-heal',
+    // Playwright's JSON reporter output is shared across all features run in the same
+    // invocation — this is a best-effort, repo-wide signal, not a strict per-feature one.
+    // IMPORTANT: Execution runs BEFORE Coverage — you cannot measure real coverage until
+    // tests have actually executed. dependsOn [5, 0]: codegen + environment must be ready.
+    artifacts: () => ['reports/generated/test-results.json'],
+    requiresWriteSafety: true,
+    dependsOn: [5, 0],
   },
   {
     id: 7,
-    name: 'Execution + Self-Heal',
-    skillDir: '07-execution-self-heal',
-    // Playwright's JSON reporter output is shared across all features run in the same
-    // invocation — this is a best-effort, repo-wide signal, not a strict per-feature one.
-    artifacts: () => ['reports/generated/test-results.json'],
-    requiresWriteSafety: true,
-    dependsOn: [6, 0],
+    name: 'Coverage Validation',
+    skillDir: '07-coverage-validation',
+    // Coverage runs AFTER Execution (stage 6) so L4 (test actually ran) can be checked.
+    artifacts: (f) => [`memory/traceability/${f}.md`],
+    requiresWriteSafety: false,
+    dependsOn: [6],
   },
   {
     id: 8,
@@ -198,6 +202,24 @@ export class Orchestrator {
         status: 'stale',
         detail: 'requirements/{feature}/source.md hash no longer matches source.meta.json — re-ingest needed',
       };
+    }
+
+    // Stage 6 (Execution+Self-Heal) and Stage 9 (Learning & Memory) both depend on
+    // self-heal-log.json / healed-patterns.json staying in sync with heal-log.md.
+    // Surface drift here (non-blocking — distillation needs judgment, so this doesn't
+    // gate `canRunStage`) rather than letting it accumulate unnoticed, as happened for
+    // 7 days before this check existed. See "Dual-Store Sync Requirement" in
+    // `.agents/skills/09-learning-prevention/SKILL.md`.
+    if (stageId === 6 || stageId === 9) {
+      const freshness = checkMemoryFreshness();
+      if (freshness.stale) {
+        return {
+          stageId,
+          name: def.name,
+          status: 'complete',
+          detail: `Found ${artifacts.join(', ')} — ⚠️ ${freshness.warnings.join(' | ')}`,
+        };
+      }
     }
 
     return { stageId, name: def.name, status: 'complete', detail: `Found ${artifacts.join(', ')}` };

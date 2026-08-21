@@ -12,7 +12,7 @@
 
 - **Run ID:** `manual-incident-investigation`
 - **Test:** All tests reusing `tests/.auth/admin.json` / `tests/.auth/customer.json` (b2b-registration, most of `@regression`)
-- **Failure Class:** `SETUP_INFRA_ISSUE` (new class — see `07-execution-self-heal/SKILL.md` addition)
+- **Failure Class:** `SETUP_INFRA_ISSUE` (new class — see `06-execution-self-heal/SKILL.md` addition)
 - **Error:** No exception at setup time. Downstream: every admin-page assertion failed as if never logged in (e.g. `TimeoutError: waiting for locator('#SearchEmail')`).
 - **Root Cause:** `tests/global-setup.ts` clicked `'button.login-button, button[type="submit"]'.first()` — the storefront header's search submit button (blank label) sits earlier in the DOM than "Sign In!" and matched the generic half of that selector. The login form was never actually submitted; the saved `storageState` had zero real auth cookies.
 - **Action:** Narrowed the selector to `'button.login-button'` (unique match) for both admin and customer login; added a post-login check for the `.Nop.Authentication` cookie that throws a descriptive error if absent instead of silently saving a broken state; the 2-hour auth-state cache now also validates for that cookie before trusting a cached file.

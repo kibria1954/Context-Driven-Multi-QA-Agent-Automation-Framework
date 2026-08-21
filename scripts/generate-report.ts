@@ -309,10 +309,34 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
   console.log(`  📊 Pass Rate: ${data.summary.passRate}% (${data.summary.passed}/${data.summary.totalTests} Passed)`);
 }
 
+/** Discover every feature with ingested requirements (mirrors scripts/validate-coverage.ts). */
+function discoverFeatures(): string[] {
+  const reqDir = path.join(ROOT, 'requirements');
+  if (!fs.existsSync(reqDir)) return [];
+  return fs.readdirSync(reqDir).filter((f) => {
+    const full = path.join(reqDir, f);
+    return fs.statSync(full).isDirectory() && fs.existsSync(path.join(full, 'parsed.json'));
+  });
+}
+
 // CLI Execution Support
 if (require.main === module) {
   const args = process.argv.slice(2);
+  const runAll = args.includes('--all');
   const storyArg = args.find((a) => a.startsWith('--story='))?.split('=')[1] || 'b2b-registration';
   const runArg = args.find((a) => a.startsWith('--run='))?.split('=')[1] || `run-${Date.now()}`;
-  generateCustomReport(storyArg, runArg);
+
+  if (runAll) {
+    const features = discoverFeatures();
+    if (features.length === 0) {
+      console.error('❌ No features found. Create requirements/{feature}/parsed.json first.');
+      process.exit(1);
+    }
+    for (const feature of features) {
+      generateCustomReport(feature, `run-${Date.now()}`);
+    }
+    console.log(`\n✅ Generated ${features.length} report(s): ${features.join(', ')}`);
+  } else {
+    generateCustomReport(storyArg, runArg);
+  }
 }

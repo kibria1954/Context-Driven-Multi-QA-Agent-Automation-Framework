@@ -1,29 +1,32 @@
-# Requirements Traceability Matrix: b2b-registration
+# 🎯 Traceability Matrix — b2b-registration
 
-- **Story ID:** `STORY-B2B_REGISTRATION`
-- **Feature:** `b2b-registration`
-- **Last Updated:** 2026-08-17T09:50:29.710Z
-- **Overall Coverage:** **100%** (8/8 Requirements Covered)
-- **Total Test Cases:** **30** (Positive: 10, Negative: 9, Edge/Security: 8)
+**Feature:** `b2b-registration`
+**Generated:** `2026-08-21T09:31:57.028Z`
+**Coverage:** **100%** (8/8 REQ-IDs FULLY_COVERED)
+**Effective Coverage:** **100%** (includes specced but not-executed tests)
 
-## Coverage Summary
+## Coverage by Flag
+| Flag | Count |
+|------|-------|
+| ✅ FULLY_COVERED | 8 |
+| 📝 TC_ONLY (no spec) | 0 |
+| ⚠️ UNVERIFIED_ASSERTION (no expect()) | 0 |
+| ⏭️ NOT_EXECUTED (not in last run) | 0 |
+| ❌ UNCOVERED (no TC) | 0 |
 
-| Metric | Count |
-|---|---|
-| **Total Requirements** | 8 |
-| **Covered Requirements** | 8 (100%) |
-| **Uncovered Requirements** | 0 |
-| **Total Test Cases Mapped** | 30 |
+## Requirements Traceability Table
 
-## Requirements to Test Cases Traceability Table
+| REQ-ID | Description | Test Cases | Spec File | L3 Assertion? | L4 Executed? | Status |
+|--------|-------------|------------|-----------|---------------|--------------|--------|
+| **REQ-01** | REQ-01 | `TC-001`, `TC-002`, `TC-003`, `TC-004` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-02** | REQ-02 | `TC-005`, `TC-006`, `TC-007`, `TC-008`, `TC-009`, `TC-010` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-03** | REQ-03 | `TC-011`, `TC-012`, `TC-013`, `TC-014` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-04** | REQ-04 | `TC-015`, `TC-016`, `TC-017`, `TC-018` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-05** | REQ-05 | `TC-019`, `TC-020`, `TC-021` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-06** | REQ-06 | `TC-022`, `TC-023`, `TC-024`, `TC-025` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-07** | REQ-07 | `TC-026`, `TC-027` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
+| **REQ-08** | REQ-08 | `TC-028`, `TC-029`, `TC-030` | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ | ✅ | ✅ FULLY_COVERED |
 
-| Requirement ID | Requirement Description | Mapped Test Cases | Spec File(s) | Status |
-|---|---|---|---|---|
-| **REQ-01** | Positive: Successful B2B registration creates ERP account, Ship-To address, inactive customer, mapping, and redirects to review page | `TC-001` (positive), `TC-002` (positive), `TC-003` (negative), `TC-004` (edge) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-02** | Positive: All Company Info fields accepted across different Type of Business dropdown options | `TC-005` (positive), `TC-006` (negative), `TC-007` (negative), `TC-008` (boundary), `TC-009` (edge), `TC-010` (boundary) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-03** | Positive: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden | `TC-011` (positive), `TC-012` (positive), `TC-013` (edge), `TC-014` (negative) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-04** | Positive: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted | `TC-015` (positive), `TC-016` (negative), `TC-017` (boundary), `TC-018` (edge) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-05** | Positive: All 3 required checkboxes checked (ToS, Privacy Policy, 18+) allows submission — Wholesale Agreement is display text, not a checkbox | `TC-019` (positive), `TC-020` (negative), `TC-021` (edge) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-06** | Positive: Brand-new unique email and username pass the uniqueness check | `TC-022` (positive), `TC-023` (negative), `TC-024` (negative), `TC-025` (edge) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-07** | Positive: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications | `TC-026` (positive), `TC-027` (edge) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
-| **REQ-08** | Positive: Admin activates account via Active flag + save — login enabled and welcome email sent | `TC-028` (positive), `TC-029` (negative), `TC-030` (edge) | `tests\e2e\registration\b2b-registration.spec.ts` | ✅ Covered |
+## Stakeholder Summary
+
+- **8** of **8** requirements have fully automated, executed tests.

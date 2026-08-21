@@ -2,6 +2,7 @@
 
 > Auto-distilled from `heal-log.md` + `decisions.md` + `healed-patterns.json`
 > Last distilled: 2026-08-18 (ANTI-005..009 added from a manual incident investigation — see `memory/heal-log.md`)
+> Last distillation check: `2026-08-21T09:48:56.702Z` — 0 promotion(s), 0 demotion(s)
 > Agents 2, 3, 4, 5 load this file as context on every run.
 
 ---
@@ -80,4 +81,4 @@
 
 ### ANTI-009: Per-Test Timeout Budget Ignoring Nested Browser Contexts
 - **Source:** b2b-registration tests combining a full multi-step registration with a SECOND (sometimes third) freshly-opened admin/login `browser.newContext()` consistently exceeded the 30s default `timeout` in headed mode against the live site. Playwright force-closed the nested context mid-action, producing `"Target page, context or browser has been closed"` — an error that looks like a different bug (browser instability) rather than the real one (insufficient time budget).
-- **Rule:** When a test opens additional `browser.newContext()`s beyond the primary `page` fixture (e.g. a `withAdminPage()`-style helper), Agent 4 (Codegen) must apply `test.setTimeout()` sized for (primary flow) + (per extra context: navigation + auth-state load + assertions), not rely on the suite's blanket default. Agent 5 should also recognize many DIFFERENT tests all failing at the exact same early step in a shared multi-context helper as a signal to check the timeout budget and the helper's shared setup — not diagnose each test's locators independently (see `07-execution-self-heal/SKILL.md`'s "Cascading Failure Pattern Recognition" step).
+- **Rule:** When a test opens additional `browser.newContext()`s beyond the primary `page` fixture (e.g. a `withAdminPage()`-style helper), Agent 4 (Codegen) must apply `test.setTimeout()` sized for (primary flow) + (per extra context: navigation + auth-state load + assertions), not rely on the suite's blanket default. Agent 5 should also recognize many DIFFERENT tests all failing at the exact same early step in a shared multi-context helper as a signal to check the timeout budget and the helper's shared setup — not diagnose each test's locators independently (see `06-execution-self-heal/SKILL.md`'s "Cascading Failure Pattern Recognition" step).

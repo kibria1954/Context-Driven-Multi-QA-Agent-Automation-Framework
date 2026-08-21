@@ -125,6 +125,15 @@ export function recordDecision(
   console.log(`✅ Decision recorded for ${questionId}: ${answer.substring(0, 60)}...`);
 }
 
+// Entries are written as "- **Status:** 🔴 OPEN\n" (see escalateToOwner below) — the
+// literal `**` markdown bold markers sit right after "Status:", before the space and
+// emoji. A pattern of `Status:\s*🔴` (no `\**`) never matches that "**" and silently
+// always returns zero matches — which is exactly what `hasOpenQuestions()` /
+// `countOpenQuestions()` did before this fix, permanently disabling the orchestrator's
+// blocking-question gate (`agents/orchestrator.ts`'s `canRunStage()` calls
+// `hasOpenQuestions(this.feature)` and would always get `false` back, gate or no gate).
+const OPEN_STATUS_PATTERN = /Status:\**\s*🔴\s*OPEN/gi;
+
 /**
  * Check if there are any open (unanswered) pending questions for a feature.
  */
@@ -132,14 +141,20 @@ export function hasOpenQuestions(feature?: string): boolean {
   if (!fs.existsSync(PENDING_FILE)) return false;
 
   const content = fs.readFileSync(PENDING_FILE, 'utf-8');
-  const openPattern = /Status:\s*🔴\s*OPEN/gi;
-  const matches = content.match(openPattern);
+  const matches = content.match(OPEN_STATUS_PATTERN);
 
   if (!matches) return false;
   if (!feature) return matches.length > 0;
 
-  // Check if any open question is for this feature
-  const featurePattern = new RegExp(`Feature:\\s*${feature}[\\s\\S]*?Status:\\s*🔴\\s*OPEN`, 'gi');
+  // Check if any open question is for this feature. Entries are written as
+  // "- **Feature:** {feature}\n" (see escalateToOwner below) — the literal `**`
+  // markdown bold markers sit between "Feature:" and the value, so a pattern of
+  // `Feature:\s*{feature}` never matched anything and this always returned false
+  // for a feature-scoped check, silently disabling the orchestrator's per-feature
+  // blocking-question gate (agents/orchestrator.ts calls hasOpenQuestions(this.feature)).
+  // `\**` makes those optional asterisks part of the match instead of breaking it.
+  const escapedFeature = feature.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const featurePattern = new RegExp(`Feature:\\**\\s*${escapedFeature}\\b[\\s\\S]*?Status:\\**\\s*🔴\\s*OPEN`, 'gi');
   return featurePattern.test(content);
 }
 
@@ -150,6 +165,49 @@ export function countOpenQuestions(): number {
   if (!fs.existsSync(PENDING_FILE)) return 0;
 
   const content = fs.readFileSync(PENDING_FILE, 'utf-8');
-  const matches = content.match(/Status:\s*🔴\s*OPEN/gi);
+  const matches = content.match(OPEN_STATUS_PATTERN);
   return matches ? matches.length : 0;
+}
+
+/**
+ * Resolve a pending question: flips its status marker in pending-questions.md from
+ * 🔴 OPEN to ✅ ANSWERED, then calls recordDecision() to append the answer to
+ * decisions.md.
+ *
+ * GAP-005 fix: `recordDecision()` existed but nothing ever called it — an owner's
+ * answer only ever made it into decisions.md if someone hand-typed a D-NNN entry,
+ * which is exactly how the file went empty for weeks despite real questions being
+ * answered in chat. This is the ONE function agents should call after an owner
+ * answers a question from `memory/pending-questions.md` — it keeps both files in
+ * sync instead of requiring a separate manual edit to each. See
+ * `scripts/resolve-question.ts` for the CLI entry point.
+ *
+ * Throws if `questionId` isn't found as an OPEN question in pending-questions.md —
+ * this is deliberate: silently recording a decision with no matching open question
+ * would let decisions.md and pending-questions.md drift apart again.
+ */
+export function resolvePendingQuestion(
+  questionId: string,
+  answer: string,
+  answeredBy = 'owner',
+  appliedTo: string[] = []
+): void {
+  if (!fs.existsSync(PENDING_FILE)) {
+    throw new Error(`Cannot resolve ${questionId} — memory/pending-questions.md does not exist.`);
+  }
+
+  const content = fs.readFileSync(PENDING_FILE, 'utf-8');
+  const blockRe = new RegExp(`(## ${questionId}[\\s\\S]*?- \\*\\*Status:\\*\\*\\s*)🔴\\s*OPEN`, 'i');
+
+  if (!blockRe.test(content)) {
+    throw new Error(
+      `Cannot resolve ${questionId} — no OPEN question with that ID found in memory/pending-questions.md ` +
+      `(already resolved, or the ID is wrong).`
+    );
+  }
+
+  const updated = content.replace(blockRe, `$1✅ ANSWERED`);
+  fs.writeFileSync(PENDING_FILE, updated, 'utf-8');
+
+  recordDecision(questionId, answer, answeredBy, appliedTo);
 }

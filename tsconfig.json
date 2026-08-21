@@ -13,15 +13,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "@pages/*": ["pages/*"],
-      "@utils/*": ["utils/*"],
-      "@fixtures/*": ["tests/fixtures/*"],
-      "@test-data/*": ["tests/fixtures/test-data/*"],
-      "@agents/*": ["agents/*"]
-    }
+    "rootDir": "."
   },
   "include": [
     "playwright.config.ts",

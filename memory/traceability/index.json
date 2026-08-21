@@ -11,5 +11,13 @@
       "matrixFile": "memory/traceability/b2b-registration.md",
       "matrixJson": "memory/traceability/b2b-registration.json"
     }
-  ]
+  ],
+  "b2b-registration": {
+    "coveragePercentage": 100,
+    "effectiveCoveragePercentage": 100,
+    "totalReqs": 8,
+    "fullyCovered": 8,
+    "uncovered": 0,
+    "generatedAt": "2026-08-21T09:31:57.031Z"
+  }
 }

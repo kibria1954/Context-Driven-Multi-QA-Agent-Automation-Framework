@@ -1,5 +1,46 @@
 {
-  "lastUpdated": "2026-08-14T00:00:00.000Z",
-  "totalSelfHeals": 0,
-  "entries": []
+  "lastUpdated": "2026-08-21T06:16:22.566Z",
+  "totalSelfHeals": 4,
+  "entries": [
+    {
+      "timestamp": "2026-08-18T11:00:00Z",
+      "runId": "manual-incident-investigation",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "failureClass": "SETUP_INFRA_ISSUE",
+      "errorSnippet": "No exception at setup time. Downstream: every admin-page assertion failed as if never logged in (e.g. `TimeoutError: waiting for locator('#SearchEmail')`).",
+      "actionTaken": "Narrowed the selector to `'button.login-button'` (unique match) for both admin and customer login; added a post-login check for the `.Nop.Authentication` cookie that throws a descriptive error if absent instead of silently saving a broken state; the 2-hour auth-state cache now also validates for that cookie before trusting a cached file.",
+      "testTitle": "All tests reusing `tests/.auth/admin.json` / `tests/.auth/customer.json` (b2b-registration, most of `@regression`)"
+    },
+    {
+      "timestamp": "2026-08-18T12:30:00Z",
+      "runId": "manual-incident-investigation",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "failureClass": "REQUIREMENT_VERIFICATION_ERROR",
+      "errorSnippet": "`expect(locator).toBeVisible()` failed — application row never found in the grid, even after the timeout-budget fix gave it enough time to load.",
+      "actionTaken": "Updated `pages/admin/admin-registration-applications.page.ts`'s `path` to `/Admin/ErpAccount/List`; fixed `ERP_REGISTRATION_SELECTORS.gridSearchInput`/added `gridSearchButton` (previously pointed at a selector — `input[name=\"SearchCompanyName\"]` — that matched nothing on either page); added an actual search-by-account-name step before asserting row visibility (the grid paginates across many prior test runs' accounts).",
+      "testTitle": "TC-026, TC-027 (b2b-registration, REQ-07)"
+    },
+    {
+      "timestamp": "2026-08-18T12:45:00Z",
+      "runId": "manual-incident-investigation",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "failureClass": "SETUP_INFRA_ISSUE",
+      "errorSnippet": "No exception. `reports/generated/*-report.html` regenerated showing stale/wrong pass counts (once showing 0% immediately after a run that had just passed 100%).",
+      "actionTaken": "Replaced the fixed sleep with a poll that waits for the file's mtime to be within a 5s freshness window of teardown's own start (near-zero added latency in the normal case), bounded at 5s total wait.",
+      "testTitle": "N/A (infrastructure — affects report accuracy for every run)"
+    },
+    {
+      "timestamp": "2026-08-18T13:00:00Z",
+      "runId": "manual-incident-investigation",
+      "storyName": "b2b-registration",
+      "iteration": 1,
+      "failureClass": "SETUP_INFRA_ISSUE",
+      "errorSnippet": "`Test timeout of 30000ms exceeded` followed by `\"Target page, context or browser has been closed\"` on whatever action happened to be in flight when Playwright force-killed the test.",
+      "actionTaken": "Added `test.setTimeout(60_000)` / `test.setTimeout(75_000)` to the six tests using `withAdminPage()` (sized by how many nested contexts each opens); raised the suite-wide `DEFAULT_TIMEOUT` from 30000 to 45000 in `.env.staging`/`.env.example` since even non-admin full-form-submit tests (TC-020) were observed to brush the old ceiling.",
+      "testTitle": "TC-001, TC-003, TC-004, TC-020, TC-026, TC-028, TC-030 (all tests either opening a second/third `browser.newContext()` or doing a full 3-step form submission)"
+    }
+  ]
 }

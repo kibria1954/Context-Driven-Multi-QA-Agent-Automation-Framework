@@ -31,9 +31,21 @@ export interface SelectorEntry {
    * added by self-healing (Stage 5, Loop B). Absent until a page has actually been
    * explored/healed — `selector` alone remains valid and functional either way.
    * Loop B patches a heal by appending here first; it only promotes a fallback to be
-   * the primary `selector` after semantic verification passes (see 07-execution-self-heal).
+   * the primary `selector` after semantic verification passes (see 06-execution-self-heal).
    */
   readonly fallbacks?: readonly SelectorFallback[];
+  /**
+   * ISO timestamp when this selector was last verified against the live site by
+   * Stage 4 (Live Explorer). Used by Stage 7 to flag drift candidates.
+   * P0 selectors: re-verify weekly. P1: monthly. P2: quarterly.
+   * IMP-003: Added 2026-08-21.
+   */
+  readonly verifiedAt?: string;
+  /**
+   * Run identifier (e.g. "b2b-registration-run-3") from the Stage 4 session that
+   * verified this selector. Cross-references with memory/run-history/.
+   */
+  readonly verifiedInRun?: string;
 }
 
 // ─── Helper: Extract selector string ─────────────────────────────────────────

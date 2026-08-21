@@ -1,8 +1,9 @@
 {
   "name": "qa-ai-agent-kbd",
   "version": "2.0.0",
-  "description": "Context-Driven AI QA Automation Agent v2 for KBD NopCommerce — 8-Agent Pipeline (Agent 0–7 + Learning Loop) | Playwright + TypeScript + POM | 3-Loop Engineering System | Self-Healing + Self-Learning | Custom Executive Reporting",
+  "description": "Context-Driven AI QA Automation Agent v2 for KBD NopCommerce — 8-Agent / 10-Stage Pipeline (Agent 0-7 + Learning Loop, Orchestrator Stages 0-9 — see .agents/AGENTS.md Stage-to-Skill Reconciliation Table) | Playwright + TypeScript + POM | 3-Loop Engineering System | Self-Healing + Self-Learning | Custom Executive Reporting",
   "scripts": {
+    "pretest": "npx ts-node scripts/verify-auth.ts",
     "test": "npx playwright test",
     "test:smoke": "npx playwright test --grep @smoke",
     "test:regression": "npx playwright test --grep @regression",
@@ -27,8 +28,17 @@
     "report:b2b": "npx ts-node scripts/generate-report.ts --story=b2b-registration",
     "report:wishlist": "npx ts-node scripts/generate-report.ts --story=wishlist-management",
     "report:checkout": "npx ts-node scripts/generate-report.ts --story=wholesale-checkout",
+    "report:all": "npx ts-node scripts/generate-report.ts --all",
     "report:playwright": "npx playwright show-report",
     "qa:coverage": "npx ts-node scripts/validate-coverage.ts",
+    "qa:coverage:all": "npx ts-node scripts/validate-coverage.ts --all",
+    "verify:auth": "npx ts-node scripts/verify-auth.ts",
+    "sync:memory": "npx ts-node scripts/sync-memory.ts",
+    "distill:patterns": "npx ts-node scripts/distill-patterns.ts",
+    "cleanup:check": "npx ts-node scripts/cleanup-check.ts",
+    "a11y:report": "npx ts-node scripts/a11y-report.ts",
+    "resolve:question": "npx ts-node scripts/resolve-question.ts",
+    "reconcile:workflow": "npx ts-node scripts/reconcile-workflow.ts",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"**/*.ts\"",
     "typecheck": "npx tsc --noEmit"

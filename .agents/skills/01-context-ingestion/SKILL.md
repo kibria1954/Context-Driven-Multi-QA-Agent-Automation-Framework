@@ -13,6 +13,33 @@ Agent 1 takes a raw feature requirement (pasted text, user story, Trello/Jira ca
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- The raw requirement input (pasted text, or an existing `requirements/{feature}/source.md` if re-ingesting).
+- `requirements/{feature}/source.meta.json`, if it exists — needed to compare SHA-256 hashes for change detection.
+- `memory/decisions.md` — search by topic keyword before treating anything as ambiguous; it may already be answered.
+- **Don't load:** `utils/selectors.ts`, `pages/*.page.ts`, or any `workflows/`/`tests/` output — nothing downstream exists yet at this stage.
+
+## ⚠️ Common Mistakes
+
+- **Inventing acceptance criteria for an ambiguous clause instead of flagging `NEEDS_CLARIFICATION`.** This is the single most damaging mistake at this stage — every downstream artifact inherits the fabrication.
+- **Skipping the SHA-256 hash step or fabricating a plausible-looking hash string.** A real incident: all 3 original features' `source.meta.json` had fabricated hash strings that were never actual SHA-256 output, silently breaking change-detection for months.
+- **Creating a redundant `requirements/{feature}.md` file.** The template in Section 2 is for organizing your thinking only — it does not get saved as its own file; content goes into `parsed.json` + `clarifications.md`.
+- **Forgetting to check `memory/decisions.md` before escalating** — re-asking a question the owner already answered wastes their time and erodes trust in the escalation channel.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- Zero unresolved `NEEDS_CLARIFICATION` items.
+- SHA-256 hash stored and verified.
+- All clauses have valid category and priority assignments.
+- If change detected: stale downstream artifacts flagged.
+
+## ❌ Blocked Conditions
+- Any `NEEDS_CLARIFICATION` block with `status: "open"` → Pipeline halts at Agent 1.
+- No raw input available → Escalate to owner for requirement source.
+
+---
+
 ## 🛠️ Step-by-Step Protocol
 
 ### 1. Input Acceptance
@@ -186,12 +213,4 @@ For features that already exist in production without an AI-authored requirement
 - `requirements/{feature}/clarifications.md` (Ambiguous clauses flagged during parsing, their questions, and — once answered — the resolution; see Section 5)
 - `requirements/history/{feature}-v{n}.md` (Archived previous versions, written on change detection — Section 6)
 
-## ✅ Gate Condition
-- Zero unresolved `NEEDS_CLARIFICATION` items.
-- SHA-256 hash stored and verified.
-- All clauses have valid category and priority assignments.
-- If change detected: stale downstream artifacts flagged.
-
-## ❌ Blocked Conditions
-- Any `NEEDS_CLARIFICATION` block with `status: "open"` → Pipeline halts at Agent 1.
-- No raw input available → Escalate to owner for requirement source.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

@@ -13,6 +13,33 @@ Agent 2 reads `parsed.json` from Agent 1 and generates a comprehensive, traceabl
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- `requirements/{feature}/parsed.json` — the atomic REQ-ID clauses this stage exists to cover.
+- `memory/pattern-library.md` and TRUSTED entries in `memory/healed-patterns.json` — known UI complexities that should shape preconditions/steps (see Pre-Emptive Feedback Injection Points in `09-learning-prevention/SKILL.md`).
+- **Don't load:** `utils/selectors.ts`, `pages/*.page.ts`, or `workflows/*.verify.json` — those are Stage 4/5 concerns; inventing selectors here would violate Loop A's Feasibility dimension anyway.
+
+## ⚠️ Common Mistakes
+
+- **Applying a flat per-feature test-case cap.** There isn't one — Section 1 is explicit that minimums apply per REQ-ID, not per feature. A 40-clause feature legitimately needs far more TCs than a 6-clause one.
+- **Writing only a happy-path TC for a REQ-ID and calling it covered.** The hard floor (Section 1) requires at least 1 positive AND 1 negative-or-edge test per REQ-ID.
+- **Skipping Layer/Priority tags** — TCs without them break Agent 6's layer/priority coverage breakdown and Agent 5's CI-tier execution strategy.
+- **Generating security/destructive payloads on every form** instead of only when the requirement explicitly calls for input sanitization/security validation (Section 5) — and never against production.
+- **Sharing one `memory/convergence/{feature}.json` file across features.** Each feature gets its own — a shared file grows into an unbounded, unscoped log.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- Loop A convergence gate passed (all 7 dimensions).
+- Every REQ-ID mapped to ≥ 1 TC.
+- All TCs have valid Layer and Priority tags.
+- Stakeholder export generated.
+
+## ❌ Blocked Conditions
+- Unresolved `NEEDS_CLARIFICATION` from Agent 1 → Cannot generate TCs for ambiguous clauses.
+- Loop A hits 5 iterations without convergence → Preserve best state, escalate.
+
+---
+
 ## 🛠️ Test Case Generation Protocol
 
 ### 1. Scenario Matrix Multiplier — Applied PER REQ-ID, Not Per Feature
@@ -229,12 +256,4 @@ Alongside the technical TC table, generate a plain-language version for non-tech
 - `testcases/{feature}.stakeholder.md` (Plain-language stakeholder export)
 - `memory/convergence/{feature}.json` (Loop A iteration tracking — one file per feature)
 
-## ✅ Gate Condition
-- Loop A convergence gate passed (all 7 dimensions).
-- Every REQ-ID mapped to ≥ 1 TC.
-- All TCs have valid Layer and Priority tags.
-- Stakeholder export generated.
-
-## ❌ Blocked Conditions
-- Unresolved `NEEDS_CLARIFICATION` from Agent 1 → Cannot generate TCs for ambiguous clauses.
-- Loop A hits 5 iterations without convergence → Preserve best state, escalate.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

@@ -1,3 +1,72 @@
 {
-  "entries": []
+  "_schema": "context-store-v1",
+  "_description": "Feature knowledge store — written by Agent 1 (Context Ingestion) when parsing requirements. Read by Agents 2, 4, 5 for feature-level context that affects codegen and test design. GAP-012 fix: implemented 2026-08-21.",
+  "_lastUpdated": "2026-08-21T15:00:00Z",
+  "features": {
+    "b2b-registration": {
+      "featureSlug": "b2b-registration",
+      "ingestedAt": "2026-08-18T10:00:00Z",
+      "displayName": "B2B (Wholesale) Customer Registration",
+      "authRequired": false,
+      "adminVerification": true,
+      "adminVerificationUrl": "/Admin/ErpAccount/List",
+      "wizardSteps": 1,
+      "hasEmailVerification": false,
+      "hasAdminApproval": true,
+      "formFields": [
+        "FirstName", "LastName", "Email", "Company", "Password",
+        "PhoneNumber", "AddressLine1", "City", "ZipPostalCode",
+        "Country", "StateProvince", "Gender", "DateOfBirth",
+        "CompanyType", "BusinessType"
+      ],
+      "select2Fields": ["Country", "StateProvince", "CompanyType", "BusinessType"],
+      "keyPageUrls": [
+        "/register",
+        "/registerresult/1",
+        "/Admin/ErpAccount/List"
+      ],
+      "knownDecisions": ["D-001", "D-002", "D-003", "D-005", "D-006"],
+      "notes": "Company/business type fields use Select2 dropdowns (see D-005). Admin verification location confirmed via D-001."
+    },
+    "wishlist-management": {
+      "featureSlug": "wishlist-management",
+      "ingestedAt": "2026-08-18T10:00:00Z",
+      "displayName": "Korean Wishlist Management",
+      "authRequired": true,
+      "adminVerification": false,
+      "wizardSteps": 1,
+      "hasEmailVerification": false,
+      "hasAdminApproval": false,
+      "formFields": [],
+      "select2Fields": [],
+      "keyPageUrls": [
+        "/korean-wishlist",
+        "/wishlist",
+        "/cart"
+      ],
+      "knownDecisions": ["D-006"],
+      "notes": "Uses authenticated customer storageState. Navigation links appear in both header and footer — use .first() disambiguation (see PAT-STRICT-004)."
+    },
+    "wholesale-checkout": {
+      "featureSlug": "wholesale-checkout",
+      "ingestedAt": "2026-08-18T10:00:00Z",
+      "displayName": "Wholesale Direct Checkout",
+      "authRequired": true,
+      "adminVerification": false,
+      "wizardSteps": 3,
+      "hasEmailVerification": false,
+      "hasAdminApproval": false,
+      "formFields": [
+        "ShippingAddress", "PaymentMethod", "OrderNotes"
+      ],
+      "select2Fields": ["Country", "StateProvince"],
+      "keyPageUrls": [
+        "/cart",
+        "/checkout",
+        "/checkout/completed"
+      ],
+      "knownDecisions": ["D-004", "D-006"],
+      "notes": "3-step checkout wizard. Requires authenticated customer. May have Select2 dropdowns for address fields."
+    }
+  }
 }

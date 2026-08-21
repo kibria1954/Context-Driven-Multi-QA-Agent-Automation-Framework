@@ -13,6 +13,32 @@ Agent 0 owns everything the other agents assume "just exists" — environments, 
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read — it's short).
+- `envs/{env}.md` for the target environment, if it already exists — don't recreate it from scratch and clobber a real `write-safe` flag or recorded credentials reference.
+- `testdata/{feature}/seed.json`, if re-running for a feature that already has provisioned data — check before generating duplicates.
+- **Don't load:** other agents' skill files, `utils/selectors.ts`, or any `workflows/`/`testcases/` output — this stage runs before all of those exist and doesn't need them.
+
+## ⚠️ Common Mistakes
+
+- **Inventing an environment URL or credential reference instead of reading/creating `envs/{env}.md`.** Every downstream agent trusts this file as ground truth.
+- **Writing a real credential value into `envs/{env}.md`, test data files, or anywhere else committed.** Only `process.env.*` references belong in any file that isn't `.env*` (which is itself git-ignored).
+- **Treating `write-safe: false` as a soft warning.** It's a hard stop for Agent 3 and Agent 5 — no confidence level overrides it.
+- **Reusing unnamespaced test data across parallel runs**, causing collisions Section 5 exists specifically to prevent.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- Environment validated (`envs/{env}.md` exists, `write-safe` flag set, health check passed).
+- Test data provisioned and tagged with a run-scoped ID for cleanup.
+- No real credentials appear anywhere outside `.env*`.
+
+## ❌ Blocked Conditions
+- If environment is `write-safe: false` → Agent 3 and Agent 5 are restricted to read-only.
+- If credential validation fails → Pipeline halts, escalate to owner.
+- If unsafe action detected → Pipeline halts with `pending-questions.md` entry.
+
+---
+
 ## 🛠️ Step-by-Step Protocol
 
 ### 1. Environment Manifest Validation
@@ -130,7 +156,4 @@ When a feature requires state that can't be safely faked:
 - `testdata/{feature}/seed.json` (Provisioned test data)
 - `testdata/{feature}/cleanup-log.json` (Post-run cleanup results)
 
-## ❌ Blocked Conditions
-- If environment is `write-safe: false` → Agent 3 and Agent 5 are restricted to read-only.
-- If credential validation fails → Pipeline halts, escalate to owner.
-- If unsafe action detected → Pipeline halts with `pending-questions.md` entry.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

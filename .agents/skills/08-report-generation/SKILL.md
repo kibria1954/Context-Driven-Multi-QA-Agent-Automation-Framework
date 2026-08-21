@@ -13,6 +13,35 @@ Agent 7 aggregates all pipeline data — execution results, coverage matrices, s
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- `reports/generated/test-results.json`, `memory/self-heal-log.json`, `memory/traceability/{feature}.json`, `memory/flaky-quarantine.md`, `memory/run-history/` — all read via `utils/report-helpers.ts::buildReportData()`, don't hand-parse these yourself.
+- `memory/known-bugs.md` — dedup check before filing a new bug.
+- **Don't load:** `SKILL.md` files for other stages, or `utils/selectors.ts`/`pages/*.page.ts` — reporting only aggregates already-produced data, it doesn't inspect source.
+
+## ⚠️ Common Mistakes
+
+- **Trusting a fixed delay as proof the JSON reporter finished writing.** Section 0 exists because this exact assumption once silently reported 0% pass immediately after a 100%-pass run. Poll for a verifiable freshness signal instead.
+- **Recomputing a second, weaker traceability matrix** instead of reading `memory/traceability/{feature}.json` (Agent 6's single source of truth) — a past version of this codebase did exactly this and it drifted from the real matrix.
+- **Filing a duplicate bug ticket** without checking `memory/known-bugs.md` / existing tickets first (Section 6).
+- **Burying the plain-language summary below the technical tables.** It goes first, always — that's the whole point of Section 1.
+- **Writing a second, differently-shaped run-history entry** instead of using `recordRunHistory()` (`utils/report-helpers.ts`) — a duplicate writer with an incompatible schema previously polluted the trend chart with false zero-value data points (GAP-011 incident). `recordRunHistory()` is the only sanctioned writer.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- Data freshness verified before generation (Section 0) — not assumed from a fixed delay.
+- Report generated with all sections populated.
+- Stakeholder summary is plain-language (no jargon).
+- Bug reports deduped against known issues.
+- Self-heal audit log included.
+- Pipeline health metrics calculated.
+
+## ❌ Blocked Conditions
+- No test execution results available → Cannot generate report.
+- No traceability matrix from Agent 6 → Coverage section empty (generate with warning).
+
+---
+
 ## 🛠️ Report Generation Protocol
 
 ### 0. Data Freshness Gate (Run BEFORE generating anything)
@@ -200,14 +229,6 @@ The HTML report follows the existing glassmorphic dark-mode design from `scripts
 - `reports/generated/{feature}-report.md` (Markdown summary report with stakeholder section)
 - `reports/generated/test-results.json` (Raw Playwright JSON output)
 
-## ✅ Gate Condition
-- Data freshness verified before generation (Section 0) — not assumed from a fixed delay.
-- Report generated with all sections populated.
-- Stakeholder summary is plain-language (no jargon).
-- Bug reports deduped against known issues.
-- Self-heal audit log included.
-- Pipeline health metrics calculated.
+`npx ts-node scripts/generate-report.ts --story={feature}` runs one feature; `--all` (or `npm run report:all`) auto-discovers every feature with a `requirements/{feature}/parsed.json` and generates all of their reports in one pass (GAP-003).
 
-## ❌ Blocked Conditions
-- No test execution results available → Cannot generate report.
-- No traceability matrix from Agent 6 → Coverage section empty (generate with warning).
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

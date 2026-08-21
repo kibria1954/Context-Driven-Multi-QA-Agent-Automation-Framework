@@ -123,7 +123,7 @@
       "discrepancy": "No 'KD Registration Details' section found on this page (checked visible text and tab structure twice). See Admin Registration Applications page below for the confirmed real location, per owner decision."
     },
     {
-      "pageName": "Admin — Advanced B2B/B2C > Registration Applications",
+      "pageName": "Admin — Advanced B2B/B2C > Registration Applications (STALE LOCATION — DO NOT USE)",
       "urlPattern": "/Admin/ErpRegistrationApplication/List",
       "elements": [
         { "elementName": "registrationApplicationsGrid", "locatorCandidates": [{ "tier": "T5", "selector": "table tbody tr", "verified": true }], "recommendedSelector": "table tbody tr", "elementType": "table", "columns": ["Full Registered Name", "Registration Number", "Vat Number", "Telephone Number 1", "Telephone Number 2", "Telefax Number", "Accounts Contact Person Name/Surname", "Accounts Email", "Accounts Telephone/Cellphone Number", "Buyer Contact Person Name/Surname", "Buyer Email", "Nature Of Business", "Estimate Purchases Per Month", "US Dollar Credit Limit Required", "Created On", "Edit"] }
@@ -133,7 +133,21 @@
       "negativeStates": [],
       "a11yFindings": [],
       "visualBaseline": "workflows/b2b-registration/visual/admin-registration-applications.png",
-      "note": "CONFIRMED REAL LOCATION for REQ-07 ('KD Registration Details' in original requirement). Owner-confirmed correction — see requirements/b2b-registration/parsed.json REQ-07."
+      "discrepancy": "SUPERSEDED 2026-08-18 (see memory/decisions.md D-001, memory/healed-patterns.json ANTI-007, 06-execution-self-heal/SKILL.md Class 8 REQUIREMENT_VERIFICATION_ERROR). This page's own screenshot showed 'No records' — the 'CONFIRMED REAL LOCATION' note previously on this entry was itself the unverified assumption that caused the incident. The real, owner-confirmed, live-verified location for REQ-07 is the next entry below (/Admin/ErpAccount/List). This entry is kept only so codegen/reconciliation tooling can see what was ruled OUT and why, not as a page to navigate to."
+    },
+    {
+      "pageName": "Admin — Advanced B2B/B2C > ERP Accounts (CONFIRMED REAL LOCATION for REQ-07)",
+      "urlPattern": "/Admin/ErpAccount/List",
+      "elements": [
+        { "elementName": "gridSearchInput", "locatorCandidates": [{ "tier": "T2", "selector": "#AccountName", "verified": true }], "recommendedSelector": "#AccountName", "elementType": "input", "description": "ERP Accounts grid \"Account Name\" search/filter input" },
+        { "elementName": "applicationsGrid", "locatorCandidates": [{ "tier": "T5", "selector": "table tbody tr", "verified": true }, { "tier": "T5", "selector": ".dataTables_wrapper table tbody tr", "verified": true }], "recommendedSelector": "table tbody tr", "elementType": "table", "description": "ERP Accounts data grid rows — the grid that actually populates per submitted wholesale registration" }
+      ],
+      "dynamicWidgets": [{ "widgetType": "AJAX grid (Kendo-style)", "selector": "table tbody tr", "handlingStrategy": "search by Account Name via #AccountName + search button, then wait for grid reload", "verified": true }],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/b2b-registration/visual/admin-registration-applications.png",
+      "note": "CONFIRMED REAL LOCATION for REQ-07 ('KD Registration Details' in original requirement). Owner-confirmed correction (memory/decisions.md D-001) — see requirements/b2b-registration/parsed.json REQ-07 and pages/admin/admin-registration-applications.page.ts (already implements this correctly; only this verify.json record was stale). Live-verified end-to-end per endToEndConfirmed below."
     }
   ],
   "endToEndConfirmed": {

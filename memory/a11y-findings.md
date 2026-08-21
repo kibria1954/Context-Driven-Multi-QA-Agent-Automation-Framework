@@ -1,9 +1,7 @@
 # ♿ Accessibility Findings
 
 > Non-blocking a11y scan results from Agent 3 (Live Explorer).
-> Building a backlog for accessibility improvements over time.
-> These findings do NOT block the pipeline — they build awareness.
+> Building a backlog for accessibility improvements.
+> Status lifecycle: `open` (default, or reopened if a resolved/wontfix finding recurs) → `resolved` | `wontfix` via resolveA11yFinding() / npm run a11y:report.
 
 ---
-
-<!-- a11y findings table will be appended below by Agent 3 -->

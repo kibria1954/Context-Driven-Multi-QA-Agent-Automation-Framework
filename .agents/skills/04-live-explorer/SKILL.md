@@ -13,6 +13,39 @@ The Live Explorer visits the actual live/staging application via browser subagen
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- `workflows/{feature}.journey.json` — the flows to actually walk.
+- `envs/{env}.md` — write-safety flag, base/admin URLs.
+- `memory/decisions.md` and `memory/healed-patterns.json` (TRUSTED entries, especially `patternType: "anti-pattern"`) — known widget/modal handling and prior corrections (e.g. admin URL locations) before re-discovering them from scratch.
+- **Don't load:** `tests/e2e/**/*.spec.ts` or `pages/*.page.ts` — those don't exist yet; this stage produces the raw material Stage 5 turns into them.
+
+## ⚠️ Common Mistakes
+
+- **Treating "the page loaded with plausible column headers" as verification.** This is THE incident this file documents at length in Section 7a — a page rendering is not proof it reflects the claimed effect. Always perform the triggering action, search for the specific value, and confirm a matching row before marking `verified: true`.
+- **Accepting a verbal "confirmed with the owner" as a substitute for the 4-step proof in Section 7a.** A chat confirmation about which page is a lead worth checking, not evidence on its own.
+- **Skipping the infrastructure verification in Section 9** for `global-setup.ts`/`global-teardown.ts` because they're "just scaffolding." A broken login selector there fails every downstream test with misleading individual symptoms (see the Cascading Failure Pattern in `06-execution-self-heal/SKILL.md`).
+- **Writing `verify.json` once and never revisiting it.** After a `memory/decisions.md` correction (e.g. D-001), the `verify.json` record itself must be updated too — a corrected page object with a stale `verify.json` still describing the old wrong location is exactly the kind of divergence `npm run reconcile:workflow` (Section 7, GAP-013) is built to catch. Run it after any correction.
+- **Leaving negative-state error text paraphrased instead of verbatim** — Agent 5's semantic-verification heals and Agent 6's assertion audits both depend on exact text.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- All interactive elements have verified selectors with tier rankings.
+- All negative/error states captured with verbatim messages.
+- Dynamic widgets documented with handling strategies.
+- Write-action safety enforced.
+- Visual baselines captured.
+- Every "surface A shows effect of action on surface B" claim has a populated-state screenshot with matching test data, not just a page-loads screenshot (Section 7a).
+- Auth-establishing infrastructure (`tests/global-setup.ts`) has a confirmed auth-cookie signal recorded, not assumed (Section 9).
+- `npm run reconcile:workflow -- --story={feature}` reports no unresolved `CONTRADICTS_DECISION` / `UNVERIFIED_ADMIN_CLAIM` findings (Section 7 below) before handing off to Stage 5.
+
+## ❌ Blocked Conditions
+- Target environment unreachable → `ENVIRONMENT_ISSUE`, retry later.
+- Environment not `write-safe` and feature requires write actions → Read-only mode, flag limitations.
+- Agent 0 has not provisioned test data → Cannot explore with data.
+
+---
+
 ## 🛠️ Live Exploration Protocol
 
 ### 1. Pre-Flight Safety Check
@@ -97,19 +130,16 @@ For every negative test case from Agent 2, **actually perform the invalid action
 At each key page/state visited during exploration:
 
 1. Run axe-core via `@axe-core/playwright` integration.
-2. Log violations to `memory/a11y-findings.md`:
+2. Log violations via `appendA11yFinding()` (`utils/memory-helpers.ts`) — **do not hand-append rows to `memory/a11y-findings.md`.** It dedupes by (feature, page, rule, element): a rescan of an already-`open` finding doesn't spawn a duplicate row, and rediscovering a `resolved`/`wontfix` finding automatically reopens it as a regression rather than leaving a stale row. The table carries a real `Status` column (`open` | `resolved` | `wontfix`) — mark one resolved with `npm run a11y:report -- --resolve --feature=... --page=... --rule=... --element=...` once it's actually fixed, don't just let it sit.
 
 ```markdown
-## {Feature} — a11y Scan Results ({date})
-
-### Page: {URL}
-| Impact | Rule | Element | Description |
-|--------|------|---------|-------------|
-| critical | label | `input#Email` | Form element has no associated label |
-| serious | color-contrast | `.btn-primary` | Element has insufficient color contrast ratio |
+| Impact | Rule | Element | Description | Feature | Page | Date | Status |
+|--------|------|---------|-------------|---------|------|------|--------|
+| critical | label | `input#Email` | Form element has no associated label | b2b-registration | /register | 2026-08-21 | open |
+| serious | color-contrast | `.btn-primary` | Element has insufficient color contrast ratio | b2b-registration | /register | 2026-08-21 | open |
 ```
 
-3. **Non-blocking**: a11y findings do NOT stop the pipeline. They build a backlog.
+3. **Non-blocking**: a11y findings do NOT stop the pipeline. They build a backlog. `npm run a11y:report` summarizes open/resolved/wontfix counts by severity.
 
 ### 6. Visual Baseline Capture
 
@@ -143,6 +173,18 @@ After exploring all steps:
 5. If step 3 fails (no matching row found anywhere reasonable — check pagination, check "Show: All" filters), **do not guess a fallback location and do not accept a verbal "confirmed with the owner" as a substitute.** Classify as unresolved and escalate: "Requirement says {surface} shows {effect} after {action} — after performing {action} with test data `{value}`, no matching record was found at {location}. Where does this actually appear?"
 6. A verbal/chat confirmation from the project owner about *which page* is a lead worth checking, not evidence — it still needs step 1-4 proof before being marked `verified: true`.
 
+#### 7b. Reconciling `verify.json` Against Design-Time and Decision Records (GAP-013)
+
+`journey.json` (Stage 3's design intent) and `verify.json` (this stage's live-confirmed reality) are two independent files with no shared schema key, and `verify.json` can silently go stale after a `memory/decisions.md` correction — exactly what happened with the REQ-07 admin URL (D-001 corrected it 2026-08-18, but the `verify.json` record itself kept asserting the old, wrong URL as "CONFIRMED REAL LOCATION" for days afterward, even after the actual page-object code had already been fixed).
+
+Run `npx ts-node scripts/reconcile-workflow.ts --story={feature}` (or `npm run reconcile:workflow -- --story={feature}`) before marking this stage's gate condition satisfied. It mechanically checks:
+- Journey steps mentioning "Admin" have a non-superseded `/Admin/*` page recorded in `verify.json`.
+- `verify.json` pages claiming a "confirmed"/"real location" note don't contradict a `/Admin/*` URL recorded as correct in `memory/decisions.md`.
+- Every TC-ID referenced in `journey.json` has a matching test in the feature's spec file (once Stage 5 has run).
+- `verify.json` pages with no corresponding journey-step coverage at all.
+
+It's a mechanical pattern/keyword checker, not a semantic judge — a clean run doesn't replace Section 7a's live-verification discipline, but a flagged run means stop and look before trusting the affected record.
+
 ### 8. Scheduled Drift Re-Verification
 
 Independent of requirement changes, stable/high-priority features should be re-explored periodically:
@@ -159,7 +201,7 @@ Independent of requirement changes, stable/high-priority features should be re-e
 Apply the SAME live-verification rigor used for feature pages to this infrastructure, at these times:
 - **Whenever `tests/global-setup.ts` is written or modified.**
 - **On the same drift cadence as P0 features** (Section 8) — infra breaking silently is at least as costly as a P0 feature breaking.
-- **Immediately, if Section 1 of the Cascading Failure Pattern Recognition check in `07-execution-self-heal/SKILL.md` fires** (≥3 unrelated test failures at the same early step in a shared-context helper).
+- **Immediately, if Section 1 of the Cascading Failure Pattern Recognition check in `06-execution-self-heal/SKILL.md` fires** (≥3 unrelated test failures at the same early step in a shared-context helper).
 
 **Verification protocol for auth-establishing setup code specifically:**
 1. Run the setup script's login flow live, exactly as written.
@@ -237,16 +279,4 @@ Apply the SAME live-verification rigor used for feature pages to this infrastruc
 - `workflows/{feature}/visual/*.png` (Visual baselines per state)
 - `memory/a11y-findings.md` (Accessibility scan results — appended)
 
-## ✅ Gate Condition
-- All interactive elements have verified selectors with tier rankings.
-- All negative/error states captured with verbatim messages.
-- Dynamic widgets documented with handling strategies.
-- Write-action safety enforced.
-- Visual baselines captured.
-- Every "surface A shows effect of action on surface B" claim has a populated-state screenshot with matching test data, not just a page-loads screenshot (Section 7a).
-- Auth-establishing infrastructure (`tests/global-setup.ts`) has a confirmed auth-cookie signal recorded, not assumed (Section 9).
-
-## ❌ Blocked Conditions
-- Target environment unreachable → `ENVIRONMENT_ISSUE`, retry later.
-- Environment not `write-safe` and feature requires write actions → Read-only mode, flag limitations.
-- Agent 0 has not provisioned test data → Cannot explore with data.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

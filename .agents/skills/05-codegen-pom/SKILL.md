@@ -13,6 +13,38 @@ Agent 4 transforms verified workflows and test cases into a real, executable Pla
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- `workflows/{feature}.journey.json` and `workflows/{feature}.verify.json` — the source and grounding for the code you're about to write.
+- `memory/healed-patterns.json` (TRUSTED entries only, filtered to `applicablePages`/`applicableFeatures` matching this feature) — Section 10.
+- `utils/selectors.ts` **grep'd for the relevant page's existing entries, not read in full.** It grows unbounded across every feature; loading all of it to generate one page's selectors wastes context for no benefit — search for the page's existing selector block (or confirm none exists yet) instead.
+- `memory/page-dependency-index.md` — only if modifying a page object that might already be shared across features.
+- **Don't load:** other features' `.spec.ts` files, `memory/heal-log.md`, or report-generation code — none of it informs codegen.
+
+## ⚠️ Common Mistakes
+
+- **Inlining a selector instead of routing through `utils/selectors.ts`.** Breaks the single-source-of-truth Loop B depends on for healing.
+- **Hardcoding a fixed sleep (`page.waitForTimeout(N)`).** Banned outright — Section 6 lists the correct dynamic-wait alternative for every common case.
+- **Forgetting `test.setTimeout()` on multi-context tests** (Section 5a) — the default suite timeout is sized for the single-context case and will produce a misleading "context has been closed" error that looks like flakiness instead of a timing budget problem.
+- **Writing an assertion method that doesn't check both URL and DOM state** — single-factor assertions pass on partial/wrong outcomes.
+- **Skipping the page-dependency-index update** (Section 11) after touching a shared page object — this is what lets Agent 6 flag cross-feature impact; skip it and a change silently goes unverified for every other feature sharing that page.
+- **Generating code with an unverified selector** because Stage 4 hasn't gotten to that element yet — blocked condition, not a judgment call.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- All TCs from Agent 2 have corresponding spec implementations.
+- POM pattern enforced — no inline selectors in specs.
+- Traceability headers link every spec to TC IDs.
+- Pre-emptive patterns from `healed-patterns.json` applied.
+- Page dependency index updated.
+- TypeScript compiles without errors (`npx tsc --noEmit`).
+
+## ❌ Blocked Conditions
+- Agent 3 (Live Explorer) has not verified selectors → MUST NOT generate code with unverified selectors.
+- `healed-patterns.json` inaccessible → Generate without patterns (log warning).
+
+---
+
 ## 🛠️ Architectural Requirements
 
 ### 1. Page Object Model (POM) — Mandatory
@@ -246,14 +278,4 @@ Playwright projects in `playwright.config.ts`:
 - `tests/api/{feature}/{feature}-api.spec.ts` (API-layer specs)
 - `memory/page-dependency-index.md` (Shared page registration — updated)
 
-## ✅ Gate Condition
-- All TCs from Agent 2 have corresponding spec implementations.
-- POM pattern enforced — no inline selectors in specs.
-- Traceability headers link every spec to TC IDs.
-- Pre-emptive patterns from `healed-patterns.json` applied.
-- Page dependency index updated.
-- TypeScript compiles without errors (`npx tsc --noEmit`).
-
-## ❌ Blocked Conditions
-- Agent 3 (Live Explorer) has not verified selectors → MUST NOT generate code with unverified selectors.
-- `healed-patterns.json` inaccessible → Generate without patterns (log warning).
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the architectural requirements — check them first.)_

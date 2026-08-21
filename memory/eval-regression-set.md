@@ -8,8 +8,18 @@
 
 ## Test Case 1: B2B Registration Requirement → Expected TC Quality
 
-**Input:** `requirements/b2b-registration/parsed.json` (55 REQ-IDs)
-**Expected Output Quality Gates:**
+**Input:** `requirements/b2b-registration/parsed.json` (8 REQ-IDs — verified against the actual
+file on 2026-08-21; this fixture previously said "55 REQ-IDs", which never matched the real data
+and would have failed any prompt version, correct or not, that was actually run against it)
+**Known-Good Baseline (from `testcases/b2b-registration.tc.json` + `memory/convergence/b2b-registration.json`):**
+- 30 test cases generated (≥ 10 gate satisfied)
+- All 5 categories represented (positive, negative, edge, boundary, accessibility)
+- Layer classification present on every TC (UI or API)
+- Priority tags present on every TC (P0, P1, P2)
+- Stakeholder export (`*.stakeholder.md`) generated
+- Every REQ-ID linked to ≥ 1 TC
+- Loop A converged in 1 iteration (well inside the ≤ 4 gate)
+**Expected Output Quality Gates (for future prompt versions to be judged against):**
 - ≥ 10 test cases generated
 - All 5 categories represented (positive, negative, edge, boundary, accessibility)
 - Layer classification present on every TC (UI or API)

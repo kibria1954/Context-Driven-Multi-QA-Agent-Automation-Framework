@@ -1,5 +1,5 @@
 ---
-name: 06-coverage-validation
+name: 07-coverage-validation
 description: Validate 100% requirements-to-test coverage with assertion-level depth audit, cross-feature impact detection, flaky quarantine tracking, layer/priority breakdowns, and stakeholder coverage summary.
 ---
 
@@ -10,6 +10,34 @@ description: Validate 100% requirements-to-test coverage with assertion-level de
 Agent 6 builds the complete traceability chain: **Requirement clause → Test Case → Automation Script → Execution result**. It flags gaps at every level, checks cross-feature impact when shared pages change, accounts for quarantined-flaky tests that compromise real coverage, and produces both technical and stakeholder-readable coverage reports.
 
 > **Golden Rule:** "100% coverage" is meaningless if the tests aren't actually running. Quarantined tests, skipped tests, and tests without assertions are NOT coverage — flag them honestly.
+
+---
+
+## 📁 Files to Load
+
+- **This file** (full read).
+- `requirements/{feature}/parsed.json` — the REQ-IDs being audited.
+- `testcases/{feature}.tc.json` and the feature's own spec file(s) — **never repo-wide**, see Section 1's scoping warning.
+- `reports/generated/test-results.json` — L4 execution evidence.
+- `memory/flaky-quarantine.md` and `memory/page-dependency-index.md` — quarantine impact and cross-feature checks.
+- **Don't load:** other features' spec files or requirements — REQ-IDs are numbered locally per feature, and cross-feature matching is the exact bug `scripts/validate-coverage.ts`'s scoping fix exists to prevent.
+
+## ⚠️ Common Mistakes
+
+- **Matching REQ-IDs repo-wide instead of scoping to the feature's own spec file(s).** REQ-01 exists in every feature — an unscoped substring search will cross-contaminate results between features. This is a real bug that was found and fixed; don't reintroduce it.
+- **Counting a spec with zero `expect()`/`toHaveURL()` calls as covered.** `UNVERIFIED_ASSERTION` exists precisely so a spec file existing isn't mistaken for a spec file actually asserting anything — though a call to a POM `assert*()` method also counts (it wraps real `expect()` calls per `05-codegen-pom/SKILL.md` Section 8), so don't flag those false-negative either.
+- **Reporting raw coverage % without also reporting effective coverage** (excluding quarantined/not-executed) — the gap between the two numbers is often the most important thing a stakeholder needs to see.
+- **Skipping the cross-feature impact check** after a shared page object changes — a healed `login.page.ts` can silently need re-verification across every feature that uses it.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- Every REQ-ID mapped to at least one automated assertion.
+- Cross-feature impact checked and reported.
+- Quarantine impact quantified.
+- Coverage percentage calculated (overall, effective, by layer, by priority).
+
+## ❌ Blocked Conditions
+- No spec files generated yet (Agent 4 incomplete) → Cannot validate coverage.
+- `parsed.json` unavailable → Cannot map REQ-IDs.
 
 ---
 
@@ -25,7 +53,7 @@ For each REQ-ID in `requirements/{feature}/parsed.json`:
 |-------|-------|---------------|
 | **L1: TC Exists** | REQ-ID has ≥ 1 linked TC in `testcases/{feature}.tc.json` | At least one TC references this REQ-ID |
 | **L2: Spec Exists** | TC has a corresponding spec file in `tests/e2e/` or `tests/api/` | Spec file exists and contains test matching TC-ID |
-| **L3: Assertion Exists** | Spec contains active `expect(...)` assertion for this REQ-ID | At least one `expect()` call validates the REQ outcome |
+| **L3: Assertion Exists** | Spec contains active `expect(...)` assertion for this REQ-ID | At least one `expect()`/`toHaveURL()` call, or a call to a POM `assert*()` method (Section 8 of `05-codegen-pom/SKILL.md`), validates the REQ outcome |
 | **L4: Execution Exists** | Spec was actually executed in the latest run | Test result exists in `results/` (not skipped/quarantined) |
 
 **Coverage flags:**
@@ -175,12 +203,6 @@ Plain-language coverage status for non-technical reviewers:
 - `memory/traceability/{feature}.json` (Machine-readable matrix)
 - `memory/traceability/index.json` (Master index across all features)
 
-## ✅ Gate Condition
-- Every REQ-ID mapped to at least one automated assertion.
-- Cross-feature impact checked and reported.
-- Quarantine impact quantified.
-- Coverage percentage calculated (overall, effective, by layer, by priority).
+`npx ts-node scripts/validate-coverage.ts --story={feature}` runs one feature; `--all` (or `npm run qa:coverage:all`) auto-discovers every feature with a `requirements/{feature}/parsed.json` and runs all of them in one pass (GAP-003) — use this instead of adding a new hardcoded npm script per feature.
 
-## ❌ Blocked Conditions
-- No spec files generated yet (Agent 4 incomplete) → Cannot validate coverage.
-- `parsed.json` unavailable → Cannot map REQ-IDs.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the protocol — check them first.)_

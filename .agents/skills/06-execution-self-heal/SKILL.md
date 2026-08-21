@@ -1,5 +1,5 @@
 ---
-name: 07-execution-self-heal
+name: 06-execution-self-heal
 description: Execute Playwright test suites, classify failures via 7-class error taxonomy (including cascading shared-infrastructure failures), perform Loop B self-healing with semantic verification and review gates, manage flaky quarantine, and record all heal evidence.
 ---
 
@@ -10,6 +10,37 @@ description: Execute Playwright test suites, classify failures via 7-class error
 Agent 5 runs the generated test suite, and when something fails, it classifies the failure **before doing anything else**. It applies safe self-healing with semantic verification (confirming healed locators actually point to the right element), enforces a review gate on broad changes, manages a flaky quarantine for recurring transient failures, and records every heal action with full evidence for the Learning Loop.
 
 > **Golden Rule:** Self-healing is verification-first, not apply-and-hope. A healed locator that resolves to the wrong element is WORSE than a broken test — it's a silent false pass.
+
+---
+
+## 📁 Files to Load
+
+- **This file** (full read — the 8-class taxonomy and circuit breaker rules matter in full).
+- The failing test's spec file and its page object(s).
+- `utils/selectors.ts`, scoped to the failing element's entries — not the whole file.
+- `memory/self-heal-log.json` (via `checkCircuitBreaker()`, `utils/memory-helpers.ts`) — the real, file-backed heal-attempt count for this run/test, before attempting another heal.
+- `memory/healed-patterns.json` anti-patterns (`patternType: "anti-pattern"`) — check before re-diagnosing a failure that's already a known lesson.
+- **Don't load:** `testcases/*.tc.md`, `workflows/*.journey.json`, or report-generation code unless the failure specifically requires checking the original test intent.
+
+## ⚠️ Common Mistakes
+
+- **Classifying before running the Cascading Failure Pattern check.** ≥3 unrelated-looking failures at the same early shared-context step is `SETUP_INFRA_ISSUE`, not N separate `FLAKY_LOCATOR`s — misclassifying burns the 5-attempt circuit breaker on fixes that were never going to work (see the `tests/global-setup.ts` incident above).
+- **"It didn't throw" as proof of a successful login/setup action.** Always verify via an unambiguous signal (the real session cookie, a redirected URL) — see ANTI-006.
+- **Skipping semantic verification on a locator swap** because the new selector "looks right." Role, text, context, and element type must all be checked — a locator that resolves to the wrong element is a silent false pass, worse than a visible failure.
+- **Auto-committing a `SETUP_INFRA_ISSUE` fix at high confidence.** Never — infra scripts affect the whole suite, so this class always requires human review regardless of confidence (Review Gate table below).
+- **Forgetting to write `memory/self-heal-log.json` alongside `memory/heal-log.md`.** The HTML report and the circuit breaker both read only the JSON store — a heal recorded only in the Markdown log is invisible to both.
+- **Modifying the test spec for a `REQUIREMENT_VERIFICATION_ERROR` (Class 8).** The test is correct; `verify.json` is wrong. Fix the data location, not the assertion.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- Suite passes (all non-quarantined tests green), OR
+- All failures classified and either healed safely or escalated with evidence.
+- No unverified heals committed.
+- Heal evidence recorded for every change.
+
+## ❌ Blocked Conditions
+- No spec files exist (Agent 4 incomplete) → Nothing to execute.
+- Environment unreachable → Quarantine all tests, retry later.
+- Circuit breaker hit → Full stop, escalate with complete context.
 
 ---
 
@@ -192,6 +223,35 @@ $$\text{Auto-Heal Trigger} = (\text{Confidence} \ge 90\%) \land (\text{Safe Chan
 5. **Always flag for human review** (`⚠️` in the Review Gate table below) — infra scripts affect every test in the suite, so no infra heal auto-commits regardless of confidence.
 6. Record the heal in `memory/heal-log.md` as usual, and add a new entry to `memory/pattern-library.md`'s Anti-Patterns section if the root cause is a reusable lesson (selector pattern, missing verification, timing assumption) — infra bugs are exactly the kind of single-point-of-failure worth distilling, since one fix here prevents an entire class of downstream false failures.
 
+### Class 8: `REQUIREMENT_VERIFICATION_ERROR`
+
+> **Formally added 2026-08-21** — this class existed in `memory/heal-log.md` (2026-08-18T12:30:00Z incident) but was undefined in the skill file, leaving future agents unable to classify the same failure pattern.
+
+**Trigger:** A test fails because Stage 4 (Live Explorer) produced a `verify.json` that pointed to the WRONG admin page, URL, or data location. The test itself is correctly written against the verify.json — but the verify.json itself is wrong. Indicators:
+- Test navigates to a page and finds `No records`, empty grid, or no matching data — even though the customer action completed successfully
+- Admin URL from the requirement does not contain the expected application data (e.g., navigating to `/Admin/ErpRegistrationApplication/List` and finding an empty grid, when the data is actually at `/Admin/ErpAccount/List`)
+- Multiple tests for the same admin verification step all fail in the same way (no records found)
+
+**Real incident (2026-08-18T12:30:00Z):** REQ-07 (b2b-registration) tested that a submitted B2B application appears in the admin panel. Stage 4 explored `/Admin/ErpRegistrationApplication/List`, found a plausible empty grid, and marked it `verified: true` — but the data was actually at `/Admin/ErpAccount/List`. See ANTI-007 in `memory/healed-patterns.json`.
+
+**Self-Heal Steps:**
+1. **DO NOT modify the test spec.** The test is correct; the underlying `verify.json` has incorrect location data.
+2. Identify the specific admin URL or data location that is wrong in `workflows/{feature}.verify.json`.
+3. Perform a **new live investigation**: navigate to the page where the data SHOULD appear:
+   - Log in as admin
+   - Perform the customer action that should produce the data
+   - Search admin pages for the resulting record (check related modules, use admin search)
+4. Update `workflows/{feature}.verify.json` with the corrected `adminUrl`, `adminSelector`, and a `populated` screenshot.
+5. Update `requirements/{feature}/parsed.json` and `source.md` if the requirement itself pointed to the wrong location.
+6. **Escalate to owner via `memory/pending-questions.md`** — requirement pointing to wrong admin location is a product knowledge gap, not a code bug.
+7. After owner confirms the correct location (recorded in `memory/decisions.md`), update `utils/selectors.ts` with the correct admin page selectors.
+8. Re-run Stage 4 verification for the corrected location only, then re-run the affected tests.
+9. Record in `memory/heal-log.md` with `failureClass: REQUIREMENT_VERIFICATION_ERROR`.
+
+**Human Review Required:** ✅ YES — always. Requirement location is product knowledge that must be confirmed by the owner.
+
+**Does NOT auto-commit:** The `verify.json` and `requirements/` changes are product-level corrections, not self-healing.
+
 ---
 
 ## 🛡️ Review Gate on Healed Code
@@ -236,6 +296,12 @@ A test enters quarantine when it fails transiently across **2+ consecutive runs*
 | Regression Impact Cycles | Max 1 | STOP → Rollback → Escalate |
 | Total heals per run | Max 10 | STOP → Flag as systemic issue |
 
+**Programmatic check (not just prose):** before attempting a heal, call
+`checkCircuitBreaker(runId, testTitle)` from `utils/memory-helpers.ts`. It counts actual entries
+in `memory/self-heal-log.json` for this run/test and returns `{ breached, reason }` — this is why
+Section "Output Files" above requires `self-heal-log.json` to be written in step with every heal;
+if it's left stale, this check silently under-counts and the limit becomes unenforceable again.
+
 ---
 
 ## 🛡️ Anti-Regression Guard & Mandatory Rollback
@@ -269,20 +335,11 @@ Every heal action is recorded in `memory/heal-log.md` (append-only):
 ---
 
 ## 📄 Output Files
-- `memory/self-heal-log.json` (Machine-readable execution audit log)
+- `memory/self-heal-log.json` (Machine-readable execution audit log — **write this alongside `heal-log.md`, not after the fact**; `utils/report-helpers.ts::readSelfHealLog()` reads only this file to populate the HTML report's heal section, so a heal recorded only in `heal-log.md` is invisible to the report. Use `appendSelfHealLogEntry()` from `utils/memory-helpers.ts`, or catch up any missed entries with `npm run sync:memory`.)
 - `memory/heal-log.md` (Human-readable heal evidence — append-only)
 - `memory/flaky-quarantine.md` (Quarantined test register)
 - `reports/quarantine/{feature}-no-safe-fix.md` (Escalation reports for `NO_SAFE_FIX` / `REAL_BUG`)
 - `results/{feature}-run-{n}.json` (Execution results)
 - `reports/generated/test-results.json` (Raw Playwright output)
 
-## ✅ Gate Condition
-- Suite passes (all non-quarantined tests green), OR
-- All failures classified and either healed safely or escalated with evidence.
-- No unverified heals committed.
-- Heal evidence recorded for every change.
-
-## ❌ Blocked Conditions
-- No spec files exist (Agent 4 incomplete) → Nothing to execute.
-- Environment unreachable → Quarantine all tests, retry later.
-- Circuit breaker hit → Full stop, escalate with complete context.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the execution configuration — check them first.)_

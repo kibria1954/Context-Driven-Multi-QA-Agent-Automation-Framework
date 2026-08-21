@@ -13,6 +13,32 @@ The Learning Loop is the cross-cutting intelligence engine that makes the system
 
 ---
 
+## 📁 Files to Load
+
+- **This file** (full read).
+- `memory/heal-log.md` (entries since the last distillation) and `memory/healed-patterns.json`.
+- `memory/decisions.md` — a distillation input, but also check it before treating anything as a new question.
+- **Don't load:** `pages/*.page.ts`, `tests/e2e/**/*.spec.ts`, or any single feature's `workflows/`/`testcases/` output — this stage works from the heal-log/decisions/pattern-store layer, not the code layer directly.
+
+## ⚠️ Common Mistakes
+
+- **Waiting for `successCount >= 3` before trusting an anti-pattern.** That promotion rule is for positive interaction patterns. A `SETUP_INFRA_ISSUE`-class anti-pattern gets fast-tracked to TRUSTED on a single verified incident (`alwaysRequiresReview: true` is what keeps this safe) — see the Anti-Pattern Fast-Track section below.
+- **Letting `memory/self-heal-log.json` drift from `memory/heal-log.md`.** This is the actual incident that motivated the Dual-Store Sync Requirement below: the JSON store sat at 0 entries for a week while the Markdown log accumulated real records, and the HTML report (which reads only the JSON) silently stopped showing real heals.
+- **Treating this stage as fully manual.** `runDistillation()` (`scripts/distill-patterns.ts`) now auto-runs after every test run via `tests/global-teardown.ts` (GAP-006) — don't assume nothing happens until someone remembers to run `npm run distill:patterns` by hand; that command still exists for on-demand runs, but it's no longer the only trigger.
+- **Promoting a pattern to TRUSTED without `crossRunValidated`/cross-feature evidence** — a pattern observed once in one feature run is a CANDIDATE, not a TRUSTED fact about the whole platform.
+
+## ✅ Gate Condition (check before starting, and again before marking this stage done)
+- All execution outcomes (pass + fail) processed into pattern lifecycle.
+- Pattern promotions/demotions applied.
+- Pattern library distilled (if enough new data since last distillation).
+- Pre-emptive injection points documented.
+
+## ❌ Blocked Conditions
+- No execution results available → Nothing to learn from.
+- Memory files corrupted → Rebuild from raw execution logs.
+
+---
+
 ## 🔄 Dual-Channel Learning Ingestion
 
 ### Pass Outcomes → Stability Signals
@@ -66,6 +92,28 @@ $$\text{Demote to CANDIDATE} = (\text{failureCount} \ge 1) \land (\text{status} 
 
 $$\text{Deprecate} = (\text{failureCount} \ge 3) \land (\text{status} = \text{CANDIDATE})$$
 
+### Anti-Pattern Fast-Track (Exception to the Promotion Rules Above)
+
+The `successCount ≥ 3` promotion rule is designed for **positive interaction patterns**
+("here's a working strategy") where you want repeated confirmation before trusting it broadly.
+It is the wrong bar for **anti-patterns** ("never do X") distilled from a `SETUP_INFRA_ISSUE` or
+cascading-failure incident (see `06-execution-self-heal/SKILL.md`'s Class 7). Waiting for the
+same severe infra bug to recur 3 times before recording the lesson defeats the point of
+prevention — by the third occurrence it's already cost 3 incidents' worth of damage.
+
+**Rule:** A pattern with `patternType: "anti-pattern"` may be set `status: "TRUSTED"` immediately
+on a single verified incident (`successCount: 1` is normal and expected — it means "confirmed
+applicable once," not "unconfirmed"), provided:
+- The root cause was reproduced and the fix verified live (not just plausible), and
+- `alwaysRequiresReview: true` is set on the pattern entry.
+
+`alwaysRequiresReview: true` is what keeps this safe: a TRUSTED anti-pattern still can never
+auto-apply a code change on its own (per the Review Gate table in
+`06-execution-self-heal/SKILL.md`, any `SETUP_INFRA_ISSUE` fix is human-review-required
+regardless of confidence) — TRUSTED here only means "inject this warning pre-emptively into
+Agent 2/3/4/5," not "auto-commit a fix." See `ANTI-005` through `ANTI-009` in
+`memory/healed-patterns.json` for worked examples.
+
 ---
 
 ## 📄 Knowledge Base Schema (`memory/healed-patterns.json`)
@@ -78,6 +126,7 @@ $$\text{Deprecate} = (\text{failureCount} \ge 3) \land (\text{status} = \text{CA
     {
       "patternId": "PAT-001",
       "component": "Select2 Custom Dropdown",
+      "patternType": "interaction",
       "category": "widget-interaction",
       "interactionStrategy": "click container → fill search input → await options list → click active option",
       "selectorPattern": "span.select2-container",
@@ -92,6 +141,24 @@ $$\text{Deprecate} = (\text{failureCount} \ge 3) \land (\text{status} = \text{CA
       "promotedAt": "2026-08-11T15:00:00Z",
       "sourceHealIds": ["heal-001", "heal-002"],
       "notes": "NopCommerce uses Select2 for all custom dropdowns. Standard HTML select interaction fails."
+    },
+    {
+      "patternId": "ANTI-005",
+      "component": "Comma-Combined Generic + Specific Selectors with .first()",
+      "patternType": "anti-pattern",
+      "category": "selector-safety",
+      "interactionStrategy": "Never combine a page-specific selector with a generic attribute selector in one comma-separated locator when calling .first() — the generic half can match an unrelated element earlier in DOM order.",
+      "selectorPattern": "'<specific>, <generic-attr>'.first()",
+      "applicablePages": ["tests/global-setup.ts"],
+      "applicableFeatures": ["b2b-registration"],
+      "successCount": 1,
+      "failureCount": 0,
+      "confidence": 1.0,
+      "status": "TRUSTED",
+      "alwaysRequiresReview": true,
+      "lastValidated": "2026-08-18T11:00:00Z",
+      "sourceHealIds": ["2026-08-18T11:00:00Z"],
+      "notes": "See 'Anti-Pattern Fast-Track' above — TRUSTED here means 'inject as a warning,' not 'auto-apply.'"
     }
   ]
 }
@@ -220,19 +287,32 @@ Fixed set of known requirements with known-good expected outputs:
 
 ---
 
+## 🔗 Dual-Store Sync Requirement (Do Not Skip)
+
+**Real incident (2026-08-21):** `memory/heal-log.md` accumulated real heal records through
+2026-08-18 while `memory/self-heal-log.json` sat at `{"totalSelfHeals": 0, "entries": []}` for a
+week, and `memory/healed-patterns.json` went 7 days stale relative to `pattern-library.md`. Root
+cause: only the Markdown side was being hand-maintained; nothing enforced writing the JSON side
+too, and `utils/report-helpers.ts::readSelfHealLog()` — which feeds the HTML report's heal
+section — reads `self-heal-log.json`, so real heals silently stopped showing up in reports.
+
+**Whenever you append a heal record to `heal-log.md`, in the same turn:**
+1. Append the matching entry to `memory/self-heal-log.json` (use
+   `appendSelfHealLogEntry()` from `utils/memory-helpers.ts`, or run `npm run sync:memory` to
+   mechanically parse any records missing from `heal-log.md` into it — it will not fabricate
+   pattern distillations, only mirror the structured fields).
+2. Decide whether the heal generalizes into a pattern (interaction) or anti-pattern worth
+   recording in `memory/healed-patterns.json` per the lifecycle rules above. Not every heal does
+   — a one-off `TEST_DATA_ISSUE` fix usually doesn't; a `SETUP_INFRA_ISSUE` almost always does.
+3. Before finishing the stage, run `checkMemoryFreshness()` (or `npm run sync:memory`, which
+   calls it) and resolve any warning it prints — don't let drift accumulate silently again.
+
 ## 📄 Output Files
 - `memory/healed-patterns.json` (Pattern lifecycle store — updated)
 - `memory/healed-patterns.md` (Human-readable pattern sync — auto-generated)
+- `memory/self-heal-log.json` (Machine-readable heal audit trail — kept in sync with `heal-log.md`, see above)
 - `memory/pattern-library.md` (Distilled reusable rules — periodically updated)
 - `memory/agent-prompts/{agent}-v{n}.md` (Versioned agent prompts)
 - `memory/eval-regression-set.md` (Known-good I/O pairs)
 
-## ✅ Gate Condition
-- All execution outcomes (pass + fail) processed into pattern lifecycle.
-- Pattern promotions/demotions applied.
-- Pattern library distilled (if enough new data since last distillation).
-- Pre-emptive injection points documented.
-
-## ❌ Blocked Conditions
-- No execution results available → Nothing to learn from.
-- Memory files corrupted → Rebuild from raw execution logs.
+_(Gate Condition and Blocked Conditions are listed near the top of this file, before the ingestion protocol — check them first.)_

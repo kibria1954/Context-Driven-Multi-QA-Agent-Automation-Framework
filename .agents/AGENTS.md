@@ -21,6 +21,26 @@
 9. **When a requirement or result is ambiguous, stop and write to `memory/pending-questions.md`.** Do not guess and do not silently pick an interpretation, even a reasonable-sounding one.
 10. **After generating or editing any `.ts` file, run `npx tsc --noEmit` before considering the stage done.** A stage isn't complete if the project doesn't typecheck.
 11. **Never invent a new file path or schema.** Check this file's "Memory & Knowledge Store Structure" section (below) for the canonical path first — if what you need isn't there, that's a signal to ask, not to freelance a new convention.
+12. **Check `memory/decisions.md` before writing to `memory/pending-questions.md`.** If the question has already been answered (search by topic keyword), use that decision directly rather than re-asking the owner.
+
+### 🗂️ Stage → Skill Reconciliation Table (GAP-001 fix, 2026-08-21; skill folders renamed to match stage IDs 2026-08-21)
+
+> Skill folder names now equal their Orchestrator stage ID directly (`06-execution-self-heal` = Stage 6, `07-coverage-validation` = Stage 7 — previously these two folders were swapped relative to their stage numbers, which this table used to have to paper over). The one remaining, intentional mismatch is the conceptual "Agent N" label vs. Stage ID: Agent 3 does double duty across two stages (design at Stage 3, live execution at Stage 4), so every Agent label from Agent 4 onward sits one stage number below its Stage ID. Always use this table when AGENTS.md says "Agent X" and you need the corresponding SKILL.md — the skill folder name is now identical to the Stage column, so the lookup is a single glance.
+
+| AGENTS.md Label | Orchestrator Stage | Skill Folder | Role |
+|-----------------|--------------------|----------------------------|--------------------------|
+| Agent 0 | Stage 0 | `00-testdata-environment` | Test Data & Environment |
+| Agent 1 | Stage 1 | `01-context-ingestion` | Requirement Ingestion |
+| Agent 2 | Stage 2 | `02-testcase-design` | Test Case Design (Loop A) |
+| Agent 3 (design)| Stage 3 | `03-workflow-design` | Workflow Design |
+| Agent 3 (exec) | Stage 4 | `04-live-explorer` | Live Site Verification |
+| Agent 4 | Stage 5 | `05-codegen-pom` | POM Code Generation |
+| Agent 5 (exec) | **Stage 6** | `06-execution-self-heal` | Execution + Self-Heal |
+| Agent 6 (cov) | **Stage 7** | `07-coverage-validation` | Coverage Validation |
+| Agent 7 | Stage 8 | `08-report-generation` | Custom Report Generation |
+| Loop ∞ | Stage 9 | `09-learning-prevention` | Learning & Memory |
+
+> ⚠️ **CRITICAL:** Stage 6 = Execution, Stage 7 = Coverage. Coverage runs AFTER execution so L4 checks (test actually ran) work correctly. This is the opposite of the earlier pipeline which was incorrect and has been fixed in `agents/orchestrator.ts` (2026-08-21).
 
 ---
 
@@ -53,33 +73,35 @@
 
 ---
 
-## Pipeline Specification (8-Agent + Learning Loop)
+## Pipeline Specification (10-Stage + Learning Loop)
 
-| Agent | Name | Input | Output | Gate Condition |
-|-------|------|-------|--------|----------------|
-| **0** | Test Data & Environment | Feature scope | `envs/{env}.md`, `testdata/{feature}/*.json` | Environment validated, test data provisioned, credentials verified |
-| **1** | Requirement Ingestion | Raw Requirement | `requirements/{feature}/parsed.json`, `source.meta.json` | Zero unresolved `NEEDS_CLARIFICATION` items, SHA-256 hash stored |
-| **2** | Test Case Design (Loop A) | `parsed.json` | `testcases/{feature}.tc.md`, `.tc.json`, `.stakeholder.md` | Multi-Criteria Loop A Gate Pass (Max 5 iterations), all REQ-IDs covered |
-| **3** | Live Exploration | `{feature}.tc.json`, `{feature}.journey.json` | `workflows/{feature}.verify.md`, `.verify.json`, `visual/*.png` | DOM Feasibility Bridge verified, negative states captured, a11y scanned |
-| **4** | Automation Codegen (POM) | `{feature}.journey.json`, `.verify.json` | `pages/*.page.ts`, `tests/e2e/*.spec.ts`, `tests/api/*.spec.ts` | Code uses pre-emptive patterns, POM enforced, page-dependency-index updated |
-| **5** | Execution & Self-Heal (Loop B) | `tests/e2e/*.spec.ts`, `tests/api/*.spec.ts` | `memory/self-heal-log.json`, `memory/heal-log.md`, run results | Suite passes, heals verified semantically, or `NO_SAFE_FIX` with rollback |
-| **6** | Coverage & Traceability | `tests/**/*.spec.ts`, `parsed.json` | `memory/traceability/{feature}.md` | Every REQ-ID mapped to automated assertion, cross-feature impact checked |
-| **7** | Reporting | Test results + Memory + Coverage | `reports/generated/{feature}-report.html` | Interactive report with stakeholder summary, deduped bugs, heal audit |
-| **∞** | Learning & Prevention (Loop C) | Execution Outcomes | `memory/healed-patterns.json`, `memory/pattern-library.md` | Pattern lifecycle updated, distilled rules injected into future runs |
+| Stage | Agent Label | Name | Input | Output | Gate Condition |
+|-------|-------------|------|-------|--------|----------------|
+| **0** | Agent 0 | Test Data & Environment | Feature scope | `envs/{env}.md`, `testdata/{feature}/*.json` | Environment validated, test data provisioned, credentials verified |
+| **1** | Agent 1 | Requirement Ingestion | Raw Requirement | `requirements/{feature}/parsed.json`, `source.meta.json` | Zero unresolved `NEEDS_CLARIFICATION` items, SHA-256 hash stored |
+| **2** | Agent 2 | Test Case Design (Loop A) | `parsed.json` | `testcases/{feature}.tc.md`, `.tc.json`, `.stakeholder.md` | Multi-Criteria Loop A Gate Pass (Max 5 iterations), all REQ-IDs covered |
+| **3** | Agent 3 (design) | Workflow Design | `tc.json` | `workflows/{feature}.journey.json` | Journey mapped for all TC flows |
+| **4** | Agent 3 (exec) | Live Exploration | `journey.json` | `workflows/{feature}.verify.json`, `visual/*.png` | DOM Feasibility Bridge verified, negative states captured, a11y scanned |
+| **5** | Agent 4 | POM Codegen | `journey.json`, `verify.json` | `pages/*.page.ts`, `tests/e2e/*.spec.ts` | Code uses pre-emptive patterns, POM enforced, page-dependency-index updated |
+| **6** | Agent 5 | **Execution & Self-Heal (Loop B)** | `tests/e2e/*.spec.ts` | `memory/self-heal-log.json`, `memory/heal-log.md`, run results | Suite passes, heals verified semantically, or `NO_SAFE_FIX` with rollback |
+| **7** | Agent 6 | **Coverage & Traceability** | `tests/**/*.spec.ts`, `parsed.json` | `memory/traceability/{feature}.md` | Every REQ-ID at L1+L2+L3+L4, cross-feature impact checked |
+| **8** | Agent 7 | Reporting | Test results + Memory + Coverage | `reports/generated/{feature}-report.html` | Interactive report with stakeholder summary, deduped bugs, heal audit |
+| **9** | Loop ∞ | Learning & Prevention (Loop C) | Execution Outcomes | `memory/healed-patterns.json`, `memory/pattern-library.md` | Pattern lifecycle updated, distilled rules injected into future runs |
 
 ---
 
 ## Orchestrator Specification
 
 ### Stage Order & Gates
-- Agent pipeline is strictly sequential: `0 → 1 → 2 → 3 → 4 → 5 → 6 → 7`, with Learning Loop (`∞`) running after Agent 7.
+- Agent pipeline is strictly sequential: `0 → 1 → 2 → 3 → 4 → 5 → 6 (Execution) → 7 (Coverage) → 8 → 9`, with Learning Loop (`∞`) after Stage 8.
 - Agent 0 MUST complete before Agents 3 or 5 interact with any environment.
-- **Recommended human approval gates**: After Agent 2 (Test Case Design, before automation effort), and before Agent 5 (Execution against live environment).
+- **IMPORTANT:** Stage 6 = Execution, Stage 7 = Coverage — coverage runs AFTER execution so real execution results feed L4 coverage checks.
+- **Recommended human approval gates**: After Stage 2 (Test Case Design, before automation effort), and before Stage 6 (Execution against live environment).
 - Everything else runs autonomously unless confidence drops below threshold.
 
 ### Feature-Level Re-Runs
 - When Agent 1 detects a requirement change (SHA-256 diff), the orchestrator re-triggers ONLY affected downstream agents for that feature — not the whole pipeline for every feature.
-- Cross-feature re-verification (Agent 6) runs additionally when a shared page object changes.
+- Cross-feature re-verification (Stage 7 Coverage) runs additionally when a shared page object changes.
 
 ### Delta-Only Processing
 - Changed requirements trigger downstream re-processing only for the delta, not from scratch.
@@ -99,6 +121,8 @@ $$\text{Auto-Heal Trigger} = (\text{Confidence} \ge 90\%) \land (\text{Safe Chan
 | `ENVIRONMENT_ISSUE` | `ECONNREFUSED`, `502`, network error | Quarantine test in `memory/flaky-quarantine.md`; schedule retry later | No |
 | `UNSAFE_OR_BUSINESS_LOGIC` | Complex business logic / ambiguous error | Transition to `NO_SAFE_FIX`. Escalate immediately via `memory/pending-questions.md`. | **YES** |
 | `REAL_BUG` | Functional mismatch vs verified journey | **DO NOT SELF-HEAL**. Report bug with repro steps, quarantine test. | **YES** |
+| `SETUP_INFRA_ISSUE` | ≥3 unrelated failures tracing to shared infrastructure | Fix the ONE infra script after cascading pattern check; always flag for human review | **YES** |
+| `REQUIREMENT_VERIFICATION_ERROR` | verify.json points to wrong admin URL / data location | DO NOT fix test spec. Re-investigate admin location, update verify.json, escalate to owner. | **YES** |
 
 ### Anti-Regression & Rollback Protocol
 1. Before committing any heal, run all dependent spec files in headless mode.
@@ -166,8 +190,8 @@ Track over time, surfaced in `reports/`:
 
 ## Owner Escalation & Governance
 
-- Every agent: if confidence is below threshold or input is ambiguous/contradictory → **stop and ask** in plain language. Question appended to `memory/pending-questions.md` and owner pinged via chat.
-- Once answered, question moves to `memory/decisions.md` so the same ambiguity isn't asked twice.
+- Every agent: if confidence is below threshold or input is ambiguous/contradictory → **stop and ask** in plain language. Question appended to `memory/pending-questions.md` via `escalateToOwner()` (`utils/escalation-helpers.ts`) and owner pinged via chat.
+- Once answered, **run `npx ts-node scripts/resolve-question.ts --id=Q-... --answer="..." --applied-to=feature1,feature2`** (or call `resolvePendingQuestion()` directly). This is the ONLY sanctioned way to record an answer — it flips the question's status in `pending-questions.md` to `✅ ANSWERED` AND appends the entry to `memory/decisions.md` in one step (GAP-005 fix, 2026-08-21). Do not hand-edit `decisions.md` directly — a hand-edit that forgets to also flip the question's status leaves `hasOpenQuestions()` still blocking the stage even though the answer is recorded, and a hand-edit to `pending-questions.md` alone leaves the answer undiscoverable to future agents (this is exactly how `decisions.md` went empty for weeks despite real questions being answered in chat).
 - Owner role is treated as a role (not hardcoded name) so adding a second approver later is trivial.
 - Agent prompts are versioned (`memory/agent-prompts/{agent}-v{n}.md`) and regression-tested against `memory/eval-regression-set.md` before promotion.
 
@@ -209,9 +233,9 @@ Track over time, surfaced in `reports/`:
 /memory/a11y-findings.md                     (Accessibility scan results, non-blocking backlog)
 /memory/known-bugs.md                        (Filed bug tickets — Agent 7 dedup lookup before filing new ones)
 /memory/convergence/{feature}.json           (Loop A iteration/convergence history — one file per feature)
-/memory/healed-patterns.json                 (Pattern lifecycle store)
+/memory/healed-patterns.json                 (Pattern lifecycle store — interaction + anti-pattern entries; keep in sync with heal-log.md, see 09-learning-prevention/SKILL.md)
 /memory/healed-patterns.md                   (Human-readable pattern sync)
-/memory/self-heal-log.json                   (Execution audit log)
+/memory/self-heal-log.json                   (Execution audit log — machine-readable twin of heal-log.md; report generation reads ONLY this file. Sync via appendSelfHealLogEntry() or `npm run sync:memory`.)
 /memory/context-store.json                   (Feature knowledge store)
 /memory/agent-prompts/{agent}-v{n}.md        (Versioned agent prompts)
 /memory/eval-regression-set.md               (Known-good I/O pairs for prompt drift detection)

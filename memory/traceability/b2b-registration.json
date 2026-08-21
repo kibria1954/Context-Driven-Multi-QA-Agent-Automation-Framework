@@ -1,12 +1,19 @@
 {
   "storyName": "b2b-registration",
+  "generatedAt": "2026-08-21T09:31:57.029Z",
   "coveragePercentage": 100,
+  "effectiveCoveragePercentage": 100,
   "totalReqs": 8,
-  "covered": 8,
+  "fullyCovered": 8,
+  "tcOnly": 0,
+  "unverifiedAssertion": 0,
+  "notExecuted": 0,
+  "uncovered": 0,
   "entries": [
     {
       "reqId": "REQ-01",
-      "requirement": "Positive: Successful B2B registration creates ERP account, Ship-To address, inactive customer, mapping, and redirects to review page",
+      "description": "REQ-01",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-001",
@@ -26,20 +33,19 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01",
         "TC-002: Valid submission with alternate Type of Business and Contact Media combination @REQ-01",
         "TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01",
         "TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-02",
-      "requirement": "Positive: All Company Info fields accepted across different Type of Business dropdown options",
+      "description": "REQ-02",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-005",
@@ -67,9 +73,6 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-005: All Company Info fields accepted across different Type of Business options @REQ-02",
         "TC-006: Empty Company Name blocks submission with validation error @REQ-02",
@@ -78,11 +81,13 @@
         "TC-009: Special characters and Unicode in Company Name handled without breaking the form @REQ-02",
         "TC-010: Zip Code empty vs whitespace-only input — consistent handling @REQ-02"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-03",
-      "requirement": "Positive: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden",
+      "description": "REQ-03",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-011",
@@ -102,20 +107,19 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-011: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden @REQ-03",
         "TC-012: Selecting Messenger reveals required Messenger fields, WhatsApp field hidden @REQ-03",
         "TC-013: Toggling Contact Media from WhatsApp to Messenger clears/hides the WhatsApp Number field @REQ-03",
         "TC-014: WhatsApp selected but WhatsApp Number left blank blocks submission @REQ-03"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-04",
-      "requirement": "Positive: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted",
+      "description": "REQ-04",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-015",
@@ -135,20 +139,19 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-015: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted @REQ-04",
         "TC-016: Password and Confirm Password mismatch blocks submission @REQ-04",
         "TC-017: Empty Password field blocks submission @REQ-04",
         "TC-018: Username containing special characters or spaces @REQ-04"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-05",
-      "requirement": "Positive: All 3 required checkboxes checked (ToS, Privacy Policy, 18+) allows submission — Wholesale Agreement is display text, not a checkbox",
+      "description": "REQ-05",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-019",
@@ -164,19 +167,18 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-019: All 3 required checkboxes checked allows submission — Wholesale Agreement is display text, not a checkbox @REQ-05",
         "TC-020: Terms of Service unchecked blocks submission @REQ-05",
         "TC-021: Only the 18+ Age confirmation unchecked blocks submission with specific error @REQ-05"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-06",
-      "requirement": "Positive: Brand-new unique email and username pass the uniqueness check",
+      "description": "REQ-06",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-022",
@@ -196,20 +198,19 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-022: Brand-new unique email and username pass the uniqueness check @REQ-06",
         "TC-023: Duplicate email (already-registered wholesale account) blocks submission with clear error @smoke @REQ-06",
         "TC-024: Duplicate username blocks submission with clear error @REQ-06",
         "TC-025: Case-variant duplicate email blocks submission @REQ-06"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-07",
-      "requirement": "Positive: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications",
+      "description": "REQ-07",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-026",
@@ -221,18 +222,17 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07",
         "TC-027: Registration Applications list correctly handles no matching application, no crash @REQ-07"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     },
     {
       "reqId": "REQ-08",
-      "requirement": "Positive: Admin activates account via Active flag + save — login enabled and welcome email sent",
+      "description": "REQ-08",
+      "flag": "FULLY_COVERED",
       "testCases": [
         {
           "tcId": "TC-028",
@@ -248,15 +248,13 @@
         }
       ],
       "specFile": "tests\\e2e\\registration\\b2b-registration.spec.ts",
-      "specFiles": [
-        "tests\\e2e\\registration\\b2b-registration.spec.ts"
-      ],
       "testTitles": [
         "TC-028: Admin activates account via Active flag + save — login enabled @REQ-08",
         "TC-029: Login attempt before admin approval is blocked with inactive-account message @REQ-08",
         "TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08"
       ],
-      "coverageStatus": "covered"
+      "hasAssertions": true,
+      "executed": true
     }
   ]
 }
