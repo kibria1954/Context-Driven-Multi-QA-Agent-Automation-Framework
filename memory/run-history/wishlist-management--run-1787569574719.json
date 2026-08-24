@@ -1,0 +1,15 @@
+{
+  "runId": "run-1787569574719",
+  "story": "wishlist-management",
+  "timestamp": "2026-08-24T11:06:14.729Z",
+  "summary": {
+    "totalTests": 18,
+    "passed": 7,
+    "failed": 1,
+    "skipped": 10,
+    "quarantined": 0,
+    "duration": 265990,
+    "timestamp": "2026-08-24T11:06:14.729Z",
+    "passRate": 39
+  }
+}

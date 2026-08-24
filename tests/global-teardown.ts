@@ -3,17 +3,29 @@
  *
  * Handles post-test cleanup:
  * - Removes stale screenshots older than 7 days
- * - Writes a run-history snapshot for trend analysis (Agent 7 / GAP-011)
- * - Generates the custom executive HTML/Markdown report
+ * - Triggers Loop C pattern distillation
+ *
+ * Does NOT generate the custom executive HTML/Markdown report — see
+ * reporters/custom-report-reporter.ts for why that structurally cannot live
+ * here. In short: Playwright fully unwinds the globalTeardown task before it
+ * ever calls a reporter's onEnd(), so this hook runs before the JSON
+ * reporter's file has been written for THIS run, no matter how long you wait.
+ * A previous version of this file tried to paper over that with a bounded
+ * freshness-poll and still produced a wrong report under real load (e.g.
+ * "0/1 passed" immediately after a run that actually passed 17/18) — because
+ * it was polling for a write that hadn't started yet, not one that was merely
+ * slow. Report generation now happens in reporters/custom-report-reporter.ts,
+ * registered after 'json' in playwright.config.ts's reporter array, where
+ * Playwright's own reporter-ordering guarantee (each onEnd() is awaited
+ * before the next reporter's onEnd() runs) makes freshness automatic.
  */
 import { FullConfig } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { generateCustomReport } from '../scripts/generate-report';
 import { runDistillation } from '../scripts/distill-patterns';
 
-async function globalTeardown(config: FullConfig) {
+async function globalTeardown(_config: FullConfig) {
   console.log('\n🧹 Global Teardown — Cleaning up orphaned test artifacts...');
 
   // ─── Screenshot retention cleanup ────────────────────────────────────────────
@@ -38,65 +50,6 @@ async function globalTeardown(config: FullConfig) {
     }
   } catch (error) {
     console.warn('⚠️ Teardown artifact cleanup warning:', (error as Error).message);
-  }
-
-  // ─── Report generation & run-history snapshot ────────────────────────────────
-  try {
-    // A fixed sleep here previously raced the JSON reporter's flush under real load —
-    // report generation would run against a stale test-results.json (from an earlier
-    // run) and silently under-report the pass rate. Guessing "long enough" via mtime
-    // windows proved fragile. Instead, verify deterministically: the JSON reporter
-    // embeds the exact process argv it ran with — if that matches THIS invocation's
-    // own argv (also available on `config`), the file is unambiguously ours.
-    // Poll only for the "not written yet" case.
-    const resultsFile = path.join(process.cwd(), 'reports', 'generated', 'test-results.json');
-    const thisRunArgv = JSON.stringify(config.argv || []);
-    const POLL_INTERVAL_MS = 300;
-    const MAX_WAIT_MS = 30000;
-    const pollStartedAt = Date.now();
-
-    let freshnessConfirmed = false;
-    while (Date.now() - pollStartedAt < MAX_WAIT_MS) {
-      try {
-        const fileArgv = JSON.stringify(JSON.parse(fs.readFileSync(resultsFile, 'utf-8')).config?.argv || []);
-        if (fileArgv === thisRunArgv) {
-          freshnessConfirmed = true;
-          break;
-        }
-      } catch {
-        // File missing or mid-write (invalid JSON) — keep polling.
-      }
-      await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
-    }
-
-    if (!freshnessConfirmed) {
-      console.warn(
-        `⚠️ test-results.json still doesn't match this run's argv after waiting ${MAX_WAIT_MS}ms — ` +
-        `the JSON reporter is still finalizing attachments (common in --headed runs with ` +
-        `trace/video recording). The report below may reflect an earlier run, not this one.\n` +
-        `   → Run "npm run report" once the terminal is idle to regenerate it from the final data.`
-      );
-    }
-
-    const executedSpec = config.argv?.find((a) => a.includes('.spec.ts'));
-    const storyMatch = executedSpec?.match(/([^\/\\]+)\.spec\.ts/);
-    const storyName = storyMatch ? storyMatch[1] : 'wishlist-management';
-
-    if (!freshnessConfirmed) {
-      console.warn(`⚠️ Proceeding with report generation for "${storyName}" despite unconfirmed freshness (see warning above).`);
-    }
-
-    // generateCustomReport() persists this run to memory/run-history/ via
-    // utils/report-helpers.ts::recordRunHistory() — that is the ONLY run-history
-    // writer. (GAP-011: an earlier version of this file also wrote a second,
-    // differently-shaped snapshot directly here — `{story}-{date}.json` with flat
-    // `feature`/`passRate` fields — which readRunHistory() can't parse correctly
-    // [it expects `{story}--{runId}.json` with `story`/`summary.passRate`]. That
-    // duplicate writer silently polluted every feature's trend chart with
-    // zero-value entries and has been removed; do not re-add a second writer here.)
-    generateCustomReport(storyName);
-  } catch (error) {
-    console.warn('⚠️ Custom report generation warning:', (error as Error).message);
   }
 
   // ─── Loop C — Pattern distillation auto-trigger (GAP-006) ───────────────────

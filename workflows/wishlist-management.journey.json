@@ -1,0 +1,235 @@
+{
+  "feature": "wishlist-management",
+  "generatedAt": "2026-08-21T18:00:00.000Z",
+  "stateModel": ["S0:Initial(no-item-under-test)", "S1:Created(item-present)", "S2:Processing(n/a-not-used)", "S3:Active(n/a-not-used)", "S4:Terminal(n/a-not-used)"],
+  "note": "This feature has no admin-review/approval lifecycle (S2/S3/S4 are unused) — the meaningful states are S0 (wishlist doesn't yet contain the item under test) and S1 (it does). Nearly all journeys share ONE pre-existing authenticated customer account (tests/.auth/customer.json) rather than a fresh namespaced entity per journey, so most journeys are SERIAL_ONLY to avoid item-count races against the same account — the opposite default from b2b-registration, where each journey got its own isolated customer.",
+  "journeys": [
+    {
+      "journeyId": "J-01",
+      "name": "Dual Navigation Entry Points Converge on the Same Page",
+      "entryState": "S0",
+      "exitStateSuccess": "S0",
+      "exitStateFailure": null,
+      "testCases": ["TC-001", "TC-003", "TC-004"],
+      "steps": [
+        { "tc": "TC-001", "action": "Authenticated customer navigates via My Account dashboard sidebar > Wishlist", "transition": "S0 -> S0 (page viewed, no content assertion)" },
+        { "tc": "TC-003", "action": "Authenticated customer clicks the header wishlist icon from the homepage", "transition": "S0 -> S0" },
+        { "tc": "TC-004", "action": "Authenticated customer clicks the header wishlist icon from a product detail page", "transition": "S0 -> S0" }
+      ],
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json (global-setup.ts)", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "PARALLEL_SAFE",
+      "parallelSafetyReason": "Read-only navigation checks — only assert the destination page/heading loaded, never assert item count, so they don't race against journeys that mutate the shared account's wishlist."
+    },
+    {
+      "journeyId": "J-02",
+      "name": "Unauthenticated Access Is Blocked",
+      "entryState": "S0",
+      "exitStateSuccess": null,
+      "exitStateFailure": "S0",
+      "testCases": ["TC-002", "TC-007"],
+      "steps": [
+        { "tc": "TC-002", "action": "Guest (no storageState) navigates directly to /wishlist", "transition": "S0 -> S0 (redirected — exact target unconfirmed, see memory/decisions.md open item below)" },
+        { "tc": "TC-007", "action": "Guest navigates directly to /wishlist expecting to see populated content", "transition": "S0 -> S0 (redirected, content never rendered)" }
+      ],
+      "dataDependencies": [
+        { "entity": "guest-context", "source": "fresh Playwright browser context, no storageState", "fields": [], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "PARALLEL_SAFE",
+      "parallelSafetyReason": "Own isolated guest browser context — never touches the shared customer account."
+    },
+    {
+      "journeyId": "J-03",
+      "name": "Empty Wishlist State",
+      "entryState": "S0",
+      "exitStateSuccess": "S0",
+      "exitStateFailure": null,
+      "testCases": ["TC-010", "TC-011"],
+      "steps": [
+        { "tc": "TC-010", "action": "Authenticated customer with a confirmed-empty wishlist navigates to the Wishlist page", "transition": "S0 -> S0 (empty-state message + Browse products button visible)" },
+        { "tc": "TC-011", "action": "Customer clicks Browse products", "transition": "S0 -> S0 (navigates to home page, still no wishlist items)" }
+      ],
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "wishlist-precondition", "source": "must assert/ensure count == 0 before this journey runs (e.g. via a pre-step that removes any leftover items)", "fields": [], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Requires the shared account's wishlist to genuinely be at 0 items — running concurrently with any add-journey would make this flaky/false-negative."
+    },
+    {
+      "journeyId": "J-04",
+      "name": "Add Product via Card, View It, Header Count Increments",
+      "entryState": "S0",
+      "exitStateSuccess": "S1",
+      "exitStateFailure": "S0",
+      "testCases": ["TC-012", "TC-005", "TC-017"],
+      "steps": [
+        { "tc": "TC-012", "action": "Customer clicks 'Add to wishlist' on product 63's card (e.g. from /search?q=cream)", "transition": "S0 -> S1 (AJAX POST /addproducttocart/details/63/2, bar notification: 'The product has been added to your wishlist')" },
+        { "tc": "TC-017", "action": "Header wishlist count is re-checked immediately after the add", "transition": "S1 (count (0) -> (1) confirmed)" },
+        { "tc": "TC-005", "action": "Customer navigates to the Wishlist page", "transition": "S1 (product card visible: name, price, Remove, Add to cart)" }
+      ],
+      "teardown": "Remove product 63 from the wishlist (via the Remove button) to restore the account to S0 for subsequent journeys.",
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63", "slug=/cream"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist item count — must not overlap with any other journey reading/asserting that count."
+    },
+    {
+      "journeyId": "J-05",
+      "name": "Add Product via Product Detail Page",
+      "entryState": "S0",
+      "exitStateSuccess": "S1",
+      "exitStateFailure": "S0",
+      "testCases": ["TC-013"],
+      "steps": [
+        { "tc": "TC-013", "action": "Customer on /cream clicks the PDP's 'Add to wishlist' button", "transition": "S0 -> S1 (same AJAX endpoint/message as J-04, different entry surface)" }
+      ],
+      "teardown": "Remove product 63 from the wishlist to restore S0.",
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist — same account as every other add/remove journey."
+    },
+    {
+      "journeyId": "J-06",
+      "name": "Remove Product — Header Count Decrements Back to Empty",
+      "entryState": "S1",
+      "exitStateSuccess": "S0",
+      "exitStateFailure": null,
+      "testCases": ["TC-018"],
+      "steps": [
+        { "tc": "setup (reuses J-04's add step, not a separately-listed TC)", "action": "Add product 63 to the wishlist", "transition": "S0 -> S1" },
+        { "tc": "TC-018", "action": "Customer clicks Remove on the product card on the Wishlist page", "transition": "S1 -> S0 (header count decrements by exactly 1)" }
+      ],
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist item count."
+    },
+    {
+      "journeyId": "J-07",
+      "name": "Multi-Item Wishlist View",
+      "entryState": "S0",
+      "exitStateSuccess": "S0",
+      "exitStateFailure": null,
+      "testCases": ["TC-006"],
+      "steps": [
+        { "tc": "TC-006", "action": "Add product 63 ('Cream') and /gel-cream, then view the Wishlist page", "transition": "S0 -> S1x2 (two distinct product cards, each with its own Remove action)" }
+      ],
+      "teardown": "Remove both products to restore the account to S0.",
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63", "slug=/gel-cream (NOT YET LIVE-VERIFIED — confirm at Stage 4 before use)"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist item count (to 2, then back to 0)."
+    },
+    {
+      "journeyId": "J-08",
+      "name": "Duplicate Add Attempt — CONFIRMED: repeats message + increments count, grid stays deduplicated",
+      "entryState": "S1",
+      "exitStateSuccess": "S1 (count over-incremented — see D-011)",
+      "exitStateFailure": null,
+      "testCases": ["TC-014"],
+      "steps": [
+        { "tc": "setup", "action": "Add product 63 to the wishlist", "transition": "S0 -> S1" },
+        { "tc": "TC-014", "action": "Click 'Add to wishlist' on product 63 again while it's already in the wishlist", "transition": "CONFIRMED live (D-011): POST fires again -> 200, same success bar notification shown again, header count increments again (e.g. (1)->(2)) — BUT the wishlist grid still shows exactly 1 card for product 63. Header count and visible-card count diverge. Flagged to product owner as an open question, not silently resolved." }
+      ],
+      "teardown": "Remove product 63 to restore S0.",
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist."
+    },
+    {
+      "journeyId": "J-09",
+      "name": "Rapid Double-Click Integrity",
+      "entryState": "S0",
+      "exitStateSuccess": "S1",
+      "exitStateFailure": null,
+      "testCases": ["TC-015"],
+      "steps": [
+        { "tc": "TC-015", "action": "Double-click 'Add to wishlist' on product 63's PDP in rapid succession", "transition": "S0 -> S1 (exactly once, not twice)" }
+      ],
+      "teardown": "Remove product 63 to restore S0.",
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist."
+    },
+    {
+      "journeyId": "J-10",
+      "name": "AJAX Network-Level Verification",
+      "entryState": "S0",
+      "exitStateSuccess": "S1",
+      "exitStateFailure": null,
+      "testCases": ["TC-016"],
+      "steps": [
+        { "tc": "TC-016", "action": "Add product 63 while intercepting the network request", "transition": "S0 -> S1 (POST /addproducttocart/details/63/2 -> 200, no full page reload)" }
+      ],
+      "teardown": "Remove product 63 to restore S0.",
+      "dataDependencies": [
+        { "entity": "customer-session", "source": "tests/.auth/customer.json", "fields": ["storageState"], "uniquePerRun": false, "cleanupRequired": false },
+        { "entity": "product", "source": "testdata/wishlist-management/seed.json", "fields": ["productId=63"], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist; also the only journey asserting on raw network responses."
+    },
+    {
+      "journeyId": "J-11",
+      "name": "Large Wishlist (20+ Items) Boundary — RESOLVED",
+      "entryState": "S0",
+      "exitStateSuccess": "S0",
+      "exitStateFailure": null,
+      "testCases": ["TC-009"],
+      "steps": [
+        { "tc": "TC-009", "action": "Add the 21 products listed in testdata/wishlist-management/seed.json's product-list entry, view the Wishlist page, scroll through", "transition": "S0 -> S1x21 -> S0 (after cleanup)" }
+      ],
+      "teardown": "Remove all 21 products to restore S0.",
+      "dataDependencies": [
+        { "entity": "product-list", "source": "testdata/wishlist-management/seed.json (product-list entry) — 21 distinct slugs confirmed live at Stage 4, 2026-08-21, aggregated across /search?q={cream,toner,mask,serum,set}", "fields": [], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Mutates the shared account's wishlist to a large item count."
+    },
+    {
+      "journeyId": "J-12",
+      "name": "Discontinued/Out-of-Stock Product Rendering — DEFERRED, no fixture exists",
+      "entryState": "S1",
+      "exitStateSuccess": null,
+      "exitStateFailure": null,
+      "testCases": ["TC-008"],
+      "steps": [
+        { "tc": "TC-008", "action": "View the Wishlist page containing a product that has since been discontinued/gone out of stock", "transition": "DEFERRED — searched live across 9 catalog terms (cream, toner, mask, serum, set, oil, cleanser, sunscreen, lotion, gel, essence, balm, ampoule, exfoliator, mist) covering 24+ distinct products; zero instances of 'out of stock' text found anywhere. This staging catalog appears to have no discontinued/out-of-stock product configured. Per Live Explorer Section 7a Step 5, this is recorded as 'no matching fixture found after reasonable search' and escalated rather than guessed at." }
+      ],
+      "dataDependencies": [
+        { "entity": "product", "source": "NONE FOUND — see transition note. If the owner knows of a specific out-of-stock SKU, provide it; otherwise this TC should be formally marked deferred/not-applicable rather than automated against a fabricated fixture.", "fields": [], "uniquePerRun": false, "cleanupRequired": false }
+      ],
+      "parallelSafety": "SERIAL_ONLY",
+      "parallelSafetyReason": "Would mutate the shared account's wishlist if a fixture is later found; currently non-executable."
+    }
+  ],
+  "asyncHandlers": [
+    { "pattern": "Add/Remove-to-wishlist AJAX call", "strategy": "waitForAjaxComplete() + assert bar notification text, per D-010 (POST /addproducttocart/details/{id}/2)", "maxWait": "15s" },
+    { "pattern": "Header wishlist count refresh", "strategy": "Assert span.wishlist-qty text directly after the AJAX response settles, not on a fixed sleep", "maxWait": "5s" },
+    { "pattern": "Overlapping popups (3 distinct overlays)", "strategy": "dismissAllModals() in utils/helpers.ts already removes #kdn-welcome-modal and #multi-popup-overlay (confirmed by reading its source). It does NOT yet match .news-letter-popup-modal or its .ui-widget-overlay backdrop (confirmed: neither string contains 'popup-overlay') — add those two selectors to its removal list before Stage 5 codegen relies on it. See D-010 point 6.", "maxWait": "3s" },
+    { "pattern": "Add-to-wishlist click must be a real/trusted click", "strategy": "Use Playwright's native .click() (optionally {force:true} to punch through a lingering overlay) — a JS-dispatched el.click() does not trigger the site's handler (D-010 point 5)", "maxWait": "n/a" }
+  ],
+  "openItemsForStage4": [
+    "RESOLVED — TC-002/TC-007: unauthenticated /wishlist redirects to /login (confirmed live, 2026-08-21).",
+    "RESOLVED, ESCALATED — TC-014/J-08: repeat-add shows the same success message and increments the header count again, but does NOT duplicate the grid entry. See memory/decisions.md D-011 — flagged to the product owner as an open intended-vs-bug question, not silently patched into test expectations.",
+    "DEFERRED — TC-008/J-12: no discontinued/out-of-stock product found after searching 9 terms across 24+ products. No fixture currently exists in this catalog; TC-008 is deferred (not automated against a fabricated fixture) until the owner supplies a specific SKU.",
+    "RESOLVED — TC-009/J-11: 21 real product slugs confirmed and recorded in testdata/wishlist-management/seed.json."
+  ]
+}

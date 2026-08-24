@@ -2,7 +2,7 @@
 
 > Auto-distilled from `heal-log.md` + `decisions.md` + `healed-patterns.json`
 > Last distilled: 2026-08-18 (ANTI-005..009 added from a manual incident investigation — see `memory/heal-log.md`)
-> Last distillation check: `2026-08-21T09:48:56.702Z` — 0 promotion(s), 0 demotion(s)
+> Last distillation check: `2026-08-24T11:06:14.387Z` — 0 promotion(s), 0 demotion(s)
 > Agents 2, 3, 4, 5 load this file as context on every run.
 
 ---

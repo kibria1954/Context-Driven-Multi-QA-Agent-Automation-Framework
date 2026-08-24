@@ -655,49 +655,102 @@ export const COMMON_SELECTORS = {
 // ─────────────────────────────────────────────
 
 export const WISHLIST_SELECTORS = {
+  // NOTE (2026-08-21, Stage 4 live re-verification): this block pre-existed in the
+  // repo with no requirements/testcases/workflows for wishlist-management yet on
+  // disk — i.e. it was generated before any live verification. Re-checked every
+  // entry against the real site during this feature's actual Stage 4 pass; two
+  // entries below were confirmed BROKEN (0 DOM matches) and fixed. The rest matched
+  // and are left as-is, now with verifiedAt/verifiedInRun metadata attached.
   wishlistHeaderLink: {
-    selector: 'a.ico-wishlist.header-link-wishlist, a[href*="wishlist"]',
+    selector: 'a.header-link-wishlist',
     description: 'Header wishlist link with count badge',
+    fallbacks: [{ tier: 'T4', selector: 'a.ico-wishlist' }],
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
+  },
+  wishlistHeaderCountBadge: {
+    selector: 'a.header-link-wishlist span.wishlist-qty',
+    description: 'Item-count badge inside the header wishlist icon, e.g. "(1)". See D-011: does not always equal the number of visible wishlist cards.',
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   myAccountWishlistSidebarLink: {
-    selector: 'a:has-text("Wish List"), a[href*="wishlist"]',
-    description: 'My Account sidebar Wish List link',
+    // FIXED: previous selector `a:has-text("Wish List")` matched ZERO elements —
+    // the real link text is "Wishlist" (one word), not "Wish List". Confirmed via
+    // .count() against the live sidebar (0 before, 1 after this fix).
+    selector: 'li.b2bcustomer-wishlist a',
+    description: 'My Account sidebar Wishlist link',
+    fallbacks: [{ tier: 'T6', selector: 'aside.side-2 a:has-text("Wishlist")' }],
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   productLink: {
     selector: '.product-title a, .product-item a, .product-box-title a',
     description: 'Product grid item title/image link',
   },
   productCardWishlistButton: {
-    selector: 'button.add-to-wishlist-button.gallery-wishlist-btn, button.add-to-wishlist-button, button.product-card-wishlist',
-    description: 'Wishlist button on product card or PDP',
+    // Confirmed live: grid/search-result cards use `product-card-wishlist`; the PDP
+    // gallery uses `gallery-wishlist-btn`. Both share the base `add-to-wishlist-button`
+    // class, so the plain middle alternative alone is actually sufficient, but the
+    // specific classes are kept as documentation of the two real variants observed.
+    selector: 'button.add-to-wishlist-button.product-card-wishlist, button.add-to-wishlist-button.gallery-wishlist-btn, button.add-to-wishlist-button',
+    description: 'Wishlist button on product card (grid/search results) or PDP',
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   pdpWishlistButton: {
     selector: 'button.add-to-wishlist-button.gallery-wishlist-btn, button[id*="add-to-wishlist-button"]',
     description: 'Wishlist button on product detail page',
+    fallbacks: [{ tier: 'T2', selector: '#add-to-wishlist-button-{productId}' }],
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   wishlistItemCard: {
-    selector: '.wishlist-content .product-item, .wishlist-content table.wishlist, .wishlist-content .product-grid',
+    // FIXED: previous selector was scoped under `.wishlist-content`, a class that
+    // does not exist anywhere on the page (confirmed 0 matches, empty AND populated
+    // states). The real container is `#wishlist-grid` with each item as
+    // `article.wishlist-item[data-productid]`.
+    selector: 'article.wishlist-item',
     description: 'Wishlist product item card container',
+    fallbacks: [{ tier: 'T4', selector: '#wishlist-grid .item-box.wishlist-item-box' }],
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   removeItemButton: {
-    selector: 'button.remove-btn.wishlist-remove-btn, button.remove-btn, input[name="removefromcart"]',
+    selector: 'button.wishlist-remove-btn',
     description: 'Remove item from wishlist button',
+    fallbacks: [{ tier: 'T4', selector: 'button.remove-btn.wishlist-remove-btn' }],
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   addToCartFromWishlistButton: {
     selector: 'button.wishlist-add-to-cart-btn',
     description: 'Add to cart from wishlist button',
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   emptyWishlistMessage: {
-    selector: '.no-data, .wishlist-content:has-text("empty")',
-    description: 'Empty wishlist state message container',
+    // Confirmed live: real container is `.no-data.wishlist-empty` with the verbatim
+    // text in `p.wishlist-empty-text`. The old `.wishlist-content:has-text("empty")`
+    // alternative never matched (class doesn't exist) but `.no-data` alone did, so
+    // this selector was functionally fine before — tightened for precision.
+    selector: 'p.wishlist-empty-text',
+    description: 'Empty wishlist state message text ("Your wishlist is empty.")',
+    fallbacks: [{ tier: 'T4', selector: '.no-data.wishlist-empty' }],
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   browseProductsButton: {
-    selector: 'a.button-1.browse-products-button, a.browse-products-button',
+    selector: 'a.browse-products-button',
     description: 'Browse products button linking to home page',
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
   notificationBar: {
-    selector: '#bar-notification.success, #bar-notification',
-    description: 'Success bar notification container',
+    selector: '#bar-notification',
+    description: 'Bar notification container (success/error)',
+    verifiedAt: '2026-08-21T18:30:00.000Z',
+    verifiedInRun: 'wishlist-management-stage4',
   },
 } as const;
 

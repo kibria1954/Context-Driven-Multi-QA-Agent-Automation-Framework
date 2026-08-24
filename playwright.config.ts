@@ -40,11 +40,17 @@ export default defineConfig({
   globalSetup: './tests/global-setup.ts',
   globalTeardown: './tests/global-teardown.ts',
 
-  /* Reporter configuration */
+  /* Reporter configuration.
+   * './reporters/custom-report-reporter.ts' MUST come after 'json': Playwright
+   * calls each reporter's onEnd() in array order and awaits it before moving to
+   * the next one, so this ordering is what guarantees reports/generated/test-results.json
+   * is fully written before the custom HTML/MD dashboard reads it. See that
+   * file's header comment for why this can't live in global-teardown.ts instead. */
   reporter: [
     ['html', { open: 'never' }],
     ['list'],
     ['json', { outputFile: 'reports/generated/test-results.json' }],
+    ['./reporters/custom-report-reporter.ts'],
   ],
 
   /* Shared settings for all projects */

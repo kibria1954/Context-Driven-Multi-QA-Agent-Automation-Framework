@@ -107,7 +107,7 @@ export async function dismissAllModals(page: Page): Promise<void> {
   try {
     await page.evaluate(() => {
       const popups = document.querySelectorAll(
-        '#kdn-welcome-modal, #multi-popup-overlay, .multi-popup-overlay, .kdn-welcome-modal-overlay, .modal-backdrop, .mfp-bg, .mfp-wrap, [id*="popup"], [class*="popup-overlay"], .newsletter-popup-overlay'
+        '#kdn-welcome-modal, #multi-popup-overlay, .multi-popup-overlay, .kdn-welcome-modal-overlay, .modal-backdrop, .mfp-bg, .mfp-wrap, [id*="popup"], [class*="popup-overlay"], .newsletter-popup-overlay, .news-letter-popup-modal, .ui-widget-overlay'
       );
       popups.forEach((el) => el.remove());
 

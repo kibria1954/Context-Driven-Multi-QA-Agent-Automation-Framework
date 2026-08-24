@@ -104,6 +104,7 @@ const ROOT = path.resolve(__dirname, '..');
 const MEMORY_DIR = path.join(ROOT, 'memory');
 const REPORTS_DIR = path.join(ROOT, 'reports', 'generated');
 const TRACE_DIR = path.join(MEMORY_DIR, 'traceability');
+const REQUIREMENTS_DIR = path.join(ROOT, 'requirements');
 
 // ─── Data Collection ─────────────────────────────────────────────────────────
 
@@ -185,14 +186,24 @@ export function readPlaywrightResults(storyName?: string): TestCaseResult[] {
 
 /**
  * Read self-heal log from memory.
+ *
+ * When `storyName` is provided, only entries whose `storyName` matches are
+ * returned — prevents report cross-contamination where (e.g.) b2b-registration
+ * heal entries appeared on the wishlist report simply because the JSON file is
+ * global. Previously the wishlist report showed 4 b2b-registration heals that
+ * had nothing to do with it.
  */
-export function readSelfHealLog(): SelfHealEntry[] {
+export function readSelfHealLog(storyName?: string): SelfHealEntry[] {
   const logFile = path.join(MEMORY_DIR, 'self-heal-log.json');
   if (!fs.existsSync(logFile)) return [];
 
   try {
     const data = JSON.parse(fs.readFileSync(logFile, 'utf8'));
-    return data.entries || [];
+    const entries: SelfHealEntry[] = data.entries || [];
+    if (storyName) {
+      return entries.filter((e) => e.storyName === storyName);
+    }
+    return entries;
   } catch {
     return [];
   }
@@ -235,7 +246,12 @@ export function readRunHistory(storyName?: string): ReportData['trends'] {
           duration: data.summary?.duration || 0,
         };
       })
-      .filter((entry) => !storyName || !entry.story || entry.story === storyName)
+      // Strict story matching: when storyName is set, REQUIRE entry.story to
+      // equal it — entries without a `story` field (from early runs before the
+      // field was added) are excluded, not let through. The previous loose
+      // filter `!entry.story || entry.story === storyName` allowed storyless
+      // entries to pollute every feature's trend chart with ghost data.
+      .filter((entry) => !storyName || entry.story === storyName)
       .map(({ story, ...rest }) => rest)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
       .slice(-20);
@@ -256,7 +272,9 @@ export function buildReportData(
   // prevents other stories' results from appearing when test-results.json was
   // written by a broader run (e.g. npx playwright test tests/e2e/ --headed).
   const testResults = readPlaywrightResults(storyName);
-  const selfHealLog = readSelfHealLog();
+  // Filter self-heal log to this feature — prevents b2b-registration heals
+  // from appearing on the wishlist report (or vice versa).
+  const selfHealLog = readSelfHealLog(storyName);
   const setupStatus = readSetupStatus();
   const trends = readRunHistory(storyName);
 
@@ -274,19 +292,59 @@ export function buildReportData(
   let coveredRequirements = 0;
   let traceabilityMatrix: ReportData['traceabilityMatrix'] = [];
 
+  // ── Load real requirement descriptions from parsed.json ──────────────────
+  // The traceability JSON's `description` field often contains just the bare
+  // REQ-ID ("REQ-01") instead of the actual requirement text. Fall back to
+  // parsed.json's `clause` for human-readable descriptions in the report.
+  const reqDescriptions: Record<string, string> = {};
+  const parsedFile = path.join(REQUIREMENTS_DIR, storyName, 'parsed.json');
+  if (fs.existsSync(parsedFile)) {
+    try {
+      const parsed = JSON.parse(fs.readFileSync(parsedFile, 'utf8'));
+      for (const req of parsed.requirements || []) {
+        if (req.id && req.clause) {
+          reqDescriptions[req.id] = req.clause;
+        }
+      }
+    } catch {
+      // Non-fatal — descriptions will fall back to the traceability data as-is.
+    }
+  }
+
   if (fs.existsSync(traceabilityFile)) {
     try {
       const traceData = JSON.parse(fs.readFileSync(traceabilityFile, 'utf8'));
       const entries = traceData.entries || [];
       totalRequirements = entries.length;
-      coveredRequirements = entries.filter((e: any) => e.coverageStatus === 'covered').length;
-      traceabilityMatrix = entries.map((e: any) => ({
-        reqId: e.reqId,
-        requirement: e.requirement || e.reqId,
-        testCases: (e.testCases || []).map((tc: any) => tc.tcId),
-        specFile: (e.specFiles && e.specFiles.join(', ')) || e.specFile || 'Not automated',
-        status: e.coverageStatus === 'covered' ? 'covered' : 'uncovered',
-      }));
+
+      // FIX: validate-coverage.ts writes `flag: "FULLY_COVERED"`, not
+      // `coverageStatus: "covered"`. The previous code checked the wrong
+      // field name with the wrong value, so every REQ-ID showed ❌ UNCOVERED
+      // even when the traceability JSON had 100% coverage. The `flag` field
+      // uses values like FULLY_COVERED, TC_ONLY, UNVERIFIED_ASSERTION,
+      // NOT_EXECUTED, UNCOVERED — map all to covered/uncovered for the report.
+      const isCovered = (e: any): boolean =>
+        e.flag === 'FULLY_COVERED' ||
+        e.flag === 'TC_ONLY' ||
+        e.coverageStatus === 'covered'; // backward-compat if schema ever changes
+
+      coveredRequirements = entries.filter(isCovered).length;
+      traceabilityMatrix = entries.map((e: any) => {
+        // Use the real requirement clause from parsed.json when the
+        // traceability entry's description is just the bare REQ-ID.
+        const rawDesc = e.description || e.requirement || e.reqId;
+        const description = (rawDesc === e.reqId && reqDescriptions[e.reqId])
+          ? reqDescriptions[e.reqId]
+          : rawDesc;
+
+        return {
+          reqId: e.reqId,
+          requirement: description,
+          testCases: (e.testCases || []).map((tc: any) => tc.tcId),
+          specFile: (e.specFiles && e.specFiles.join(', ')) || e.specFile || 'Not automated',
+          status: isCovered(e) ? 'covered' as const : 'uncovered' as const,
+        };
+      });
     } catch {
       // Use defaults if parse fails
     }

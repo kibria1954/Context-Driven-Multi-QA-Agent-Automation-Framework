@@ -1,0 +1,59 @@
+{
+  "feature": "wishlist-management",
+  "generatedAt": "2026-08-21T17:00:00.000Z",
+  "runId": "qa-agent-wishlist-mgmt-1",
+  "entities": [
+    {
+      "type": "customer",
+      "data": {
+        "email": "process.env.CUSTOMER_EMAIL",
+        "note": "Reuses the shared authenticated customer account (tests/.auth/customer.json, created by tests/global-setup.ts). No new customer entity required for this feature — wishlist is scoped to an existing logged-in account."
+      },
+      "createdVia": "existing-storageState",
+      "cleanupRequired": false
+    },
+    {
+      "type": "product",
+      "data": {
+        "productId": 63,
+        "slug": "/cream",
+        "name": "Cream — Authentic Korean Beauty Wholesale Product with Premium Quality Assurance",
+        "price": "33.00",
+        "currency": "BDT"
+      },
+      "createdVia": "existing-catalog-item",
+      "cleanupRequired": false,
+      "notes": "Reference product for Add-to-Wishlist test cases. Confirmed live 2026-08-21 (see memory/decisions.md D-010): add-to-wishlist button #add-to-wishlist-button-63, AJAX POST /addproducttocart/details/63/2, verbatim success message 'The product has been added to your wishlist'."
+    },
+    {
+      "type": "product",
+      "data": {
+        "slug": "/gel-cream",
+        "name": "Gel Cream"
+      },
+      "createdVia": "existing-catalog-item",
+      "cleanupRequired": false,
+      "notes": "Secondary product reference for the 2-item wishlist test case (TC-006). Verified live at Stage 4 (present and addable via the same catalog search)."
+    },
+    {
+      "type": "product-list",
+      "data": {
+        "purpose": "TC-009 / J-11 large-wishlist (20+ items) boundary test — resolves the data dependency flagged open in workflows/wishlist-management.journey.json",
+        "slugs": [
+          "/cream", "/gel-cream", "/eye-cream", "/eye-gel-cream", "/body-cream", "/hand-cream",
+          "/toner-3", "/toner-pad",
+          "/lip-mask", "/hair-mask", "/sheet-mask-2", "/wash-off-mask-2", "/clay-mask", "/mud-mask",
+          "/serum", "/serum-mist", "/eye-serum", "/lip-serum", "/sun-serum", "/hair-serum",
+          "/special-set"
+        ]
+      },
+      "createdVia": "existing-catalog-item",
+      "cleanupRequired": false,
+      "notes": "21 distinct, live-verified catalog product slugs (Stage 4, 2026-08-21), aggregated across /search?q={cream,toner,mask,serum,set}. Satisfies the 20+ item requirement for TC-009. This is a real staging catalog with NopCommerce sample-data titles suffixed '— Authentic Korean Beauty Wholesale Product with Premium Quality Assurance'; broader searches (e.g. q=korean) surface unrelated demo products (laptops, Adobe Photoshop) that should NOT be used as wishlist fixtures."
+    }
+  ],
+  "preconditions": {
+    "sharedAccountWishlistState": "empty",
+    "note": "The shared test account's wishlist was verified empty (0 items) both before and after Stage 0/1 exploration — any add performed during exploration was reverted via the Remove action. Empty-state test cases (REQ-04) can rely on this account's default state; populated-state test cases (REQ-03, REQ-05, REQ-06) must add product 63 themselves as a setup step and should not assume pre-existing wishlist contents."
+  }
+}

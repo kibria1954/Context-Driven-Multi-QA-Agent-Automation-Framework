@@ -1,0 +1,69 @@
+{
+  "featureName": "wishlist-management",
+  "version": 1,
+  "parsedAt": "2026-08-21T16:30:00Z",
+  "sha256": "b82aff5d85c348b606836ffda3410d98b72869cd068a100b0499823761c43caf",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "clause": "The customer can navigate to the Wishlist page via 'My Account > Wishlist' in the dashboard sidebar.",
+      "category": "ui",
+      "priority": "high",
+      "status": "clear",
+      "clarificationNote": null,
+      "linkedAcceptanceCriteria": "AC-01",
+      "groundingNote": "Verified live 2026-08-21 — see D-009. Sidebar shows Dashboard / My Account / Wishlist / Order History / Order Report / Restock Requests / Pre-Orders / Notices."
+    },
+    {
+      "id": "REQ-02",
+      "clause": "The customer can navigate to the Wishlist page via the wishlist icon in the site header navbar.",
+      "category": "ui",
+      "priority": "high",
+      "status": "clear",
+      "clarificationNote": null,
+      "linkedAcceptanceCriteria": "AC-01",
+      "groundingNote": "Verified live 2026-08-21 — see D-009. Header link: a.ico-wishlist.header-link-wishlist, href=/wishlist, with a (n) count badge. Both REQ-01 and REQ-02 resolve to the same page (/wishlist -> /korean-wishlist), so they must be tested as two independent entry points to one destination, not two separate pages."
+    },
+    {
+      "id": "REQ-03",
+      "clause": "When the Wish List page loads with saved products, each is displayed as a product card showing item details and a remove action.",
+      "category": "critical",
+      "priority": "critical",
+      "status": "clear",
+      "clarificationNote": null,
+      "linkedAcceptanceCriteria": "AC-01",
+      "groundingNote": "Confirmed live — see D-010. Product card on /korean-wishlist shows: name, price, a Remove button (button.wishlist-remove-btn, onclick=removeWishlistItem(wishlistItemId, this)), and an Add to cart button."
+    },
+    {
+      "id": "REQ-04",
+      "clause": "When the customer has no products in their wishlist, the Wish List page displays the message \"Your wishlist is empty.\" and a \"Browse products →\" button that links to the home page.",
+      "category": "ui",
+      "priority": "high",
+      "status": "clear",
+      "clarificationNote": null,
+      "linkedAcceptanceCriteria": "AC-02",
+      "groundingNote": "Verified live 2026-08-21 on the test account (empty wishlist) — verbatim text \"Your wishlist is empty.\" confirmed present on /korean-wishlist."
+    },
+    {
+      "id": "REQ-05",
+      "clause": "When the customer clicks the \"♡ Wishlist\" button on a product card or product detail page, the product is added to the wishlist and a success message is displayed.",
+      "category": "critical",
+      "priority": "critical",
+      "status": "clear",
+      "clarificationNote": null,
+      "linkedAcceptanceCriteria": "AC-03",
+      "groundingNote": "RESOLVED via live verification — see D-010. Verbatim success message: \"The product has been added to your wishlist\" (bar notification). Button: #add-to-wishlist-button-{productId}. AJAX POST /addproducttocart/details/{productId}/2. Requires a real trusted click, not a JS-dispatched one."
+    },
+    {
+      "id": "REQ-06",
+      "clause": "After a product is added to the wishlist, the wishlist count shown in the header updates to reflect the new total.",
+      "category": "functional",
+      "priority": "medium",
+      "status": "clear",
+      "clarificationNote": null,
+      "linkedAcceptanceCriteria": "AC-03",
+      "groundingNote": "Confirmed live — see D-010. span.wishlist-qty inside a.header-link-wishlist went (0) -> (1) immediately after the AJAX response for adding product id 63."
+    }
+  ],
+  "clarificationBlocks": []
+}

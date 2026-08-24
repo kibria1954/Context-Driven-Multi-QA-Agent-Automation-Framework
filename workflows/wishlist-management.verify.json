@@ -1,0 +1,273 @@
+{
+  "feature": "wishlist-management",
+  "verifiedAt": "2026-08-21T18:30:00.000Z",
+  "environment": "staging",
+  "baseUrl": "https://kbd.nop-station.site",
+  "pages": [
+    {
+      "pageName": "My Account Dashboard (sidebar navigation)",
+      "urlPattern": "/customer/info, /b2b-dashboard, /my-account (any account-area page)",
+      "elements": [
+        {
+          "elementName": "wishlistSidebarLink",
+          "description": "Wishlist link in the My Account dashboard sidebar",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": "li.b2bcustomer-wishlist a", "verified": true },
+            { "tier": "T6", "selector": "aside.side-2 a:has-text('Wishlist')", "verified": true }
+          ],
+          "recommendedSelector": "li.b2bcustomer-wishlist a",
+          "elementType": "link",
+          "states": { "default": "href=/korean-wishlist", "activeOnWishlistPage": "li has class 'active'" }
+        }
+      ],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [],
+      "visualBaseline": null
+    },
+    {
+      "pageName": "Header (site-wide navbar)",
+      "urlPattern": "* (present on every page)",
+      "elements": [
+        {
+          "elementName": "headerWishlistIcon",
+          "description": "Wishlist icon/link in the site header, with item-count badge",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": "a.header-link-wishlist", "verified": true },
+            { "tier": "T4", "selector": "a.ico-wishlist", "verified": true }
+          ],
+          "recommendedSelector": "a.header-link-wishlist",
+          "elementType": "link",
+          "required": true,
+          "states": { "default": "href=/wishlist" }
+        },
+        {
+          "elementName": "headerWishlistCountBadge",
+          "description": "Item-count badge inside the header wishlist icon",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": ".header-link-wishlist .wishlist-qty", "verified": true }
+          ],
+          "recommendedSelector": "a.header-link-wishlist span.wishlist-qty",
+          "elementType": "text",
+          "states": { "empty": "(0)", "afterAdd": "(n) — see D-011, does not always equal visible-card count" }
+        }
+      ],
+      "dynamicWidgets": [
+        {
+          "widgetType": "Welcome modal",
+          "selector": "#kdn-welcome-modal",
+          "handlingStrategy": "Already handled by dismissAllModals() in utils/helpers.ts (confirmed by reading its source) — no change needed.",
+          "verified": true
+        },
+        {
+          "widgetType": "Promo overlay (auto-opens after a delay)",
+          "selector": "#multi-popup-overlay",
+          "handlingStrategy": "Already handled by dismissAllModals() (data-auto-open=\"true\", opens ~2s after load per its data-delay attribute) — no change needed.",
+          "verified": true
+        },
+        {
+          "widgetType": "Newsletter popup (jQuery UI dialog)",
+          "selector": ".news-letter-popup-modal",
+          "handlingStrategy": "NOT currently handled by dismissAllModals() — confirmed its [class*=\"popup-overlay\"] pattern does not match this class string. Add '.news-letter-popup-modal, .ui-widget-overlay' to its DOM-removal list before Stage 5 relies on it for this feature.",
+          "verified": true
+        }
+      ],
+      "modals": [
+        { "modalName": "Welcome Popup", "selector": "#kdn-welcome-modal", "dismissal": "dismissAllModals()", "appearsOn": "first-visit" },
+        { "modalName": "Multi-purpose promo overlay", "selector": "#multi-popup-overlay", "dismissal": "dismissAllModals()", "appearsOn": "auto-opens after a short delay on any page" },
+        { "modalName": "Newsletter jQuery UI dialog", "selector": ".news-letter-popup-modal + .ui-widget-overlay", "dismissal": "NOT yet in dismissAllModals() — needs adding", "appearsOn": "observed intermittently on product detail pages" }
+      ],
+      "negativeStates": [],
+      "a11yFindings": [
+        { "impact": "critical", "rule": "aria-allowed-attr", "element": ".header-account-trigger" },
+        { "impact": "serious", "rule": "aria-input-field-name", "element": "#SearchCategoryId-button" },
+        { "impact": "moderate", "rule": "landmark-unique", "element": ".mm-navbar--grid" },
+        { "impact": "moderate", "rule": "region", "element": "#swiper-wrapper (carousel present in shared header/layout)" }
+      ],
+      "visualBaseline": null
+    },
+    {
+      "pageName": "Wishlist Page (Empty State)",
+      "urlPattern": "/wishlist -> redirects to /korean-wishlist",
+      "elements": [
+        {
+          "elementName": "emptyStateMessage",
+          "description": "Empty wishlist message",
+          "locatorCandidates": [
+            { "tier": "T6", "selector": "text=Your wishlist is empty.", "verified": true },
+            { "tier": "T5", "selector": ".page-body:has-text('Your wishlist is empty.')", "verified": true }
+          ],
+          "recommendedSelector": "text=Your wishlist is empty.",
+          "elementType": "text",
+          "states": { "verbatimText": "Your wishlist is empty." }
+        },
+        {
+          "elementName": "browseProductsButton",
+          "description": "\"Browse products →\" button/link, navigates to home",
+          "locatorCandidates": [
+            { "tier": "T6", "selector": "a:has-text('Browse products')", "verified": true }
+          ],
+          "recommendedSelector": "a:has-text('Browse products')",
+          "elementType": "link",
+          "states": { "hrefTarget": "/ (home page) — confirmed by clicking it live" }
+        }
+      ],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [
+        { "impact": "critical", "rule": "aria-allowed-attr", "element": ".header-account-trigger", "note": "same site-wide header issue, not page-specific" },
+        { "impact": "serious", "rule": "aria-input-field-name", "element": "#SearchCategoryId-button" },
+        { "impact": "moderate", "rule": "landmark-unique", "element": ".mm-navbar--grid" },
+        { "impact": "moderate", "rule": "region", "element": "#swiper-wrapper" }
+      ],
+      "visualBaseline": "workflows/wishlist-management/visual/wishlist-empty.png"
+    },
+    {
+      "pageName": "Wishlist Page (Populated State)",
+      "urlPattern": "/wishlist -> /korean-wishlist",
+      "elements": [
+        {
+          "elementName": "wishlistProductCard",
+          "description": "Product card container for one wishlist item",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": "article.wishlist-item[data-productid='{id}']", "verified": true },
+            { "tier": "T4", "selector": ".item-box.wishlist-item-box", "verified": true }
+          ],
+          "recommendedSelector": "article.wishlist-item[data-productid='{id}']",
+          "elementType": "container",
+          "states": { "default": "one article per distinct product, NOT per add-action — see D-011" }
+        },
+        {
+          "elementName": "productCardTitle",
+          "description": "Product name/link within the card",
+          "locatorCandidates": [
+            { "tier": "T5", "selector": "article.wishlist-item h2.product-title a", "verified": true }
+          ],
+          "recommendedSelector": "article.wishlist-item h2.product-title a",
+          "elementType": "link"
+        },
+        {
+          "elementName": "productCardPrice",
+          "description": "Price shown on the card",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": "article.wishlist-item span.price.actual-price", "verified": true }
+          ],
+          "recommendedSelector": "article.wishlist-item span.price.actual-price",
+          "elementType": "text",
+          "states": { "example": "$33.00 for product 63" }
+        },
+        {
+          "elementName": "removeButton",
+          "description": "Removes this item from the wishlist",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": "button.wishlist-remove-btn", "verified": true }
+          ],
+          "recommendedSelector": "article.wishlist-item:has-text('{productName}') button.wishlist-remove-btn",
+          "elementType": "button",
+          "states": { "onclick": "removeWishlistItem({wishlistItemId}, this) — note: this id is the WISHLIST-ITEM id (observed values 461, 464), not the product id" }
+        },
+        {
+          "elementName": "addToCartButton",
+          "description": "Adds this wishlist item to the cart",
+          "locatorCandidates": [
+            { "tier": "T4", "selector": "button.wishlist-add-to-cart-btn", "verified": true }
+          ],
+          "recommendedSelector": "article.wishlist-item button.wishlist-add-to-cart-btn",
+          "elementType": "button",
+          "states": { "note": "Present per AC-01's 'remove action' scenario reference to the card's actions; not itself an AC requirement for this feature, not deep-verified beyond existence." }
+        }
+      ],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [],
+      "a11yFindings": [
+        { "impact": "critical", "rule": "aria-allowed-attr", "element": ".header-account-trigger" },
+        { "impact": "serious", "rule": "aria-input-field-name", "element": "#SearchCategoryId-button" },
+        { "impact": "moderate", "rule": "landmark-unique", "element": ".mm-navbar--grid" },
+        { "impact": "moderate", "rule": "region", "element": "#swiper-wrapper" }
+      ],
+      "visualBaseline": "workflows/wishlist-management/visual/wishlist-populated.png"
+    },
+    {
+      "pageName": "Product Card / Search Results / Product Detail Page — Add to Wishlist",
+      "urlPattern": "/search?q=*, /{product-slug} (e.g. /cream)",
+      "elements": [
+        {
+          "elementName": "addToWishlistButton",
+          "description": "The \"♡ Wishlist\" button referenced by REQ-05 — visually a heart-icon treatment on a button labeled 'Add to wishlist', no literal ♡ glyph in the DOM",
+          "locatorCandidates": [
+            { "tier": "T2", "selector": "#add-to-wishlist-button-{productId}", "verified": true },
+            { "tier": "T4", "selector": "button.add-to-wishlist-button", "verified": true },
+            { "tier": "T3", "selector": "button[title='Add to wishlist']", "verified": true }
+          ],
+          "recommendedSelector": "#add-to-wishlist-button-{productId}",
+          "elementType": "button",
+          "states": {
+            "onclick": "AjaxCart.addproducttocart_details('/addproducttocart/details/{productId}/2', '#product-details-form'); return false;",
+            "clickRequirement": "MUST be a real/trusted Playwright .click() — a JS-dispatched el.click() does not fire the handler (D-010 point 5). Use {force:true} if a lingering overlay blocks it."
+          }
+        }
+      ],
+      "dynamicWidgets": [
+        {
+          "widgetType": "AJAX add-to-wishlist (no page reload)",
+          "selector": "n/a — network call, not a DOM widget",
+          "handlingStrategy": "waitForAjaxComplete() then assert bar notification text and header count, per D-010/D-011.",
+          "verified": true
+        }
+      ],
+      "modals": [],
+      "negativeStates": [
+        {
+          "scenario": "Guest (unauthenticated) attempts to reach the Wishlist page",
+          "errorMessages": [],
+          "formState": "n/a — redirected before any wishlist form renders",
+          "urlState": "Redirects from /wishlist to /login (confirmed live, exact match, no query params observed)"
+        },
+        {
+          "scenario": "Re-adding a product already in the wishlist",
+          "errorMessages": [{ "selector": "#bar-notification .content.success", "text": "The product has been added to your wishlist" }],
+          "formState": "No duplicate DOM card created on /korean-wishlist",
+          "urlState": "No navigation (AJAX)",
+          "note": "This is NOT an error state in the traditional sense — see D-011. Documented here because it's a case where the naive expectation (block/no-op) does not match reality."
+        }
+      ],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/wishlist-management/visual/add-to-wishlist-success-notification.png"
+    },
+    {
+      "pageName": "Login Page (redirect target for unauthenticated Wishlist access)",
+      "urlPattern": "/login",
+      "elements": [],
+      "dynamicWidgets": [],
+      "modals": [],
+      "negativeStates": [
+        {
+          "scenario": "Unauthenticated /wishlist request",
+          "errorMessages": [],
+          "formState": "Login form (#Email, #Password) rendered instead of wishlist content",
+          "urlState": "URL becomes exactly /login"
+        }
+      ],
+      "a11yFindings": [],
+      "visualBaseline": "workflows/wishlist-management/visual/guest-wishlist-access.png"
+    }
+  ],
+  "infrastructure": {
+    "authCookieName": ".Nop.Authentication",
+    "note": "Shared global-setup.ts / tests/.auth/customer.json infrastructure, already verified for other features (D-003, b2b-registration). Reused here, not re-verified from scratch — a valid, non-expired customer.json storageState was confirmed present and working (auth cookie check passed) before all authenticated exploration above."
+  },
+  "openDiscrepancies": [
+    {
+      "id": "D-011",
+      "summary": "Header wishlist count over-increments on a repeat add of the same product; the wishlist grid stays deduplicated. Escalated to the product owner, not silently resolved.",
+      "affects": ["TC-014", "TC-017", "TC-018", "REQ-05", "REQ-06"]
+    }
+  ],
+  "deferredTestCases": [
+    { "id": "TC-008", "reason": "No discontinued/out-of-stock product fixture found in the catalog after searching 9 terms / 24+ products." }
+  ],
+  "overallStatus": "partial"
+}

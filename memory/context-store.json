@@ -1,7 +1,7 @@
 {
   "_schema": "context-store-v1",
   "_description": "Feature knowledge store — written by Agent 1 (Context Ingestion) when parsing requirements. Read by Agents 2, 4, 5 for feature-level context that affects codegen and test design. GAP-012 fix: implemented 2026-08-21.",
-  "_lastUpdated": "2026-08-21T15:00:00Z",
+  "_lastUpdated": "2026-08-21T16:30:00Z",
   "features": {
     "b2b-registration": {
       "featureSlug": "b2b-registration",
@@ -30,7 +30,7 @@
     },
     "wishlist-management": {
       "featureSlug": "wishlist-management",
-      "ingestedAt": "2026-08-18T10:00:00Z",
+      "ingestedAt": "2026-08-21T16:30:00Z",
       "displayName": "Korean Wishlist Management",
       "authRequired": true,
       "adminVerification": false,
@@ -42,10 +42,11 @@
       "keyPageUrls": [
         "/korean-wishlist",
         "/wishlist",
+        "/customer/info",
         "/cart"
       ],
-      "knownDecisions": ["D-006"],
-      "notes": "Uses authenticated customer storageState. Navigation links appear in both header and footer — use .first() disambiguation (see PAT-STRICT-004)."
+      "knownDecisions": ["D-006", "D-009"],
+      "notes": "Uses authenticated customer storageState. Two intended entry points: dashboard sidebar (My Account > Wishlist) and header navbar icon (a.ico-wishlist.header-link-wishlist, count badge span.wishlist-qty). Both resolve to /korean-wishlist. A third, unrelated 'Wishlist' link exists in the footer (footer-menu__link) — 3 elements match generic text 'Wishlist' per page, use scoped locators / .first() disambiguation (see PAT-STRICT-004, D-009)."
     },
     "wholesale-checkout": {
       "featureSlug": "wholesale-checkout",

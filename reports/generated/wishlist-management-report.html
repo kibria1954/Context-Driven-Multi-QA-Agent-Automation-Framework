@@ -36,33 +36,49 @@
     .badge-positive { background: rgba(59,130,246,0.15); color: var(--accent); }
     .badge-negative { background: rgba(249,115,22,0.15); color: #f97316; }
     .badge-edge { background: rgba(168,85,247,0.15); color: #a855f7; }
+    .badge-browser { background: rgba(255,255,255,0.06); color: var(--text-secondary); border: 1px solid var(--border); }
     .progress-bar { width: 100%; height: 24px; background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; margin: 8px 0; }
     .progress-fill { height: 100%; border-radius: 12px; transition: width 1s ease; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 600; }
     .footer { text-align: center; padding: 24px; color: var(--text-muted); font-size: 0.75rem; border-top: 1px solid var(--border); margin-top: 40px; }
+    .banner { border-radius: var(--radius); padding: 16px 20px; margin-bottom: 24px; border: 1px solid var(--border); }
+    .banner-ok { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3); color: var(--text-primary); }
+    .banner-fail { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.35); color: var(--text-primary); }
+    .error-cell { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 0.75rem; color: var(--danger); max-width: 320px; white-space: pre-wrap; word-break: break-word; }
+    .row-blocked { background: rgba(239,68,68,0.04); }
+    .screenshot-link { color: var(--info); font-size: 0.75rem; text-decoration: none; }
+    .screenshot-link:hover { text-decoration: underline; }
+    .live-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--success); margin-right:6px; box-shadow: 0 0 6px var(--success); }
+    .status-pill { display:inline-flex; align-items:center; gap:4px; padding:4px 12px; border-radius:6px; font-size:0.8rem; font-weight:700; letter-spacing:0.03em; white-space:nowrap; }
+    .status-pass { background:rgba(16,185,129,0.18); color:#34d399; border:1px solid rgba(16,185,129,0.4); }
+    .status-fail { background:rgba(239,68,68,0.18); color:#f87171; border:1px solid rgba(239,68,68,0.4); }
+    .status-skip { background:rgba(100,116,139,0.18); color:#cbd5e1; border:1px solid rgba(100,116,139,0.4); }
   </style>
 </head>
 <body>
   <div class="header">
     <h1>🤖 Context-Driven AI QA Agent — Executive Dashboard</h1>
     <div class="meta">
-      Feature: wishlist-management | Env: staging | Date: 8/17/2026, 3:53:07 PM | Run: run-1786960387253
+      <span class="live-dot"></span>Feature: wishlist-management | Env: staging | Date: 8/24/2026, 5:06:14 PM | Run: run-1787569574719
     </div>
   </div>
   <div class="container">
+    <div class="banner banner-ok">
+      ✅ <strong>Auth setup healthy</strong> — admin &amp; customer sessions verified before this run (real `.Nop.Authentication` cookie confirmed, not just "no error thrown").
+    </div>
     <div class="grid">
-      <div class="stat-card"><div class="value" style="color:#ef4444">0%</div><div class="label">Pass Rate</div></div>
-      <div class="stat-card"><div class="value">0</div><div class="label">Total Tests</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--success)">0</div><div class="label">Passed</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--danger)">0</div><div class="label">Failed</div></div>
-      <div class="stat-card"><div class="value" style="color:var(--warning)">0</div><div class="label">Skipped</div></div>
+      <div class="stat-card"><div class="value" style="color:#ef4444">39%</div><div class="label">Pass Rate</div></div>
+      <div class="stat-card"><div class="value">18</div><div class="label">Total Tests</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--success)">7</div><div class="label">Passed</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--danger)">1</div><div class="label">Failed</div></div>
+      <div class="stat-card"><div class="value" style="color:var(--warning)">10</div><div class="label">Skipped</div></div>
       <div class="stat-card"><div class="value" style="color:var(--info)">0</div><div class="label">Quarantined</div></div>
     </div>
 
     <div class="card">
       <h2>📈 Overall Execution Pass Rate</h2>
       <div class="progress-bar">
-        <div class="progress-fill" style="width:0%;background:linear-gradient(90deg,#ef4444,#ef4444cc)">
-          0%
+        <div class="progress-fill" style="width:39%;background:linear-gradient(90deg,#ef4444,#ef4444cc)">
+          39%
         </div>
       </div>
     </div>
@@ -70,26 +86,393 @@
     <div class="card">
       <h2>📋 Test Execution Details</h2>
       <table>
-        <thead><tr><th>TC-ID</th><th>Name</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th></tr></thead>
+        <thead><tr><th>TC-ID</th><th>Name</th><th>Browser</th><th>Type</th><th>Status</th><th>Duration</th><th>REQ-ID</th><th>Failure Reason</th><th>Evidence</th></tr></thead>
         <tbody>
+        
+          <tr>
+            <td><strong>TC-001</strong></td>
+            <td>Customer navigates to Wishlist via My Account dashboard sidebar</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>10.2s</td>
+            <td>REQ-01</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-002</strong></td>
+            <td>Unauthenticated user directly requesting the Wishlist URL is redirected to login</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>6.6s</td>
+            <td>REQ-01</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-003</strong></td>
+            <td>Customer navigates to Wishlist via the header navbar wishlist icon</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>13.0s</td>
+            <td>REQ-02</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-004</strong></td>
+            <td>Header wishlist icon navigates correctly from a non-home page</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>10.1s</td>
+            <td>REQ-02</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-005</strong></td>
+            <td>Wishlist page displays a product card with item details and a remove action</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-03</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-006</strong></td>
+            <td>Wishlist page displays one card per saved product for multiple items</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-03</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-007</strong></td>
+            <td>Unauthenticated user cannot view populated Wishlist content directly via URL</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>6.5s</td>
+            <td>REQ-03</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-008</strong></td>
+            <td>A discontinued/out-of-stock product in the wishlist renders without breaking the page</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-03</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-009</strong></td>
+            <td>Wishlist with a large number of items (20+) renders without breaking layout</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>157.0s</td>
+            <td>REQ-03</td>
+            <td class="error-cell">Error: wishlist cleanup did not converge to empty — a remove click was likely absorbed by a reappearing overlay
+
+expect(locator).toHaveCount(expected) failed
+
+Locator:  locator('button.wishlist-remove-btn')
+Expected: 0
+Received: undefined
+
+
+   at ..\..\pages\wishlist.page.ts:155
+
+  153 |       this.removeItemButtons,
+  154 |       'wishlist cleanup did not converge to empty — a remove click was li</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-010</strong></td>
+            <td>Empty wishlist displays &quot;Your wishlist is empty.&quot; and a working &quot;Browse products&quot; button</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-edge">edge</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>4.8s</td>
+            <td>REQ-04</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-011</strong></td>
+            <td>&quot;Browse products&quot; button navigates to the home page</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-pass">✅ PASSED</span>
+              
+            </td>
+            <td>8.9s</td>
+            <td>REQ-04</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-012</strong></td>
+            <td>Clicking the wishlist button on a product card adds it with a success message</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-fail">❌ FAILED</span>
+              
+            </td>
+            <td>48.8s</td>
+            <td>REQ-05</td>
+            <td class="error-cell">Error: expect(locator).toHaveText(expected) failed
+
+Locator: locator('a.header-link-wishlist span.wishlist-qty')
+Expected pattern: /\(1\)/
+Received string:  &quot;(3)&quot;
+Timeout: 10000ms
+
+Call log:
+  - Expect &quot;toHaveText&quot; with timeout 10000ms
+  - waiting for locator('a.header-link-wishlist span.wishlist-qty')
+    23 × locator resolved to &lt;span class=&quot;wishlist-qty&quot;&gt;(3)&</td>
+            <td><a class="screenshot-link" href="C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results/catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium-retry1/test-failed-1.png" target="_blank" rel="noopener">📷 screenshot</a></td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-013</strong></td>
+            <td>Clicking the wishlist button on the product detail page adds it with a success message</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-05</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-014</strong></td>
+            <td>Re-adding an already-wishlisted product repeats the success message and increments the header count, but does not duplicate the grid entry</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-05</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-015</strong></td>
+            <td>Rapid double-click on &quot;Add to wishlist&quot; does not create a duplicate entry</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-negative">negative</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-05</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-016</strong></td>
+            <td>Add-to-wishlist AJAX request returns 200 and reflects in the DOM without a full page reload</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-05</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-017</strong></td>
+            <td>Header wishlist count increments by 1 immediately after adding a new product</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-06</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
+        
+          <tr>
+            <td><strong>TC-018</strong></td>
+            <td>Header wishlist count decrements by 1 immediately after removing an item</td>
+            <td><span class="badge badge-browser">storefront-chromium</span></td>
+            <td><span class="badge badge-positive">positive</span></td>
+            <td>
+              <span class="status-pill status-skip">⏭️ SKIPPED</span>
+              
+            </td>
+            <td>0.0s</td>
+            <td>REQ-06</td>
+            <td class="error-cell">—</td>
+            <td>—</td>
+          </tr>
         
         </tbody>
       </table>
     </div>
 
     <div class="card">
+      <h2>📈 Pass Rate Trend (last 11 runs)</h2>
+      <svg viewBox="0 0 900 160" style="width:100%; height:auto;"><line x1="36" y1="136" x2="888" y2="136" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="139" text-anchor="end" font-size="9" fill="var(--text-muted)">0%</text><line x1="36" y1="105" x2="888" y2="105" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="108" text-anchor="end" font-size="9" fill="var(--text-muted)">25%</text><line x1="36" y1="74" x2="888" y2="74" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="77" text-anchor="end" font-size="9" fill="var(--text-muted)">50%</text><line x1="36" y1="43" x2="888" y2="43" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="46" text-anchor="end" font-size="9" fill="var(--text-muted)">75%</text><line x1="36" y1="12" x2="888" y2="12" stroke="var(--border)" stroke-width="1" />
+      <text x="30" y="15" text-anchor="end" font-size="9" fill="var(--text-muted)">100%</text><g>
+      <rect x="36" y="136" width="71.45454545454545" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787319620705 — 0% (0 tests) — Aug 21</title>
+      </rect>
+      <text x="71.72727272727272" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 21</text>
+    </g><g>
+      <rect x="113.45454545454545" y="136" width="71.45454545454545" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787320405268 — 0% (0 tests) — Aug 21</title>
+      </rect>
+      <text x="149.1818181818182" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 21</text>
+    </g><g>
+      <rect x="190.9090909090909" y="136" width="71.45454545454545" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787320405411 — 0% (0 tests) — Aug 21</title>
+      </rect>
+      <text x="226.63636363636363" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 21</text>
+    </g><g>
+      <rect x="268.3636363636364" y="66.55999999999999" width="71.45454545454545" height="69.44000000000001" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787321098624 — 56% (18 tests) — Aug 21</title>
+      </rect>
+      <text x="304.0909090909091" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 21</text>
+    </g><g>
+      <rect x="345.8181818181818" y="66.55999999999999" width="71.45454545454545" height="69.44000000000001" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787321844809 — 56% (18 tests) — Aug 21</title>
+      </rect>
+      <text x="381.54545454545456" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 21</text>
+    </g><g>
+      <rect x="423.27272727272725" y="66.55999999999999" width="71.45454545454545" height="69.44000000000001" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787563492419 — 56% (18 tests) — Aug 24</title>
+      </rect>
+      <text x="459" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 24</text>
+    </g><g>
+      <rect x="500.72727272727275" y="66.55999999999999" width="71.45454545454545" height="69.44000000000001" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787563529197 — 56% (18 tests) — Aug 24</title>
+      </rect>
+      <text x="536.4545454545455" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 24</text>
+    </g><g>
+      <rect x="578.1818181818181" y="136" width="71.45454545454545" height="0" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787566976009 — 0% (1 tests) — Aug 24</title>
+      </rect>
+      <text x="613.9090909090909" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 24</text>
+    </g><g>
+      <rect x="655.6363636363636" y="19.440000000000012" width="71.45454545454545" height="116.55999999999999" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787568329321 — 94% (18 tests) — Aug 24</title>
+      </rect>
+      <text x="691.3636363636364" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 24</text>
+    </g><g>
+      <rect x="733.0909090909091" y="19.440000000000012" width="71.45454545454545" height="116.55999999999999" rx="3" fill="var(--success)" opacity="0.85">
+        <title>run-1787569110837 — 94% (18 tests) — Aug 24</title>
+      </rect>
+      <text x="768.8181818181819" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 24</text>
+    </g><g>
+      <rect x="810.5454545454545" y="87.64" width="71.45454545454545" height="48.36" rx="3" fill="var(--danger)" opacity="0.85">
+        <title>run-1787569574719 — 39% (18 tests) — Aug 24</title>
+      </rect>
+      <text x="846.2727272727273" y="154" text-anchor="middle" font-size="9" fill="var(--text-muted)">Aug 24</text>
+    </g></svg>
+    </div>
+
+    
+    <div class="card">
+      <h2>🩹 Self-Heal Log</h2>
+      <p style="color:var(--text-secondary); font-size:0.875rem;">✅ No self-healing was needed during this feature's test runs.</p>
+    </div>
+
+    <div class="card">
       <h2>🎯 Scenario Coverage Breakdown</h2>
       <div class="grid" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="stat-card"><div class="value" style="color:var(--accent)">0</div><div class="label">Positive Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#f97316">0</div><div class="label">Negative Scenarios</div></div>
-        <div class="stat-card"><div class="value" style="color:#a855f7">0</div><div class="label">Edge Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:var(--accent)">15</div><div class="label">Positive Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#f97316">2</div><div class="label">Negative Scenarios</div></div>
+        <div class="stat-card"><div class="value" style="color:#a855f7">1</div><div class="label">Edge Scenarios</div></div>
       </div>
     </div>
 
     <div class="card">
       <h2>🛡️ 100% Requirements Traceability Matrix & Assertion Audit</h2>
+      
+      <div class="banner" style="background:rgba(245,158,11,0.08); border-color:rgba(245,158,11,0.3); margin-bottom:16px;">
+        ⚠️ <strong>No traceability matrix found for this feature.</strong> Run coverage validation (Stage 7: <code>npx ts-node scripts/validate-coverage.ts --story=wishlist-management</code>) to populate this section.
+      </div>
       <div style="margin-bottom: 12px; font-size: 0.875rem; color: var(--text-secondary);">
-        Overall Requirements Coverage: <strong style="color:var(--success); font-size: 1.1rem;">0% COVERED</strong> (0/0 REQ-IDs Mapped to Automated Assertions)
+        Overall Requirements Coverage: <strong style="color:var(--danger); font-size: 1.1rem;">0% COVERED</strong> (0/0 REQ-IDs Mapped to Automated Assertions)
       </div>
       <table>
         <thead><tr><th>REQ-ID</th><th>Requirement Description</th><th>Mapped Test Cases</th><th>Spec File</th><th>Status</th></tr></thead>
@@ -100,7 +483,7 @@
     </div>
   </div>
   <div class="footer">
-    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-17T09:53:07.297Z
+    Generated by Context-Driven AI QA Agent | KBD AI QA Agent | 2026-08-24T11:06:14.738Z
   </div>
 </body>
 </html>

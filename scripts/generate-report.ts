@@ -230,7 +230,11 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
         `).join('')}
         </tbody>
       </table>
-    </div>` : ''}
+    </div>` : `
+    <div class="card">
+      <h2>🩹 Self-Heal Log</h2>
+      <p style="color:var(--text-secondary); font-size:0.875rem;">✅ No self-healing was needed during this feature's test runs.</p>
+    </div>`}
 
     <div class="card">
       <h2>🎯 Scenario Coverage Breakdown</h2>
@@ -243,8 +247,12 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
 
     <div class="card">
       <h2>🛡️ 100% Requirements Traceability Matrix & Assertion Audit</h2>
+      ${data.traceabilityMatrix.length === 0 && data.testResults.length > 0 ? `
+      <div class="banner" style="background:rgba(245,158,11,0.08); border-color:rgba(245,158,11,0.3); margin-bottom:16px;">
+        ⚠️ <strong>No traceability matrix found for this feature.</strong> Run coverage validation (Stage 7: <code>npx ts-node scripts/validate-coverage.ts --story=${data.metadata.pipelineStory}</code>) to populate this section.
+      </div>` : ''}
       <div style="margin-bottom: 12px; font-size: 0.875rem; color: var(--text-secondary);">
-        Overall Requirements Coverage: <strong style="color:var(--success); font-size: 1.1rem;">${data.coverage.coveragePercentage}% COVERED</strong> (${data.coverage.coveredRequirements}/${data.coverage.totalRequirements} REQ-IDs Mapped to Automated Assertions)
+        Overall Requirements Coverage: <strong style="color:${data.coverage.coveragePercentage >= 90 ? 'var(--success)' : data.coverage.coveragePercentage >= 70 ? 'var(--warning)' : 'var(--danger)'}; font-size: 1.1rem;">${data.coverage.coveragePercentage}% COVERED</strong> (${data.coverage.coveredRequirements}/${data.coverage.totalRequirements} REQ-IDs Mapped to Automated Assertions)
       </div>
       <table>
         <thead><tr><th>REQ-ID</th><th>Requirement Description</th><th>Mapped Test Cases</th><th>Spec File</th><th>Status</th></tr></thead>
@@ -252,9 +260,9 @@ export function generateCustomReport(storyName = 'b2b-registration', runId = `ru
         ${data.traceabilityMatrix.map(tm => `
           <tr>
             <td><strong style="color:var(--accent)">${tm.reqId}</strong></td>
-            <td>${tm.requirement}</td>
+            <td style="max-width:400px; font-size:0.8rem;">${escapeHtml(tm.requirement)}</td>
             <td>${tm.testCases.map(tc => `<span class="badge badge-positive" style="margin-right:4px;">${tc}</span>`).join('') || '<em>None</em>'}</td>
-            <td><code>${tm.specFile}</code></td>
+            <td><code>${escapeHtml(tm.specFile)}</code></td>
             <td><span class="badge ${tm.status === 'covered' ? 'badge-pass' : 'badge-fail'}">${tm.status === 'covered' ? '✅ COVERED' : '❌ UNCOVERED'}</span></td>
           </tr>
         `).join('')}
