@@ -2,36 +2,34 @@
   "config": {
     "argv": [
       "C:\\Program Files\\nodejs\\node.exe",
-      "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\node_modules\\@playwright\\test\\cli.js",
+      "C:\\My Automation task\\QA-AI-AGENT-KBD\\node_modules\\@playwright\\test\\cli.js",
       "test",
-      "tests/e2e/catalog/wishlist-management.spec.ts"
+      "--grep-invert",
+      "@quarantine",
+      "--list"
     ],
-    "configFile": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\playwright.config.ts",
-    "rootDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+    "configFile": "C:\\My Automation task\\QA-AI-AGENT-KBD\\playwright.config.ts",
+    "rootDir": "C:/My Automation task/QA-AI-AGENT-KBD/tests/e2e",
     "failOnFlakyTests": false,
-    "forbidOnly": false,
+    "forbidOnly": true,
     "fullyParallel": true,
-    "globalSetup": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\global-setup.ts",
-    "globalTeardown": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\global-teardown.ts",
+    "globalSetup": "C:\\My Automation task\\QA-AI-AGENT-KBD\\tests\\global-setup.ts",
+    "globalTeardown": "C:\\My Automation task\\QA-AI-AGENT-KBD\\tests\\global-teardown.ts",
     "globalTimeout": 0,
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {
-      "actualWorkers": 6
-    },
+    "metadata": {},
     "preserveOutput": "always",
     "projects": [
       {
-        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "outputDir": "C:/My Automation task/QA-AI-AGENT-KBD/test-results",
         "repeatEach": 1,
-        "retries": 1,
-        "metadata": {
-          "actualWorkers": 6
-        },
+        "retries": 2,
+        "metadata": {},
         "id": "storefront-chromium",
         "name": "storefront-chromium",
-        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testDir": "C:/My Automation task/QA-AI-AGENT-KBD/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "/(?:catalog|cart|account|checkout)\\/.+\\.spec\\.ts/"
@@ -39,15 +37,13 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "outputDir": "C:/My Automation task/QA-AI-AGENT-KBD/test-results",
         "repeatEach": 1,
-        "retries": 1,
-        "metadata": {
-          "actualWorkers": 6
-        },
+        "retries": 2,
+        "metadata": {},
         "id": "storefront-guest",
         "name": "storefront-guest",
-        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testDir": "C:/My Automation task/QA-AI-AGENT-KBD/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "/(?:auth|registration)\\/.+\\.spec\\.ts/"
@@ -55,15 +51,13 @@
         "timeout": 45000
       },
       {
-        "outputDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/test-results",
+        "outputDir": "C:/My Automation task/QA-AI-AGENT-KBD/test-results",
         "repeatEach": 1,
-        "retries": 1,
-        "metadata": {
-          "actualWorkers": 6
-        },
+        "retries": 2,
+        "metadata": {},
         "id": "admin-chromium",
         "name": "admin-chromium",
-        "testDir": "C:/Users/BS01648/Desktop/QA-AI-AGENT-KBD/tests/e2e",
+        "testDir": "C:/My Automation task/QA-AI-AGENT-KBD/tests/e2e",
         "testIgnore": [],
         "testMatch": [
           "/admin\\/.+\\.spec\\.ts/"
@@ -90,7 +84,7 @@
         }
       ],
       [
-        "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\reporters\\custom-report-reporter.ts",
+        "C:\\My Automation task\\QA-AI-AGENT-KBD\\reporters\\custom-report-reporter.ts",
         null
       ]
     ],
@@ -103,7 +97,7 @@
     "updateSnapshots": "missing",
     "updateSourceMethod": "patch",
     "version": "1.62.1",
-    "workers": 6,
+    "workers": 1,
     "webServer": null
   },
   "suites": [
@@ -134,26 +128,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 0,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 10222,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:51.730Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-10ff548fd94de223cc4b",
@@ -175,29 +151,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 13011,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:51.777Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-48704b03b6b4fa63a400",
@@ -219,26 +174,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 10103,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:51.754Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-17cfb538bfb0a895ee2a",
@@ -268,26 +205,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 6648,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:51.783Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-1fe36ff0b679c409fa72",
@@ -309,26 +228,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 6488,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:51.789Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-e0a6519b3f8ba0915698",
@@ -358,32 +259,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 5,
-                      "status": "passed",
-                      "duration": 4818,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 0 item(s) from wishlist...\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:51.834Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-4dfe3905db69a35688a2",
@@ -405,26 +282,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 5,
-                      "status": "passed",
-                      "duration": 8912,
-                      "errors": [],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:07.667Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-5b795dd06a2ea0eae592",
@@ -442,7 +301,7 @@
           "specs": [
             {
               "title": "TC-012: Clicking the wishlist button on a product card adds it with a success message @REQ-05",
-              "ok": false,
+              "ok": true,
               "tags": [
                 "regression",
                 "REQ-05"
@@ -454,147 +313,8 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 4,
-                      "status": "failed",
-                      "duration": 36831,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('a.header-link-wishlist span.wishlist-qty')\nExpected pattern: \u001b[32m/\\(1\\)/\u001b[39m\nReceived string:  \u001b[31m\"(2)\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('a.header-link-wishlist span.wishlist-qty')\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"wishlist-qty\">(2)</span>\u001b[22m\n\u001b[2m       - unexpected value \"(2)\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('a.header-link-wishlist span.wishlist-qty')\nExpected pattern: \u001b[32m/\\(1\\)/\u001b[39m\nReceived string:  \u001b[31m\"(2)\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('a.header-link-wishlist span.wishlist-qty')\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"wishlist-qty\">(2)</span>\u001b[22m\n\u001b[2m       - unexpected value \"(2)\"\u001b[22m\n\n    at WishlistPage.assertHeaderWishlistCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:228:41)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:166:24",
-                        "location": {
-                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                          "column": 41,
-                          "line": 228
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:228\n\n\u001b[0m \u001b[90m 226 |\u001b[39m\n \u001b[90m 227 |\u001b[39m   \u001b[36masync\u001b[39m assertHeaderWishlistCount(expected\u001b[33m:\u001b[39m number)\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[36mvoid\u001b[39m\u001b[33m>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 228 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mheaderCountBadge)\u001b[33m.\u001b[39mtoHaveText(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(\u001b[32m`\\\\(${expected}\\\\)`\u001b[39m)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 229 |\u001b[39m   }\n \u001b[90m 230 |\u001b[39m }\n \u001b[90m 231 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                            "column": 41,
-                            "line": 228
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('a.header-link-wishlist span.wishlist-qty')\nExpected pattern: \u001b[32m/\\(1\\)/\u001b[39m\nReceived string:  \u001b[31m\"(2)\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('a.header-link-wishlist span.wishlist-qty')\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"wishlist-qty\">(2)</span>\u001b[22m\n\u001b[2m       - unexpected value \"(2)\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:228\n\n\u001b[0m \u001b[90m 226 |\u001b[39m\n \u001b[90m 227 |\u001b[39m   \u001b[36masync\u001b[39m assertHeaderWishlistCount(expected\u001b[33m:\u001b[39m number)\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[36mvoid\u001b[39m\u001b[33m>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 228 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mheaderCountBadge)\u001b[33m.\u001b[39mtoHaveText(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(\u001b[32m`\\\\(${expected}\\\\)`\u001b[39m)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 229 |\u001b[39m   }\n \u001b[90m 230 |\u001b[39m }\n \u001b[90m 231 |\u001b[39m\u001b[0m\n\u001b[2m    at WishlistPage.assertHeaderWishlistCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:228:41)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:166:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 0 item(s) from wishlist...\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 4 item(s) from wishlist...\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:58.656Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                        "column": 41,
-                        "line": 228
-                      }
-                    },
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 2,
-                      "status": "failed",
-                      "duration": 48803,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('a.header-link-wishlist span.wishlist-qty')\nExpected pattern: \u001b[32m/\\(1\\)/\u001b[39m\nReceived string:  \u001b[31m\"(3)\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('a.header-link-wishlist span.wishlist-qty')\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"wishlist-qty\">(3)</span>\u001b[22m\n\u001b[2m       - unexpected value \"(3)\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('a.header-link-wishlist span.wishlist-qty')\nExpected pattern: \u001b[32m/\\(1\\)/\u001b[39m\nReceived string:  \u001b[31m\"(3)\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('a.header-link-wishlist span.wishlist-qty')\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"wishlist-qty\">(3)</span>\u001b[22m\n\u001b[2m       - unexpected value \"(3)\"\u001b[22m\n\n    at WishlistPage.assertHeaderWishlistCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:228:41)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:166:24",
-                        "location": {
-                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                          "column": 41,
-                          "line": 228
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:228\n\n\u001b[0m \u001b[90m 226 |\u001b[39m\n \u001b[90m 227 |\u001b[39m   \u001b[36masync\u001b[39m assertHeaderWishlistCount(expected\u001b[33m:\u001b[39m number)\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[36mvoid\u001b[39m\u001b[33m>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 228 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mheaderCountBadge)\u001b[33m.\u001b[39mtoHaveText(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(\u001b[32m`\\\\(${expected}\\\\)`\u001b[39m)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 229 |\u001b[39m   }\n \u001b[90m 230 |\u001b[39m }\n \u001b[90m 231 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                            "column": 41,
-                            "line": 228
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('a.header-link-wishlist span.wishlist-qty')\nExpected pattern: \u001b[32m/\\(1\\)/\u001b[39m\nReceived string:  \u001b[31m\"(3)\"\u001b[39m\nTimeout: 10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('a.header-link-wishlist span.wishlist-qty')\u001b[22m\n\u001b[2m    23 × locator resolved to <span class=\"wishlist-qty\">(3)</span>\u001b[22m\n\u001b[2m       - unexpected value \"(3)\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:228\n\n\u001b[0m \u001b[90m 226 |\u001b[39m\n \u001b[90m 227 |\u001b[39m   \u001b[36masync\u001b[39m assertHeaderWishlistCount(expected\u001b[33m:\u001b[39m number)\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[36mvoid\u001b[39m\u001b[33m>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 228 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mheaderCountBadge)\u001b[33m.\u001b[39mtoHaveText(\u001b[36mnew\u001b[39m \u001b[33mRegExp\u001b[39m(\u001b[32m`\\\\(${expected}\\\\)`\u001b[39m)\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                         \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 229 |\u001b[39m   }\n \u001b[90m 230 |\u001b[39m }\n \u001b[90m 231 |\u001b[39m\u001b[0m\n\u001b[2m    at WishlistPage.assertHeaderWishlistCount (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:228:41)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:166:24\u001b[22m"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 1 item(s) from wishlist...\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 5 item(s) from wishlist...\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:01:42.714Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium-retry1\\test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium-retry1\\video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium-retry1\\error-context.md"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-960bd-th-a-success-message-REQ-05-storefront-chromium-retry1\\trace.zip"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                        "column": 41,
-                        "line": 228
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-ed54005bdfb4d6f09840",
@@ -616,34 +336,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.526Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.387Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -666,34 +359,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.540Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.402Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -716,34 +382,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.557Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.419Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -766,34 +405,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.575Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.434Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -816,34 +428,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.601Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.455Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -866,34 +451,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.628Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.470Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -916,34 +474,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.652Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.492Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -966,34 +497,7 @@
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:42.674Z",
-                      "annotations": [],
-                      "attachments": []
-                    },
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:02:46.510Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -1012,278 +516,20 @@
           "specs": [
             {
               "title": "TC-009: Wishlist with a large number of items (20+) renders without breaking layout @REQ-03",
-              "ok": false,
+              "ok": true,
               "tags": [
                 "regression",
                 "REQ-03"
               ],
               "tests": [
                 {
-                  "timeout": 400000,
+                  "timeout": 45000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 138508,
-                      "error": {
-                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('article.wishlist-item')\nExpected: \u001b[32m21\u001b[39m\nReceived: \u001b[31m4\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('article.wishlist-item')\u001b[22m\n\u001b[2m    23 × locator resolved to 4 elements\u001b[22m\n\u001b[2m       - unexpected value \"4\"\u001b[22m\n",
-                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('article.wishlist-item')\nExpected: \u001b[32m21\u001b[39m\nReceived: \u001b[31m4\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('article.wishlist-item')\u001b[22m\n\u001b[2m    23 × locator resolved to 4 elements\u001b[22m\n\u001b[2m       - unexpected value \"4\"\u001b[22m\n\n    at WishlistPage.assertItemsDisplayed (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:198:44)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:311:5",
-                        "location": {
-                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                          "column": 44,
-                          "line": 198
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:198\n\n\u001b[0m \u001b[90m 196 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwishlistItemCards\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 197 |\u001b[39m     \u001b[36mif\u001b[39m (expectedCount \u001b[33m!==\u001b[39m undefined) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 198 |\u001b[39m       \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwishlistItemCards)\u001b[33m.\u001b[39mtoHaveCount(expectedCount\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 199 |\u001b[39m     }\n \u001b[90m 200 |\u001b[39m   }\n \u001b[90m 201 |\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                            "column": 44,
-                            "line": 198
-                          },
-                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('article.wishlist-item')\nExpected: \u001b[32m21\u001b[39m\nReceived: \u001b[31m4\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('article.wishlist-item')\u001b[22m\n\u001b[2m    23 × locator resolved to 4 elements\u001b[22m\n\u001b[2m       - unexpected value \"4\"\u001b[22m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:198\n\n\u001b[0m \u001b[90m 196 |\u001b[39m     \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwishlistItemCards\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible({ timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m 197 |\u001b[39m     \u001b[36mif\u001b[39m (expectedCount \u001b[33m!==\u001b[39m undefined) {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 198 |\u001b[39m       \u001b[36mawait\u001b[39m expect(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mwishlistItemCards)\u001b[33m.\u001b[39mtoHaveCount(expectedCount\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 199 |\u001b[39m     }\n \u001b[90m 200 |\u001b[39m   }\n \u001b[90m 201 |\u001b[39m\u001b[0m\n\u001b[2m    at WishlistPage.assertItemsDisplayed (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:198:44)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:311:5\u001b[22m"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 0 item(s) from wishlist...\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 4 item(s) from wishlist...\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:00:58.789Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-5f86f-hout-breaking-layout-REQ-03-storefront-chromium\\test-failed-1.png"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-5f86f-hout-breaking-layout-REQ-03-storefront-chromium\\error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                        "column": 44,
-                        "line": 198
-                      }
-                    },
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 0,
-                      "status": "interrupted",
-                      "duration": 156985,
-                      "error": {
-                        "message": "Error: wishlist cleanup did not converge to empty — a remove click was likely absorbed by a reappearing overlay\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('button.wishlist-remove-btn')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n",
-                        "stack": "Error: wishlist cleanup did not converge to empty — a remove click was likely absorbed by a reappearing overlay\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('button.wishlist-remove-btn')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n\n    at WishlistPage.removeAllItemsFromWishlist (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:155:7)\n    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:294:5",
-                        "location": {
-                          "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                          "column": 7,
-                          "line": 155
-                        },
-                        "snippet": "\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:155\n\n\u001b[0m \u001b[90m 153 |\u001b[39m       \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mremoveItemButtons\u001b[33m,\u001b[39m\n \u001b[90m 154 |\u001b[39m       \u001b[32m'wishlist cleanup did not converge to empty — a remove click was likely absorbed by a reappearing overlay'\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 155 |\u001b[39m     )\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 156 |\u001b[39m   }\n \u001b[90m 157 |\u001b[39m\n \u001b[90m 158 |\u001b[39m   \u001b[90m/**\u001b[39m\u001b[0m"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                            "column": 7,
-                            "line": 155
-                          },
-                          "message": "Error: wishlist cleanup did not converge to empty — a remove click was likely absorbed by a reappearing overlay\n\n\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('button.wishlist-remove-btn')\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31mundefined\u001b[39m\n\n\n\u001b[90m   at \u001b[39m..\\..\\pages\\wishlist.page.ts:155\n\n\u001b[0m \u001b[90m 153 |\u001b[39m       \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mremoveItemButtons\u001b[33m,\u001b[39m\n \u001b[90m 154 |\u001b[39m       \u001b[32m'wishlist cleanup did not converge to empty — a remove click was likely absorbed by a reappearing overlay'\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 155 |\u001b[39m     )\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m0\u001b[39m\u001b[33m,\u001b[39m { timeout\u001b[33m:\u001b[39m \u001b[35m10000\u001b[39m })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m       \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 156 |\u001b[39m   }\n \u001b[90m 157 |\u001b[39m\n \u001b[90m 158 |\u001b[39m   \u001b[90m/**\u001b[39m\u001b[0m\n\u001b[2m    at WishlistPage.removeAllItemsFromWishlist (C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts:155:7)\u001b[22m\n\u001b[2m    at C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts:294:5\u001b[22m"
-                        },
-                        {
-                          "message": "Error: browserContext.close: Target page, context or browser has been closed"
-                        }
-                      ],
-                      "stdout": [
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 0 item(s) from wishlist...\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 3 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n🧹 Dismissed 1 popup modal(s).\n"
-                        },
-                        {
-                          "text": "\n📋 Removing 20 item(s) from wishlist...\n"
-                        }
-                      ],
-                      "stderr": [],
-                      "retry": 1,
-                      "startTime": "2026-08-24T11:03:24.802Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-5f86f-hout-breaking-layout-REQ-03-storefront-chromium-retry1\\error-context.md"
-                        },
-                        {
-                          "name": "trace",
-                          "contentType": "application/zip",
-                          "path": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\test-results\\catalog-wishlist-managemen-5f86f-hout-breaking-layout-REQ-03-storefront-chromium-retry1\\trace.zip"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\pages\\wishlist.page.ts",
-                        "column": 7,
-                        "line": 155
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
+                  "results": [],
+                  "status": "skipped"
                 }
               ],
               "id": "b65d5a63753629dac14e-d41b517d0f5f9c9876e3",
@@ -1314,7 +560,7 @@
                       "type": "fixme",
                       "description": "TC-008: no discontinued/out-of-stock product fixture exists in this catalog — searched live across 9 terms / 24+ products (workflows/wishlist-management.journey.md, J-12). Revisit if the product owner supplies a specific SKU.",
                       "location": {
-                        "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts",
+                        "file": "C:\\My Automation task\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts",
                         "line": 318,
                         "column": 8
                       }
@@ -1323,31 +569,7 @@
                   "expectedStatus": "skipped",
                   "projectId": "storefront-chromium",
                   "projectName": "storefront-chromium",
-                  "results": [
-                    {
-                      "workerIndex": -1,
-                      "parallelIndex": -1,
-                      "status": "skipped",
-                      "duration": 0,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-08-24T11:01:02.192Z",
-                      "annotations": [
-                        {
-                          "type": "fixme",
-                          "description": "TC-008: no discontinued/out-of-stock product fixture exists in this catalog — searched live across 9 terms / 24+ products (workflows/wishlist-management.journey.md, J-12). Revisit if the product owner supplies a specific SKU.",
-                          "location": {
-                            "file": "C:\\Users\\BS01648\\Desktop\\QA-AI-AGENT-KBD\\tests\\e2e\\catalog\\wishlist-management.spec.ts",
-                            "line": 318,
-                            "column": 8
-                          }
-                        }
-                      ],
-                      "attachments": []
-                    }
-                  ],
+                  "results": [],
                   "status": "skipped"
                 }
               ],
@@ -1359,15 +581,782 @@
           ]
         }
       ]
+    },
+    {
+      "title": "registration\\b2b-registration.spec.ts",
+      "file": "registration/b2b-registration.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "B2B Registration — Core Lifecycle @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 69,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-001: Successful B2B registration creates inactive account, mapped to ERP application @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1f20fe09c616df2d6d48",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 70,
+              "column": 7
+            },
+            {
+              "title": "TC-002: Valid submission with alternate Type of Business and Contact Media combination @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-e55e3ee07a1733941ffb",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "TC-003: Missing required field (Company Name) blocks submission — no entity created @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-2395b04f088fff6d9e63",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 98,
+              "column": 7
+            },
+            {
+              "title": "TC-004: Rapid double-click on Submit does not create duplicate entities @REQ-01",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-01"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-0cfc8d1aeb25fe6da127",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 115,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Company Info Fields @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 138,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-005: All Company Info fields accepted across different Type of Business options @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-5140bda6f82e683b51cc",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 139,
+              "column": 7
+            },
+            {
+              "title": "TC-006: Empty Company Name blocks submission with validation error @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-0477f9757c13dabe12d3",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 157,
+              "column": 7
+            },
+            {
+              "title": "TC-007: Invalid email format blocks submission with validation error @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1e4f3c1451ed9a08ab90",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 167,
+              "column": 7
+            },
+            {
+              "title": "TC-008: BD phone number — 11-digit accepted, 10-digit and 12-digit rejected @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-f7f81fa8b59d74772584",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 177,
+              "column": 7
+            },
+            {
+              "title": "TC-009: Special characters and Unicode in Company Name handled without breaking the form @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-7b3beca3614e8585374c",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 195,
+              "column": 7
+            },
+            {
+              "title": "TC-010: Zip Code empty vs whitespace-only input — consistent handling @REQ-02",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-02"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-73e4616716b966653e86",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 205,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Contact Media Conditional Fields @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 222,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-011: Selecting WhatsApp reveals required WhatsApp Number field, Messenger fields hidden @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-140f230682d2f2f83850",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 223,
+              "column": 7
+            },
+            {
+              "title": "TC-012: Selecting Messenger reveals required Messenger fields, WhatsApp field hidden @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-63c80e964405a360c719",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 233,
+              "column": 7
+            },
+            {
+              "title": "TC-013: Toggling Contact Media from WhatsApp to Messenger clears/hides the WhatsApp Number field @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-af66f73ff376a7d84281",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 247,
+              "column": 7
+            },
+            {
+              "title": "TC-014: WhatsApp selected but WhatsApp Number left blank blocks submission @REQ-03",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-03"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-8f0d1aacbb370e31bb3a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 262,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Account Setup Fields @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 272,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-015: Valid Username, Password, Confirm Password, dropdown, and business textarea accepted @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-7f9020d166e3c4b029ee",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 273,
+              "column": 7
+            },
+            {
+              "title": "TC-016: Password and Confirm Password mismatch blocks submission @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-04c678ac75946d93c67a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 285,
+              "column": 7
+            },
+            {
+              "title": "TC-017: Empty Password field blocks submission @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-90b07c795efc580abd34",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 296,
+              "column": 7
+            },
+            {
+              "title": "TC-018: Username containing special characters or spaces @REQ-04",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-04"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-56407f15b0156c36008a",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 307,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Agreement Checkboxes @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 322,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-019: All 3 required checkboxes checked allows submission — Wholesale Agreement is display text, not a checkbox @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1cafbb1ffc94313cf664",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 323,
+              "column": 7
+            },
+            {
+              "title": "TC-020: Terms of Service unchecked blocks submission @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-88df6644da2ef87938b4",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 327,
+              "column": 7
+            },
+            {
+              "title": "TC-021: Only the 18+ Age confirmation unchecked blocks submission with specific error @REQ-05",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-05"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-2fedffb5ce0de29c7bc3",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 336,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Email/Username Uniqueness @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 346,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-022: Brand-new unique email and username pass the uniqueness check @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-19931d06447cb20a5d0c",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 347,
+              "column": 7
+            },
+            {
+              "title": "TC-023: Duplicate email (already-registered wholesale account) blocks submission with clear error @smoke @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "smoke",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-1cbe442137b27e9404d9",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 356,
+              "column": 7
+            },
+            {
+              "title": "TC-024: Duplicate username blocks submission with clear error @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-4e7bd422df06f4c93abd",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 367,
+              "column": 7
+            },
+            {
+              "title": "TC-025: Case-variant duplicate email blocks submission @REQ-06",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-06"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-93c4b2305993c6e239b6",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 380,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Admin Registration Applications Grid @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 392,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-026: Admin sees full submitted wholesale data in Advanced B2B/B2C > Registration Applications @REQ-07",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-07"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-e041973d6ad4fc95e886",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 393,
+              "column": 7
+            },
+            {
+              "title": "TC-027: Registration Applications list correctly handles no matching application, no crash @REQ-07",
+              "ok": true,
+              "tags": [
+                "regression",
+                "REQ-07"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-b016e807083a35e243b1",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 405,
+              "column": 7
+            }
+          ]
+        },
+        {
+          "title": "B2B Registration — Admin Activation Lifecycle @smoke @regression",
+          "file": "registration/b2b-registration.spec.ts",
+          "line": 414,
+          "column": 6,
+          "specs": [
+            {
+              "title": "TC-028: Admin activates account via Active flag + save — login enabled @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-5da5674192d80afef784",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 415,
+              "column": 7
+            },
+            {
+              "title": "TC-029: Login attempt before admin approval is blocked with inactive-account message @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-ae826240b7e07d1e40b9",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 437,
+              "column": 7
+            },
+            {
+              "title": "TC-030: Admin deactivates a previously-active account — login blocked again @REQ-08",
+              "ok": true,
+              "tags": [
+                "smoke",
+                "regression",
+                "REQ-08"
+              ],
+              "tests": [
+                {
+                  "timeout": 45000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "storefront-guest",
+                  "projectName": "storefront-guest",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c0ab22ae3dd430f3dd2e-36d8c61fef9c5ea135fb",
+              "file": "registration/b2b-registration.spec.ts",
+              "line": 447,
+              "column": 7
+            }
+          ]
+        }
+      ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-24T11:00:50.707Z",
-    "duration": 323687.419,
-    "expected": 7,
-    "skipped": 9,
-    "unexpected": 2,
+    "startTime": "2026-08-27T06:01:03.269Z",
+    "duration": 342.0050000000001,
+    "expected": 0,
+    "skipped": 48,
+    "unexpected": 0,
     "flaky": 0
   }
 }

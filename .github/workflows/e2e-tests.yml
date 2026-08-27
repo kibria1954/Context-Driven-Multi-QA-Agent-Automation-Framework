@@ -35,7 +35,13 @@ jobs:
         env:
           CI: true
           HEADLESS: true
-          BASE_URL: https://kbd.nop-station.site
+          ENV: staging
+          BASE_URL: ${{ secrets.BASE_URL || 'https://kbd.nop-station.site' }}
+          ADMIN_URL: ${{ secrets.ADMIN_URL || 'https://kbd.nop-station.site/Admin' }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL || 'ashadul.kibria@brainstation-23.com' }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD || 'ashadul.kibria@brainstation-23.com' }}
+          CUSTOMER_EMAIL: ${{ secrets.CUSTOMER_EMAIL || 'userKBD@gmail.com' }}
+          CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD || '0123456789' }}
         run: npx playwright test --grep-invert "@quarantine"
 
       - name: Execute Quarantine Tests (Non-Blocking)
@@ -44,7 +50,13 @@ jobs:
         env:
           CI: true
           HEADLESS: true
-          BASE_URL: https://kbd.nop-station.site
+          ENV: staging
+          BASE_URL: ${{ secrets.BASE_URL || 'https://kbd.nop-station.site' }}
+          ADMIN_URL: ${{ secrets.ADMIN_URL || 'https://kbd.nop-station.site/Admin' }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL || 'ashadul.kibria@brainstation-23.com' }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD || 'ashadul.kibria@brainstation-23.com' }}
+          CUSTOMER_EMAIL: ${{ secrets.CUSTOMER_EMAIL || 'userKBD@gmail.com' }}
+          CUSTOMER_PASSWORD: ${{ secrets.CUSTOMER_PASSWORD || '0123456789' }}
         run: npx playwright test --grep "@quarantine"
 
       - name: Upload Test Results & Reports Artifact
